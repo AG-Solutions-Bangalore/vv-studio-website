@@ -1,10 +1,14 @@
 /**
- * Typed JSON-LD builders for Google rich results (schema-dts).
+ * @file src/seo/schemas.ts
+ * Typed Schema.org JSON-LD graph builders for Google Rich Results.
  *
- * Every builder returns plain `Thing` nodes; `createCompositeGraph`
- * wraps them in a single `@context/@graph` script. All data below is
- * real VV Studio business data (no mocks).
+ * Utilizes `schema-dts` for compile-time type safety against official Schema.org standards.
+ * Every builder produces valid, plain `Thing` nodes. The `createCompositeGraph` utility
+ * combines them into a single unified `@context/@graph` script tag for crawl efficiency.
+ *
+ * Real VV Studio business data is used exclusively (no mocks or placeholder strings).
  */
+
 import type {
   AggregateRating,
   BeautySalon,
@@ -16,7 +20,6 @@ import type {
   OpeningHoursSpecification,
   PostalAddress,
   Review,
-
   Thing,
   WebPage,
   WebSite,
@@ -29,17 +32,40 @@ export const SITE_LOGO = `${SITE_ORIGIN}/logo.webp`;
 const ORG_ID = `${SITE_ORIGIN}/#organization`;
 const WEBSITE_ID = `${SITE_ORIGIN}/#website`;
 
-/** Absolute canonical URL for any internal path. */
+/**
+ * Strips HTML tags from raw CMS strings.
+ */
+function stripHtml(value: unknown): string {
+  return typeof value === 'string' ? value.replace(/<[^>]+>/g, '').trim() : '';
+}
+
+/**
+ * Computes an absolute, normalized canonical URL for any internal route.
+ *
+ * @summary Canonical URL generator.
+ * @param pathname - The route path (e.g. `/services` or `about`).
+ * @returns Fully-qualified canonical URL with leading slash normalized.
+ *
+ * @why Canonical URLs prevent duplicate content penalties from protocol variations,
+ *      trailing slash differences, or staging proxies.
+ * @when Used across all Schema.org `@id` / `url` attributes and `<link rel="canonical">` tags.
+ */
 export function getCanonicalUrl(pathname: string): string {
   const clean = pathname.replace(/^\/+/, '').replace(/\/+$/, '');
   return clean ? `${SITE_ORIGIN}/${clean}` : `${SITE_ORIGIN}/`;
 }
 
-function stripHtml(value: unknown): string {
-  return typeof value === 'string' ? value.replace(/<[^>]+>/g, '').trim() : '';
-}
-
-/** `YYYY-MM-DD` → full ISO with IST offset (Google rich-result rule). */
+/**
+ * Normalizes `YYYY-MM-DD` or raw date strings into standard ISO 8601 with an IST (+05:30) offset.
+ *
+ * @summary Date to ISO 8601 converter.
+ * @param value - Raw date string from backend payload (e.g. `2025-03-15`).
+ * @returns ISO 8601 formatted date-time string, or null if invalid.
+ *
+ * @why Google Rich Result validators strictly require valid ISO 8601 timestamps for `datePublished`.
+ *      Specifying timezone offset (+05:30) ensures publication dates match the salon's local timezone.
+ * @when Called when serializing blog posting publication dates and review submission timestamps.
+ */
 export function toIsoDate(value: unknown): string | null {
   if (typeof value !== 'string' || !value.trim()) return null;
   const raw = value.trim();
@@ -52,7 +78,20 @@ export function toIsoDate(value: unknown): string | null {
   return `${match[1]}-${match[2]}-${match[3]}T00:00:00+05:30`;
 }
 
-/** VV Studio as a BeautySalon — the site-wide Organization node. */
+/**
+ * Generates the central `BeautySalon` (LocalBusiness / Organization) Schema node for VV Studio.
+ *
+ * Includes physical address in JP Nagar, GPS coordinates, opening hours, contact phone numbers,
+ * email, price range indicator, and optional aggregate customer star ratings.
+ *
+ * @summary Organization & BeautySalon schema builder.
+ * @param aggregate - Optional aggregate rating summary with average score and count.
+ * @returns Typed `BeautySalon` schema node.
+ *
+ * @why Enables Google Knowledge Graph entity recognition and triggers Google Local Pack / Local Business
+ *      rich snippets in local search queries for salons in Bangalore.
+ * @when Injected into every route as the foundational `@id: #organization` node.
+ */
 export function organizationSchema(aggregate?: {
   ratingValue: number;
   reviewCount: number;
@@ -104,7 +143,15 @@ export function organizationSchema(aggregate?: {
   };
 }
 
-/** WebSite node (home page only). */
+/**
+ * Generates the Schema.org `WebSite` entity.
+ *
+ * @summary WebSite schema builder.
+ * @returns Typed `WebSite` schema node.
+ *
+ * @why Defines the top-level website entity and links it to the Organization publisher node.
+ * @when Injected specifically on the Home page (`/`).
+ */
 export function websiteSchema(): WebSite {
   return {
     '@type': 'WebSite',
@@ -115,7 +162,18 @@ export function websiteSchema(): WebSite {
   };
 }
 
-/** WebPage node for any route. */
+/**
+ * Generates the Schema.org `WebPage` entity for a specific route.
+ *
+ * @summary WebPage schema builder.
+ * @param path - Current route pathname.
+ * @param title - Page title.
+ * @param description - Meta description of the page.
+ * @returns Typed `WebPage` schema node.
+ *
+ * @why Establishes the relationship between individual URLs and the overarching website graph.
+ * @when Included on all prerendered pages.
+ */
 export function webPageSchema(path: string, title: string, description: string): WebPage {
   return {
     '@type': 'WebPage',
@@ -126,7 +184,17 @@ export function webPageSchema(path: string, title: string, description: string):
   };
 }
 
-/** BreadcrumbList for Home → … → current page. */
+/**
+ * Generates a `BreadcrumbList` schema showing the site navigation hierarchy.
+ *
+ * @summary Breadcrumb navigation schema builder.
+ * @param items - Ordered array of navigation steps (name and route path).
+ * @returns Typed `BreadcrumbList` schema node.
+ *
+ * @why Search engines render breadcrumb trails instead of raw URLs in search results,
+ *      improving click-through rates and clarity.
+ * @when Included on every page with its respective hierarchical crumb trail.
+ */
 export function breadcrumbSchema(items: { name: string; path: string }[]): BreadcrumbList {
   return {
     '@type': 'BreadcrumbList',
@@ -147,9 +215,16 @@ export interface FaqRowInput {
 }
 
 /**
- * FAQPage from live FAQ rows. Rows with empty or placeholder-short
- * Q/A are skipped — schema quality matters to Google even though the
- * visible accordion shows backend rows as-is.
+ * Generates a `FAQPage` schema from dynamic question-and-answer pairs.
+ *
+ * Automatically filters out empty rows or placeholder entries (< 10 chars).
+ *
+ * @summary FAQ accordion schema builder.
+ * @param rows - Array of question-and-answer records from the API.
+ * @returns Typed `FAQPage` schema node, or null if no valid Q&A items remain.
+ *
+ * @why Powers interactive FAQ accordion dropdowns directly within Google Search results.
+ * @when Emitted on any route that features an active FAQ section with valid questions.
  */
 export function faqPageSchema(rows: FaqRowInput[]): FAQPage | null {
   const usable = (rows ?? [])
@@ -177,7 +252,17 @@ export interface BlogPostingInput {
   datePublished: unknown;
   category?: string;
 }
-/** BlogPosting for a live article (detail pages only). */
+
+/**
+ * Generates a `BlogPosting` schema node for an article.
+ *
+ * @summary Blog article schema builder.
+ * @param post - Article details including slug, headline, summary, image, and publication date.
+ * @returns Typed `BlogPosting` schema node.
+ *
+ * @why Enables Google Article rich results, author attributions, and Google Discover visibility.
+ * @when Injected on `/blog/:slug` detail pages and for featured front articles on the Home page.
+ */
 export function blogPostingSchema(post: BlogPostingInput): BlogPosting {
   const url = getCanonicalUrl(`/blog/${post.slug}`);
   const datePublished = toIsoDate(post.datePublished) ?? undefined;
@@ -202,7 +287,17 @@ export function blogPostingSchema(post: BlogPostingInput): BlogPosting {
   };
 }
 
-/** Single `@context/@graph` envelope for the JSON-LD script tag. */
+/**
+ * Wraps individual schema nodes into a unified Schema.org `@graph` container.
+ *
+ * @summary Composite graph wrapper.
+ * @param nodes - Array of Schema.org `Thing` instances.
+ * @returns Root JSON-LD object with `@context: 'https://schema.org'` and `@graph: [...]`.
+ *
+ * @why Google recommends bundling multiple schemas into a single composite `@graph` script tag
+ *      rather than multiple fragmented script tags, ensuring clean cross-entity references.
+ * @when Called whenever emitting the `<script type="application/ld+json">` tag.
+ */
 export function createCompositeGraph(nodes: Thing[]): Record<string, unknown> {
   return { '@context': 'https://schema.org', '@graph': nodes };
 }
@@ -214,7 +309,16 @@ export interface ReviewInput {
   datePublished: unknown;
 }
 
-/** Standalone Review node for a live testimonial (Google review snippets). */
+/**
+ * Generates a standalone Schema.org `Review` node for customer feedback.
+ *
+ * @summary Customer review schema builder.
+ * @param review - Review details with reviewer name, comment body, rating, and date.
+ * @returns Typed `Review` schema node linked to the organization.
+ *
+ * @why Enables star ratings and review excerpts to display in organic Google Search snippets.
+ * @when Injected for verified customer testimonials on pages showcasing reviews.
+ */
 export function reviewSchema(review: ReviewInput): Review {
   const datePublished = toIsoDate(review.datePublished) ?? undefined;
   return {
@@ -231,7 +335,16 @@ export function reviewSchema(review: ReviewInput): Review {
   };
 }
 
-/** ItemList of live articles (blog listing page). */
+/**
+ * Generates an `ItemList` schema for ordered article listings.
+ *
+ * @summary Article item list schema builder.
+ * @param items - Array of article objects containing title and path.
+ * @returns Typed `ItemList` schema node.
+ *
+ * @why Tells search engines that the page functions as an index/collection of specific article entities.
+ * @when Injected on the Blog listing page (`/blog`).
+ */
 export function itemListSchema(items: { name: string; path: string }[]): ItemList {
   return {
     '@type': 'ItemList',

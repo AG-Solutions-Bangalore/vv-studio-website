@@ -1,23 +1,32 @@
 /**
- * VV Studio on-page SEO runtime (client side).
+ * @file src/seo/seo.tsx
+ * Client-side on-page SEO manager and React head updater for VV Studio.
  *
- * - `SEO_CONFIG` — per-route title/description/keywords (single source).
- * - `useSEO(key)` — pages call this; head tags are applied via
- *   react-helmet-async through the mounted `<SeoHost/>`.
- * - `injectLocalBusinessSchema()` — idempotent BeautySalon JSON-LD
- *   fallback (skipped when the prerendered graph is already present).
- * - `LOCAL_IMAGE_BASE` — public image prefix shared with `index.html`
- *   preloads (must stay `/images`).
+ * Provides:
+ * - `SEO_CONFIG` — Central route metadata catalog (title, description, keywords, path).
+ * - `useSEO(key)` — React hook called by page components to sync head metadata with route state.
+ * - `<SeoHost />` — Head synchronization host component mounted once inside `<HelmetProvider>`.
+ * - `injectLocalBusinessSchema()` — Idempotent client-side JSON-LD fallback for direct SPA visits.
  */
+
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { SITE_NAME, SITE_ORIGIN, getCanonicalUrl, organizationSchema, createCompositeGraph } from './schemas';
+import {
+  SITE_NAME,
+  SITE_ORIGIN,
+  getCanonicalUrl,
+  organizationSchema,
+  createCompositeGraph,
+} from './schemas';
 
 export { SITE_NAME, SITE_ORIGIN, getCanonicalUrl };
 
 /** Public `/images` prefix (mirrors the preloads in `index.html`). */
 export const LOCAL_IMAGE_BASE = '/images';
 
+/**
+ * Route metadata configuration specification.
+ */
 export interface SeoRouteConfig {
   title: string;
   description: string;
@@ -25,6 +34,12 @@ export interface SeoRouteConfig {
   path: string;
 }
 
+/**
+ * Single source of truth for static page SEO metadata.
+ *
+ * Each entry specifies the exact title tag, meta description, targeted keywords,
+ * and canonical route path for that section of the website.
+ */
 export const SEO_CONFIG = {
   home: {
     title: 'VV Studio | Luxury Salon & Spa in JP Nagar, Bangalore',
@@ -80,6 +95,16 @@ interface HeadState {
   canonical: string;
 }
 
+/**
+ * Resolves full HeadState values for a given route key.
+ *
+ * @summary Route head state resolver.
+ * @param key - The route key registered in `SEO_CONFIG`.
+ * @returns Complete HeadState with fully qualified canonical URL.
+ *
+ * @why Centralizes canonical path calculation and metadata retrieval.
+ * @when Called whenever a page route changes or mounts.
+ */
 function headOf(key: SeoKey): HeadState {
   const cfg = SEO_CONFIG[key];
   return {
@@ -94,8 +119,14 @@ let currentHead: HeadState = headOf('home');
 const headListeners = new Set<(head: HeadState) => void>();
 
 /**
- * Pages call `useSEO('<route-key>')` — head tags update through the
- * mounted `<SeoHost/>` (react-helmet-async). No-op during SSR.
+ * React hook that binds the active route's SEO metadata to the document head.
+ *
+ * @summary React hook for page-level SEO synchronization.
+ * @param seoKey - Key identifying the current route in `SEO_CONFIG`.
+ *
+ * @why When users navigate client-side in a Single Page Application, the document `<title>`,
+ *      canonical tag, and `<meta name="description">` must dynamically update to match the route.
+ * @when Invoked at the top of each page component (`HomePage`, `AboutPage`, `ServicesPage`, etc.).
  */
 export function useSEO(seoKey: SeoKey): void {
   useEffect(() => {
@@ -105,8 +136,16 @@ export function useSEO(seoKey: SeoKey): void {
 }
 
 /**
- * Mount once near the root (inside `<HelmetProvider>`) — renders the
- * helmet-managed head tags for SPA navigation.
+ * Host component mounted near the React root (inside `<HelmetProvider>`).
+ *
+ * Subscribes to route metadata changes and passes them to `<Helmet>` so that
+ * `react-helmet-async` can reconcile the client head tags with the prerendered HTML.
+ *
+ * @summary Root head tag synchronization component.
+ * @returns React element rendering `<Helmet>` tags.
+ *
+ * @why Prevents duplicate or conflicting meta tags during SPA client routing.
+ * @when Mounted permanently in the root application layout.
  */
 export const SeoHost: React.FC = () => {
   const [head, setHead] = useState<HeadState>(currentHead);
@@ -138,8 +177,16 @@ export const SeoHost: React.FC = () => {
 };
 
 /**
- * Idempotent BeautySalon JSON-LD fallback for client-only renders.
- * Skipped when the prerendered `#vv-rich-results` graph is present.
+ * Injects the baseline `BeautySalon` JSON-LD schema into the document `<head>`.
+ *
+ * Safe and idempotent: will strictly do nothing if running on the server or if the
+ * prerendered `#vv-rich-results` script tag is already present in the HTML DOM.
+ *
+ * @summary Fallback JSON-LD injector for client-only execution.
+ *
+ * @why Guarantees that even if prerendering was bypassed or pages were loaded in dynamic dev mode,
+ *      valid structured data is still present for browser extensions and test tools.
+ * @when Executed in `main.tsx` during initial client-side bootstrap.
  */
 export function injectLocalBusinessSchema(): void {
   if (typeof document === 'undefined') return;

@@ -1,108 +1,132 @@
-import path from 'path'
-import { readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
-import { join } from 'node:path'
-import { brotliCompressSync, constants } from 'node:zlib'
-import http from 'node:http'
-import https from 'node:https'
-import { MessagePort } from 'node:worker_threads'
-import react, { reactCompilerPreset } from '@vitejs/plugin-react'
-import babel from '@rolldown/plugin-babel'
-import { defineConfig, type Plugin } from 'vite'
-import tailwindcss from '@tailwindcss/vite'
-import compression from 'vite-plugin-compression'
-import { vitePrerenderPlugin } from 'vite-prerender-plugin'
+/**
+ * @file vite.config.ts
+ * Vite configuration for VV Studio website.
+ *
+ * Configures:
+ * - React 19 + React Compiler presets via `@vitejs/plugin-react` and `@rolldown/plugin-babel`
+ * - Tailwind CSS v4 via `@tailwindcss/vite`
+ * - Static Site Generation (SSG) via `vite-prerender-plugin` (invoking `src/prerender.tsx`)
+ * - Dual pre-compression: Gzip via `vite-plugin-compression` + Brotli via custom `brotliStatic`
+ * - Event loop unblocking & socket cleanup via `eventLoopCleanup`
+ * - Granular vendor chunk splitting via `rollupOptions.output.manualChunks`
+ */
+
+import path from 'path';
+import { readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { brotliCompressSync, constants } from 'node:zlib';
+import http from 'node:http';
+import https from 'node:https';
+import { MessagePort } from 'node:worker_threads';
+import react, { reactCompilerPreset } from '@vitejs/plugin-react';
+import babel from '@rolldown/plugin-babel';
+import { defineConfig, type Plugin } from 'vite';
+import tailwindcss from '@tailwindcss/vite';
+import compression from 'vite-plugin-compression';
+import { vitePrerenderPlugin } from 'vite-prerender-plugin';
 
 // CRITICAL EVENT-LOOP UNBLOCK FIX:
 // React 18/19 scheduler keeps a Node MessagePort open, causing Vite SSG
 // builds to hang indefinitely after prerendering finishes.
 if (MessagePort && MessagePort.prototype) {
-  const origOn = Object.getOwnPropertyDescriptor(MessagePort.prototype, 'onmessage')
+  const origOn = Object.getOwnPropertyDescriptor(MessagePort.prototype, 'onmessage');
   if (origOn && origOn.set) {
     Object.defineProperty(MessagePort.prototype, 'onmessage', {
       set(fn) {
-        origOn.set!.call(this, fn)
-        const port = this as MessagePort & { unref?: () => void }
+        origOn.set!.call(this, fn);
+        const port = this as MessagePort & { unref?: () => void };
         if (fn && typeof port.unref === 'function') {
-          port.unref()
+          port.unref();
         }
       },
       get() {
-        return origOn.get?.call(this)
+        return origOn.get?.call(this);
       },
       configurable: true,
       enumerable: true,
-    })
+    });
   }
 }
 
 /**
- * Clean up hanging handles (HTTP keep-alive sockets from axios prerendering,
- * message ports, timers) after all assets and bundles are written.
+ * Vite plugin that releases active event-loop handles to prevent build hangs.
+ *
+ * @summary Build completion and event-loop cleanup plugin.
+ * @returns Vite Plugin instance for the build lifecycle.
+ *
+ * @why During SSG prerendering, live API queries made by `axios` keep keep-alive TCP
+ *      sockets alive in Node's globalAgent pool. Without destroying these sockets and unreffing
+ *      lingering handles, the Node/Bun event loop never drains, causing `vite build` to hang.
+ * @when Runs exclusively during `vite build` inside the `closeBundle` hook after all assets are emitted.
  */
 function eventLoopCleanup(): Plugin {
   return {
     name: 'event-loop-cleanup',
     apply: 'build',
     closeBundle() {
-      http.globalAgent.destroy()
-      https.globalAgent.destroy()
+      // 1. Terminate all pooled HTTP/HTTPS keep-alive connections
+      http.globalAgent.destroy();
+      https.globalAgent.destroy();
 
-      // @ts-expect-error internal handles
-      const handles = process._getActiveHandles?.() ?? []
+      // 2. Unref or destroy any remaining active handles (sockets, message ports, timers)
+      // @ts-expect-error internal node handle inspector
+      const handles = process._getActiveHandles?.() ?? [];
       for (const h of handles) {
         if (typeof h?.destroy === 'function') {
-          h.destroy()
+          h.destroy();
         } else if (typeof h?.unref === 'function') {
-          h.unref()
+          h.unref();
         }
       }
 
+      // 3. Gracefully exit the build process so subsequent scripts (sitemap generator) run
       setTimeout(() => {
-        process.exit(0)
-      }, 100)
+        process.exit(0);
+      }, 100);
     },
-  }
+  };
 }
 
 /**
- * Pre-compress emitted text assets with Brotli (max quality) so the static
- * host can serve `.br` files directly. Originals are kept for clients or
- * proxies without Brotli support. Zero dependencies — uses node:zlib.
+ * Pre-compresses emitted static text assets with Brotli at maximum compression quality (level 11).
  *
- * NOTE: Brotli is intentionally NOT a second vite-plugin-compression
- * instance — that package keeps a module-level mtime cache, so the second
- * instance in the same build sees every file as already compressed and
- * silently emits nothing. Gzip goes through vite-plugin-compression,
- * Brotli through this plugin; both honor threshold 1024.
+ * @summary Brotli static pre-compression build plugin.
+ * @param threshold - Minimum file size in bytes to qualify for compression (defaults to 1024 bytes).
+ * @returns Vite Plugin instance.
+ *
+ * @why Static web hosts (Nginx, Cloudflare, Apache) can serve pre-compressed `.br` files directly,
+ *      achieving 15-25% smaller payload sizes than standard Gzip with zero on-the-fly CPU cost.
+ *      Zero extra dependencies — uses native `node:zlib`.
+ * @when Runs during `vite build` inside the `closeBundle` hook, walking through the output `dist` directory.
  */
 function brotliStatic(threshold = 1024): Plugin {
-  const filter = /\.(js|css|html|svg|json)$/i
+  const filter = /\.(js|css|html|svg|json)$/i;
   return {
     name: 'brotli-static',
     apply: 'build',
     closeBundle() {
       const walk = (dir: string): void => {
         for (const entry of readdirSync(dir)) {
-          const full = join(dir, entry)
+          const full = join(dir, entry);
           if (statSync(full).isDirectory()) {
-            walk(full)
-            continue
+            walk(full);
+            continue;
           }
-          if (!filter.test(full) || full.endsWith('.br')) continue
-          const size = statSync(full).size
-          if (size < threshold) continue
+          if (!filter.test(full) || full.endsWith('.br')) continue;
+          const size = statSync(full).size;
+          if (size < threshold) continue;
           const compressed = brotliCompressSync(readFileSync(full), {
             params: { [constants.BROTLI_PARAM_QUALITY]: 11 },
-          })
-          writeFileSync(`${full}.br`, compressed)
+          });
+          writeFileSync(`${full}.br`, compressed);
           console.log(
             `brotli: ${full} ${(size / 1024).toFixed(1)}kB → ${(compressed.length / 1024).toFixed(1)}kB`,
-          )
+          );
         }
-      }
-      walk('dist')
+      };
+      walk('dist');
     },
-  }
+  };
 }
 
 // https://vite.dev/config/
@@ -136,24 +160,33 @@ export default defineConfig({
     reportCompressedSize: false,
     rollupOptions: {
       output: {
-        // Keep heavy vendors out of the critical-path entry chunk.
+        /**
+         * Custom code-splitting strategy to keep the critical-path entry chunk lean.
+         *
+         * @summary Manual chunk divider.
+         * @param id - Module path identifier.
+         * @returns Chunk name or undefined for default bundling.
+         *
+         * @why Prevents heavy vendor libraries (motion, lenis, icons, router) from bloating
+         *      the initial page load bundle, dramatically improving First Contentful Paint (FCP).
+         * @when Evaluated during bundle chunk generation.
+         */
         manualChunks(id) {
-          if (!id.includes('node_modules')) return undefined
-          const p = id.replace(/\\/g, '/')
-          if (/motion|framer-motion/.test(p)) return 'motion'
-          if (/\/lenis\//.test(p)) return 'lenis'
-          if (/lucide-react|@radix-ui|radix-ui|@base-ui/.test(p))
-            return 'ui-vendor'
-          if (/react-router/.test(p)) return 'router'
-          if (/\/react\/|\/react-dom\/|\/scheduler\//.test(p)) return 'react'
+          if (!id.includes('node_modules')) return undefined;
+          const p = id.replace(/\\/g, '/');
+          if (/motion|framer-motion/.test(p)) return 'motion';
+          if (/\/lenis\//.test(p)) return 'lenis';
+          if (/lucide-react|@radix-ui|radix-ui|@base-ui/.test(p)) return 'ui-vendor';
+          if (/react-router/.test(p)) return 'router';
+          if (/\/react\/|\/react-dom\/|\/scheduler\//.test(p)) return 'react';
           // NOTE: no manual chunk for @tanstack/react-query/axios — forcing
           // them into their own chunk duplicates the React CJS runtime into
           // it (mixed CJS/ESM interop), which the entry then statically
           // imports. Default code-splitting keeps a single React copy and
           // folds query/axios into the lazy chunks that use them.
-          return undefined
+          return undefined;
         },
       },
     },
   },
-})
+});
