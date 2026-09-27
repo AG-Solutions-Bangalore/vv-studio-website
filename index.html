@@ -6,24 +6,11 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="theme-color" content="#3D003D" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Route SEO (title/meta/canonical/OG/Twitter/JSON-LD) is injected per
+      route at SSG time (src/prerender.tsx) and managed client-side by
+      SeoHost (react-helmet-async) — never hardcoded here, so prerendered
+      pages never ship duplicate or stale tags. -->
     <title>VV Studio | Luxury Salon & Spa in JP Nagar, Bangalore</title>
-    <meta name="description" content="VV Studio is Bangalore's premier luxury beauty salon offering personalized skin treatments, expert hair care, bridal makeup, and rejuvenating spa therapies." />
-    <meta name="keywords" content="luxury salon in JP Nagar, salon in JP Nagar Bangalore, spa in JP Nagar, beauty salon Bangalore, bridal makeup Bangalore, hair salon JP Nagar" />
-    <link rel="canonical" href="https://vvs.agsdemo.in/" />
-    <meta name="robots" content="index, follow" />
-    <meta name="author" content="VV Studio" />
-    <meta name="publisher" content="VV Studio" />
-    <meta name="geo.region" content="IN-KA" />
-    <meta name="geo.placename" content="JP Nagar, Bangalore" />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="VV Studio" />
-    <meta property="og:title" content="VV Studio | Luxury Salon & Spa in JP Nagar, Bangalore" />
-    <meta property="og:description" content="VV Studio is Bangalore's premier luxury beauty salon offering personalized skin treatments, expert hair care, bridal makeup, and rejuvenating spa therapies." />
-    <meta property="og:url" content="https://vvs.agsdemo.in/" />
-    <meta property="og:image" content="https://vvs.agsdemo.in/images/home/home_top_banner.webp" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="VV Studio | Luxury Salon & Spa in JP Nagar, Bangalore" />
-    <meta name="twitter:description" content="VV Studio is Bangalore's premier luxury beauty salon offering personalized skin treatments, expert hair care, bridal makeup, and rejuvenating spa therapies." />
     
     <!-- Google Fonts: Playfair Display (Serif), Plus Jakarta Sans (Modern Sans), Alex Brush (Script Accent) -->
     <!-- Non-blocking: preconnect for handshake, preload as style, print-media swap to avoid render-blocking. -->

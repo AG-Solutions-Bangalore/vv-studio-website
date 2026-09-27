@@ -2,11 +2,67 @@ import path from 'path'
 import { readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { brotliCompressSync, constants } from 'node:zlib'
+import http from 'node:http'
+import https from 'node:https'
+import { MessagePort } from 'node:worker_threads'
 import react, { reactCompilerPreset } from '@vitejs/plugin-react'
 import babel from '@rolldown/plugin-babel'
 import { defineConfig, type Plugin } from 'vite'
 import tailwindcss from '@tailwindcss/vite'
 import compression from 'vite-plugin-compression'
+import { vitePrerenderPlugin } from 'vite-prerender-plugin'
+
+// CRITICAL EVENT-LOOP UNBLOCK FIX:
+// React 18/19 scheduler keeps a Node MessagePort open, causing Vite SSG
+// builds to hang indefinitely after prerendering finishes.
+if (MessagePort && MessagePort.prototype) {
+  const origOn = Object.getOwnPropertyDescriptor(MessagePort.prototype, 'onmessage')
+  if (origOn && origOn.set) {
+    Object.defineProperty(MessagePort.prototype, 'onmessage', {
+      set(fn) {
+        origOn.set!.call(this, fn)
+        const port = this as MessagePort & { unref?: () => void }
+        if (fn && typeof port.unref === 'function') {
+          port.unref()
+        }
+      },
+      get() {
+        return origOn.get?.call(this)
+      },
+      configurable: true,
+      enumerable: true,
+    })
+  }
+}
+
+/**
+ * Clean up hanging handles (HTTP keep-alive sockets from axios prerendering,
+ * message ports, timers) after all assets and bundles are written.
+ */
+function eventLoopCleanup(): Plugin {
+  return {
+    name: 'event-loop-cleanup',
+    apply: 'build',
+    closeBundle() {
+      http.globalAgent.destroy()
+      https.globalAgent.destroy()
+
+      // @ts-expect-error internal handles
+      const handles = process._getActiveHandles?.() ?? []
+      for (const h of handles) {
+        if (typeof h?.destroy === 'function') {
+          h.destroy()
+        } else if (typeof h?.unref === 'function') {
+          h.unref()
+        }
+      }
+
+      setTimeout(() => {
+        process.exit(0)
+      }, 100)
+    },
+  }
+}
 
 /**
  * Pre-compress emitted text assets with Brotli (max quality) so the static
@@ -55,10 +111,17 @@ export default defineConfig({
     react(),
     tailwindcss(),
     babel({ presets: [reactCompilerPreset()] }),
+    // Simple SSG: prerenders every route (incl. live /blog/:slug) with
+    // per-route head + JSON-LD. See src/prerender.tsx (live API, best-effort).
+    vitePrerenderPlugin({
+      prerenderScript: path.resolve(import.meta.dirname, 'src/prerender.tsx'),
+      renderTarget: '#root',
+    }),
     // Pre-compressed bytes for hosts that serve them (gzip + brotli).
     // @ts-expect-error vite-plugin-compression ships CJS-style types; default import is callable at runtime
     compression({ algorithm: 'gzip', threshold: 1024 }),
     brotliStatic(),
+    eventLoopCleanup(),
   ],
   resolve: {
     alias: {

@@ -1,8 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-// NOTE: lenis CSS ships with the deferred SmoothScroll chunk, and the unused
-// Geist variable font was dropped — neither belongs in the critical bundle.
+/* NOTE: lenis CSS ships with the deferred SmoothScroll chunk, and the unused
+   Geist variable font was dropped — neither belongs in the critical bundle. */
 
 @custom-variant dark (&:is(.dark *));
 
