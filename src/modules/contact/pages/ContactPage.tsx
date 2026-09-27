@@ -7,6 +7,19 @@ import { ContactLocationAndForm } from '../components/ContactLocationAndForm';
 import { ExperienceDifferenceSection } from '../components/ExperienceDifferenceSection';
 import { useSEO } from '@/seo/seo';
 
+// Page FAQs (GET /getFAQBySlug/contact) — lazy + own provider, hidden when empty.
+const FaqSection = lazy(() =>
+  import('@/components/shared/FaqSection').then((m) => ({
+    default: m.FaqSection,
+  })),
+);
+// Client reviews (GET /getTestimonial/contact) — lazy + own provider, hidden when empty.
+const TestimonialSection = lazy(() =>
+  import('@/modules/home/components/TestimonialSection').then((m) => ({
+    default: m.TestimonialSection,
+  })),
+);
+
 // Heavy booking form: code-split and never mounted until first open.
 const BookingModal = lazy(() =>
   import('@/components/shared/BookingModal').then((m) => ({
@@ -37,6 +50,16 @@ export const ContactPage: React.FC = () => {
 
         {/* Studio Ambience & Experience Highlights */}
         <ExperienceDifferenceSection onOpenBooking={() => setIsBookingOpen(true)} />
+
+        {/* FAQs — renders only when the API returns items */}
+        <Suspense fallback={null}>
+          <FaqSection slug="contact" />
+        </Suspense>
+
+        {/* Client reviews — renders only when the API returns items */}
+        <Suspense fallback={null}>
+          <TestimonialSection slug="contact" />
+        </Suspense>
       </main>
 
       {/* Signature Dark Plum Footer matching design */}

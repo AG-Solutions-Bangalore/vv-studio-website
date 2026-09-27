@@ -18,11 +18,11 @@ import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { SERVICES_DATA } from '@/data/salonData';
 import {
-  STUDIO_ADDRESS_SHORT,
   STUDIO_DIRECTIONS_URL,
   STUDIO_MAP_EMBED_SRC,
 } from '@/data/salonData';
 import { useSubmitEnquiry } from '@/modules/home/hooks/useEnquiry';
+import { useCompanyInfo } from '@/modules/about/hook/useCompanyInfo';
 import { getUtmParams } from '@/lib/utm';
 
 export const ContactLocationAndForm: React.FC = () => (
@@ -43,6 +43,8 @@ const ContactLocationAndFormInner: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const { mutateAsync: submitEnquiry, isPending } = useSubmitEnquiry();
+  // Live studio address (GET /getCompany) with static fallback.
+  const company = useCompanyInfo();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -125,7 +127,7 @@ const ContactLocationAndFormInner: React.FC = () => {
                 </div>
 
                 <p className="text-[11px] sm:text-xs text-[#6B5C69] leading-relaxed mb-3 sm:mb-3.5 max-w-[280px]">
-                  {STUDIO_ADDRESS_SHORT}
+                  {company.addressShort}
                 </p>
 
                 <a

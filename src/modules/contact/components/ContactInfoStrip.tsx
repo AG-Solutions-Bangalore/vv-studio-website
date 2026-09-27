@@ -1,30 +1,40 @@
 import React from 'react';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { Phone, Mail, MapPin, Clock } from 'lucide-react';
+import { queryClient } from '@/lib/queryClient';
 import { Container } from '@/components/ui/Container';
 import { WhatsAppIcon } from '@/components/shared/WhatsAppIcon';
-import {
-  STUDIO_ADDRESS_MULTILINE,
-  STUDIO_DIRECTIONS_URL,
-} from '@/data/salonData';
+import { getStudioDirectionsUrl } from '@/data/salonData';
+import { useCompanyInfo } from '@/modules/about/hook/useCompanyInfo';
 
-export const ContactInfoStrip: React.FC = () => {
+export const ContactInfoStrip: React.FC = () => (
+  // Own provider over the shared singleton client (see main.tsx): the query
+  // runtime loads with the contact route chunk, never with the critical path.
+  <QueryClientProvider client={queryClient}>
+    <ContactInfoStripInner />
+  </QueryClientProvider>
+);
+
+const ContactInfoStripInner: React.FC = () => {
+  // Live company data (GET /getCompany) with static fallback.
+  const info = useCompanyInfo();
   const iconCls = 'w-6 h-6 sm:w-7 sm:h-7 text-[#E8329D]';
   const iconStroke = 1.5;
   const contactCards = [
     {
       id: 'call',
       title: 'Call Us',
-      primary: '080-48531999',
-      href: 'tel:08048531999',
-      linkTitle: 'Call VV Studio – 080-48531999',
+      primary: info.landline,
+      href: info.landlineHref,
+      linkTitle: `Call VV Studio – ${info.landline}`,
       subtitle: "We're happy to help",
       icon: <Phone className={iconCls} strokeWidth={iconStroke} />,
     },
     {
       id: 'whatsapp',
       title: 'WhatsApp Us',
-      primary: '8310782820',
-      href: 'https://wa.me/918310782820',
+      primary: info.mobile,
+      href: info.whatsappHref,
       linkTitle: 'Chat with VV Studio on WhatsApp',
       subtitle: 'Quick response',
       icon: <WhatsAppIcon className={iconCls} />,
@@ -32,8 +42,8 @@ export const ContactInfoStrip: React.FC = () => {
     {
       id: 'email',
       title: 'Email Us',
-      primary: 'info@varvadhustudio.com',
-      href: 'mailto:info@varvadhustudio.com',
+      primary: info.email,
+      href: info.emailHref,
       linkTitle: 'Email VV Studio',
       subtitle: "We'll get back to you soon",
       icon: <Mail className={iconCls} strokeWidth={iconStroke} />,
@@ -41,8 +51,8 @@ export const ContactInfoStrip: React.FC = () => {
     {
       id: 'visit',
       title: 'Visit Us',
-      primary: STUDIO_ADDRESS_MULTILINE,
-      href: STUDIO_DIRECTIONS_URL,
+      primary: info.addressMultiline,
+      href: getStudioDirectionsUrl(info.address),
       linkTitle: 'Get Directions to VV Studio',
       subtitle: 'Come say hello!',
       icon: <MapPin className={iconCls} strokeWidth={iconStroke} />,

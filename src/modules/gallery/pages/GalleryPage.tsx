@@ -6,6 +6,19 @@ import { GalleryGrid } from '../components/GalleryGrid';
 import { CTABanner } from '@/modules/home/components/CTABanner';
 import { useSEO } from '@/seo/seo';
 
+// Page FAQs (GET /getFAQBySlug/gallery) — lazy + own provider, hidden when empty.
+const FaqSection = lazy(() =>
+  import('@/components/shared/FaqSection').then((m) => ({
+    default: m.FaqSection,
+  })),
+);
+// Client reviews (GET /getTestimonial/gallery) — lazy + own provider, hidden when empty.
+const TestimonialSection = lazy(() =>
+  import('@/modules/home/components/TestimonialSection').then((m) => ({
+    default: m.TestimonialSection,
+  })),
+);
+
 // Heavy booking form: code-split and never mounted until first open.
 const BookingModal = lazy(() =>
   import('@/components/shared/BookingModal').then((m) => ({
@@ -32,6 +45,16 @@ export const GalleryPage: React.FC = () => {
 
         {/* Full collection grid — same card design as the home gallery */}
         <GalleryGrid />
+
+        {/* FAQs — renders only when the API returns items */}
+        <Suspense fallback={null}>
+          <FaqSection slug="gallery" />
+        </Suspense>
+
+        {/* Client reviews — renders only when the API returns items */}
+        <Suspense fallback={null}>
+          <TestimonialSection slug="gallery" />
+        </Suspense>
 
         {/* Booking CTA */}
         <CTABanner onOpenBooking={handleOpenBooking} />

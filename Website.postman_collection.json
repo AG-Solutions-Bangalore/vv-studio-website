@@ -8,19 +8,19 @@
   },
   "item": [
     {
-      "name": "getCompany",
+      "name": "getCompany ✅",
       "request": {
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "https://agsdemo.in/ckapi/public/api/getCompany",
-          "protocol": "https",
+          "raw": "http://agsdemo.in/vvsapi/public/api/getCompany",
+          "protocol": "http",
           "host": [
             "agsdemo",
             "in"
           ],
           "path": [
-            "ckapi",
+            "vvsapi",
             "public",
             "api",
             "getCompany"
@@ -30,41 +30,19 @@
       "response": []
     },
     {
-      "name": "getCategory",
+      "name": "getFrontBlogs ✅",
       "request": {
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "https://agsdemo.in/ckapi/public/api/getCategory",
-          "protocol": "https",
+          "raw": "http://agsdemo.in/vvsapi/public/api/getFrontBlogs",
+          "protocol": "http",
           "host": [
             "agsdemo",
             "in"
           ],
           "path": [
-            "ckapi",
-            "public",
-            "api",
-            "getCategory"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "getFrontBlogs",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "https://agsdemo.in/ckapi/public/api/getFrontBlogs",
-          "protocol": "https",
-          "host": [
-            "agsdemo",
-            "in"
-          ],
-          "path": [
-            "ckapi",
+            "vvsapi",
             "public",
             "api",
             "getFrontBlogs"
@@ -79,14 +57,14 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "https://agsdemo.in/ckapi/public/api/getFeaturedBlogs",
-          "protocol": "https",
+          "raw": "http://agsdemo.in/vvsapi/public/api/getFeaturedBlogs",
+          "protocol": "http",
           "host": [
             "agsdemo",
             "in"
           ],
           "path": [
-            "ckapi",
+            "vvsapi",
             "public",
             "api",
             "getFeaturedBlogs"
@@ -96,19 +74,19 @@
       "response": []
     },
     {
-      "name": "getBlogs",
+      "name": "getBlogs ✅",
       "request": {
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "https://agsdemo.in/ckapi/public/api/getBlogs",
-          "protocol": "https",
+          "raw": "http://agsdemo.in/vvsapi/public/api/getBlogs",
+          "protocol": "http",
           "host": [
             "agsdemo",
             "in"
           ],
           "path": [
-            "ckapi",
+            "vvsapi",
             "public",
             "api",
             "getBlogs"
@@ -118,19 +96,19 @@
       "response": []
     },
     {
-      "name": "getBlogsBySlug",
+      "name": "getBlogsBySlug ✅",
       "request": {
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "https://agsdemo.in/ckapi/public/api/getBlogsBySlug/{slug}",
-          "protocol": "https",
+          "raw": "http://agsdemo.in/vvsapi/public/api/getBlogsBySlug/{slug}",
+          "protocol": "http",
           "host": [
             "agsdemo",
             "in"
           ],
           "path": [
-            "ckapi",
+            "vvsapi",
             "public",
             "api",
             "getBlogsBySlug",
@@ -141,19 +119,19 @@
       "response": []
     },
     {
-      "name": "getFAQBySlug",
+      "name": "getFAQBySlug ✅",
       "request": {
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "https://agsdemo.in/ckapi/public/api/getFAQBySlug/{slug}",
-          "protocol": "https",
+          "raw": "http://agsdemo.in/vvsapi/public/api/getFAQBySlug/{slug}",
+          "protocol": "http",
           "host": [
             "agsdemo",
             "in"
           ],
           "path": [
-            "ckapi",
+            "vvsapi",
             "public",
             "api",
             "getFAQBySlug",
@@ -164,19 +142,19 @@
       "response": []
     },
     {
-      "name": "getTestimonial",
+      "name": "getTestimonial ✅",
       "request": {
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "https://agsdemo.in/ckapi/public/api/getTestimonial/{slug}",
-          "protocol": "https",
+          "raw": "http://agsdemo.in/vvsapi/public/api/getTestimonial/{slug}",
+          "protocol": "http",
           "host": [
             "agsdemo",
             "in"
           ],
           "path": [
-            "ckapi",
+            "vvsapi",
             "public",
             "api",
             "getTestimonial",
@@ -192,14 +170,14 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "https://agsdemo.in/ckapi/public/api/getClient",
-          "protocol": "https",
+          "raw": "http://agsdemo.in/vvsapi/public/api/getClient",
+          "protocol": "http",
           "host": [
             "agsdemo",
             "in"
           ],
           "path": [
-            "ckapi",
+            "vvsapi",
             "public",
             "api",
             "getClient"
@@ -209,19 +187,19 @@
       "response": []
     },
     {
-      "name": "getSitemap",
+      "name": "getSitemap ✅",
       "request": {
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "https://agsdemo.in/ckapi/public/api/getSitemap",
-          "protocol": "https",
+          "raw": "http://agsdemo.in/vvsapi/public/api/getSitemap",
+          "protocol": "http",
           "host": [
             "agsdemo",
             "in"
           ],
           "path": [
-            "ckapi",
+            "vvsapi",
             "public",
             "api",
             "getSitemap"
@@ -231,7 +209,7 @@
       "response": []
     },
     {
-      "name": "createNewsletter",
+      "name": "createNewsletter ✅",
       "request": {
         "method": "POST",
         "header": [],
@@ -246,14 +224,14 @@
           ]
         },
         "url": {
-          "raw": "https://agsdemo.in/ckapi/public/api/createNewsletter",
-          "protocol": "https",
+          "raw": "http://agsdemo.in/vvsapi/public/api/createNewsletter",
+          "protocol": "http",
           "host": [
             "agsdemo",
             "in"
           ],
           "path": [
-            "ckapi",
+            "vvsapi",
             "public",
             "api",
             "createNewsletter"
@@ -263,7 +241,7 @@
       "response": []
     },
     {
-      "name": "createEnquiry",
+      "name": "createEnquiry ✅",
       "request": {
         "method": "POST",
         "header": [],
@@ -318,14 +296,14 @@
           ]
         },
         "url": {
-          "raw": "https://agsdemo.in/ckapi/public/api/createEnquiry",
-          "protocol": "https",
+          "raw": "http://agsdemo.in/vvsapi/public/api/createEnquiry",
+          "protocol": "http",
           "host": [
             "agsdemo",
             "in"
           ],
           "path": [
-            "ckapi",
+            "vvsapi",
             "public",
             "api",
             "createEnquiry"

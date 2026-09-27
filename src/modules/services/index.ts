@@ -4,3 +4,6 @@ export * from './components/ServicesFeatureStrip';
 export * from './components/ServicesGrid';
 export * from './components/ServicesCard';
 export * from './components/ServicesCTABanner';
+export * from './api';
+export * from './hook';
+export * from './types';

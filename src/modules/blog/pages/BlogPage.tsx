@@ -2,9 +2,23 @@ import React, { Suspense, lazy, useState } from 'react';
 import { Header } from '@/components/shared/Header';
 import { Footer } from '@/components/shared/Footer';
 import { BlogHero } from '../components/BlogHero';
+import { FeaturedBlogBanner } from '../components/FeaturedBlogBanner';
 import { BlogGrid } from '../components/BlogGrid';
 import { CTABanner } from '@/modules/home/components/CTABanner';
 import { useSEO } from '@/seo/seo';
+
+// Client reviews loop (GET /getTestimonial/blogs) — lazy + own provider, hidden when empty.
+const TestimonialSection = lazy(() =>
+  import('@/modules/home/components/TestimonialSection').then((m) => ({
+    default: m.TestimonialSection,
+  })),
+);
+// Page FAQs (GET /getFAQBySlug/blogs) — lazy + own provider, hidden when empty.
+const FaqSection = lazy(() =>
+  import('@/components/shared/FaqSection').then((m) => ({
+    default: m.FaqSection,
+  })),
+);
 
 // Heavy booking form: code-split and never mounted until first open.
 const BookingModal = lazy(() =>
@@ -30,8 +44,21 @@ export const BlogPage: React.FC = () => {
         {/* Hero Section */}
         <BlogHero />
 
+        {/* Featured spotlight — renders only when the API has data */}
+        <FeaturedBlogBanner />
+
         {/* Full journal grid — same card design as the home blog section */}
         <BlogGrid />
+
+        {/* Client reviews loop — renders only when the API returns items */}
+        <Suspense fallback={null}>
+          <TestimonialSection slug="blogs" />
+        </Suspense>
+
+        {/* FAQs (fixed title) — renders only when the API returns items */}
+        <Suspense fallback={null}>
+          <FaqSection title="FAQ" slug="blogs" />
+        </Suspense>
 
         {/* Booking CTA */}
         <CTABanner onOpenBooking={handleOpenBooking} />

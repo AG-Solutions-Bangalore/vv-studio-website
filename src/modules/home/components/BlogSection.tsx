@@ -1,11 +1,25 @@
 import React, { useRef, useState } from 'react';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { queryClient } from '@/lib/queryClient';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { Container } from '@/components/ui/Container';
 import { Carousel, CarouselControls, type CarouselHandle, type CarouselState } from '@/components/ui/Carousel';
 import { BlogCard } from './BlogCard';
-import { BLOG_DATA } from '@/data/salonData';
+import { toBlogItems, blogDetailPath } from '@/modules/blog/api/blogApi';
+import { useFrontBlogs } from '@/modules/blog/hooks/useBlogs';
 
-export const BlogSection: React.FC = () => {
+export const BlogSection: React.FC = () => (
+  // Own provider over the shared singleton client (see main.tsx): the query
+  // runtime loads with this below-fold chunk, never with the critical path.
+  <QueryClientProvider client={queryClient}>
+    <BlogSectionInner />
+  </QueryClientProvider>
+);
+
+const BlogSectionInner: React.FC = () => {
+  // Live rail (GET /getFrontBlogs) — hidden while loading or when unseeded.
+  // NOTE: hooks stay above the early return (Rules of Hooks).
+  const { data, isPending } = useFrontBlogs();
   const carouselRef = useRef<CarouselHandle>(null);
   const [carouselState, setCarouselState] = useState<CarouselState>({
     canPrev: false,
@@ -13,9 +27,11 @@ export const BlogSection: React.FC = () => {
     page: 0,
     pages: 1,
   });
+  const posts = data ? toBlogItems(data) : [];
+  if (isPending || posts.length === 0) return null;
 
   return (
-    <section id="blog" className="py-10 sm:py-14 bg-[#FCFCFC] relative">
+    <section id="blog" className="py-10 sm:py-14 border-t bg-[#FCFCFC] relative">
       <Container>
         <SectionHeading
           eyebrow="OUR BLOG"
@@ -45,8 +61,8 @@ export const BlogSection: React.FC = () => {
           trackClassName="gap-6 sm:gap-7 pb-1"
           slideClassName="basis-[85%] sm:basis-[calc(50%-14px)] md:basis-[calc(33.3333%-18.6667px)]"
         >
-          {BLOG_DATA.map((blog) => (
-            <BlogCard key={blog.id} blog={blog} />
+          {posts.map((blog) => (
+            <BlogCard key={blog.id} blog={blog} detailPath={blogDetailPath(blog)} />
           ))}
         </Carousel>
       </Container>

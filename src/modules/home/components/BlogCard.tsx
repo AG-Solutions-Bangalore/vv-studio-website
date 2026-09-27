@@ -6,9 +6,11 @@ import { BLOG_SEO, BLOG_DIMS } from '@/data/salonData';
 
 interface BlogCardProps {
   blog: BlogItem;
+  /** Article detail path — defaults to `/blog` (grid). */
+  detailPath?: string;
 }
 
-export const BlogCard: React.FC<BlogCardProps> = ({ blog }) => {
+export const BlogCard: React.FC<BlogCardProps> = ({ blog, detailPath = '/blog' }) => {
   const imageSeo = BLOG_SEO[blog.id] ?? { alt: blog.title, title: blog.title };
   const dims = BLOG_DIMS[blog.id];
   return (
@@ -39,8 +41,8 @@ export const BlogCard: React.FC<BlogCardProps> = ({ blog }) => {
         </p>
 
         <Link
-          to="/blog"
-          title="VV Studio Beauty & Wellness Blog"
+          to={detailPath}
+          title={`${blog.title} — VV Studio Beauty & Wellness Blog`}
           className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-[#D91A8A] group-hover:text-[#A80086] group-hover:translate-x-0.5 transition-all"
         >
           <span>Read More</span>

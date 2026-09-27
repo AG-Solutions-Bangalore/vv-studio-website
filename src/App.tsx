@@ -34,6 +34,11 @@ const BlogPage = React.lazy(() =>
     default: m.BlogPage,
   })),
 );
+const BlogDetailPage = React.lazy(() =>
+  import('@/modules/blog/pages/BlogDetailPage').then((m) => ({
+    default: m.BlogDetailPage,
+  })),
+);
 
 /**
  * Speculatively warm the 1–2 most likely next routes (Services via the hero
@@ -73,6 +78,7 @@ function App() {
             {/* Standalone crawlable URLs: /gallery and /blog render full collection pages. */}
             <Route path="/gallery" element={<GalleryPage />} />
             <Route path="/blog" element={<BlogPage />} />
+            <Route path="/blog/:slug" element={<BlogDetailPage />} />
             <Route path="/contact" element={<ContactPage />} />
             {/* Fallback route */}
             <Route path="*" element={<HomePage seoKey="home" />} />

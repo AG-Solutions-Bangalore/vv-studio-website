@@ -75,6 +75,31 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  /* Infinite review marquee: track holds two identical strips and loops
+   * seamlessly. Duration is set per-instance via `--marquee-duration`
+   * (≈ track width / 140px per second, measured in ReviewMarquee). */
+  @keyframes vv-marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  .marquee-track {
+    animation: vv-marquee var(--marquee-duration, 40s) linear infinite;
+    will-change: transform;
+  }
+  .marquee-paused:hover .marquee-track,
+  .marquee-paused:focus-within .marquee-track {
+    animation-play-state: paused;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none;
+    }
+  }
 }
 
 @theme inline {
