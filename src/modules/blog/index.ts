@@ -3,7 +3,7 @@ export * from './pages/BlogDetailPage';
 export * from './components/BlogHero';
 export * from './components/BlogGrid';
 export * from './components/BlogCarousels';
-export * from './components/FeaturedBlogBanner';
+export * from './components/FeaturedBlogsRail';
 export * from './components/FeaturedBlogsRail';
 export * from './api';
 export * from './hooks';

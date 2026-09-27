@@ -2,7 +2,7 @@ import React, { Suspense, lazy, useState } from 'react';
 import { Header } from '@/components/shared/Header';
 import { Footer } from '@/components/shared/Footer';
 import { BlogHero } from '../components/BlogHero';
-import { FeaturedBlogBanner } from '../components/FeaturedBlogBanner';
+import { FeaturedBlogsRail } from '../components/FeaturedBlogsRail';
 import { BlogGrid } from '../components/BlogGrid';
 import { CTABanner } from '@/modules/home/components/CTABanner';
 import { useSEO } from '@/seo/seo';
@@ -44,8 +44,8 @@ export const BlogPage: React.FC = () => {
         {/* Hero Section */}
         <BlogHero />
 
-        {/* Featured spotlight — renders only when the API has data */}
-        <FeaturedBlogBanner />
+        {/* Featured rail (same reusable BlogCard) — renders only when the API has data */}
+        <FeaturedBlogsRail />
 
         {/* Full journal grid — same card design as the home blog section */}
         <BlogGrid />

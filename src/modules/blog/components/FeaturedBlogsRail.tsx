@@ -69,6 +69,7 @@ const FeaturedBlogsRailInner: React.FC = () => {
           ariaLabel="Featured blog posts carousel"
           autoplay
           autoplayDelay={4000}
+          loop
           onStateChange={setCarouselState}
           trackClassName="gap-6 sm:gap-7 pb-1"
           slideClassName="basis-[85%] sm:basis-[calc(50%-14px)] md:basis-[calc(33.3333%-18.6667px)]"

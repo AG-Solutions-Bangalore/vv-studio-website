@@ -34,8 +34,8 @@ const BlogSectionInner: React.FC = () => {
     <section id="blog" className="py-10 sm:py-14 border-t bg-[#FCFCFC] relative">
       <Container>
         <SectionHeading
-          eyebrow="OUR BLOG"
-          title="Beauty Tips, Trends & More"
+          eyebrow="FRESH FROM THE SALON"
+          title="Latest Stories & Tips"
           subtitle="Expert advice, self-care tips and the latest in beauty & wellness."
           actionText="View All Blogs"
           actionHref="/blog"
@@ -57,6 +57,7 @@ const BlogSectionInner: React.FC = () => {
           ariaLabel="Blog posts carousel"
           autoplay
           autoplayDelay={4000}
+          loop
           onStateChange={setCarouselState}
           trackClassName="gap-6 sm:gap-7 pb-1"
           slideClassName="basis-[85%] sm:basis-[calc(50%-14px)] md:basis-[calc(33.3333%-18.6667px)]"
