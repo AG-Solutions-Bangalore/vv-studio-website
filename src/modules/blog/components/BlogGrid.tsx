@@ -5,14 +5,13 @@ import { SectionHeading } from '@/components/ui/SectionHeading';
 import { Container } from '@/components/ui/Container';
 import { BlogCard } from '@/modules/home/components/BlogCard';
 import { toBlogItems, blogDetailPath } from '../api/blogApi';
-import { useBlogs, useFeaturedBlogs, useFrontBlogs } from '../hooks/useBlogs';
+import { useBlogs } from '../hooks/useBlogs';
 
 const ALL = 'All';
 
 /**
- * Full journal collection — displays all blogs from all 3 live APIs
- * (front blogs, featured blogs, and regular blogs) in a single unified grid
- * without dividing into separate sections and without mock data.
+ * Full journal collection — displays blogs exclusively from GET /getBlogs
+ * in a single unified grid without dividing sections.
  */
 export const BlogGrid: React.FC = () => (
   <QueryClientProvider client={queryClient}>
@@ -23,39 +22,10 @@ export const BlogGrid: React.FC = () => (
 const BlogGridInner: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>(ALL);
 
-  // 3 live blog APIs
-  const frontQuery = useFrontBlogs();
-  const featuredQuery = useFeaturedBlogs();
-  const blogsQuery = useBlogs();
+  // Single live blog API for blog page: GET /getBlogs
+  const { data, isPending } = useBlogs();
 
-  const isPending =
-    (frontQuery.isPending && !frontQuery.isError) ||
-    (featuredQuery.isPending && !featuredQuery.isError) ||
-    (blogsQuery.isPending && !blogsQuery.isError);
-
-  // Combine all articles across the 3 APIs without deduplication so all data is shown
-  const posts = useMemo(() => {
-    const featuredItems = featuredQuery.data
-      ? toBlogItems(featuredQuery.data).map((item, idx) => ({
-          ...item,
-          id: `featured-${item.id || idx}-${idx}`,
-        }))
-      : [];
-    const frontItems = frontQuery.data
-      ? toBlogItems(frontQuery.data).map((item, idx) => ({
-          ...item,
-          id: `front-${item.id || idx}-${idx}`,
-        }))
-      : [];
-    const listItems = blogsQuery.data
-      ? toBlogItems(blogsQuery.data).map((item, idx) => ({
-          ...item,
-          id: `blog-${item.id || idx}-${idx}`,
-        }))
-      : [];
-
-    return [...featuredItems, ...frontItems, ...listItems];
-  }, [frontQuery.data, featuredQuery.data, blogsQuery.data]);
+  const posts = useMemo(() => (data ? toBlogItems(data) : []), [data]);
 
   const categories = useMemo(() => {
     const cats = Array.from(
