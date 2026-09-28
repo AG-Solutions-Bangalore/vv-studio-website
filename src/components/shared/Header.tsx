@@ -1,10 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Phone, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { Logo } from './Logo';
-import { WhatsAppIcon } from './WhatsAppIcon';
 import { Button } from '@/components/ui/Button';
 import { Container } from '@/components/ui/Container';
+import {
+  HeaderPhonesStatic,
+  MobileMenuContactStatic,
+} from '@/modules/about/components/CompanyStatic';
+
+// Live company phones (own query chunk — never in the critical bundle).
+const HeaderPhonesLive = lazy(() =>
+  import('@/modules/about/components/CompanyLive').then((m) => ({
+    default: m.HeaderPhonesLive,
+  })),
+);
+const MobileMenuContactLive = lazy(() =>
+  import('@/modules/about/components/CompanyLive').then((m) => ({
+    default: m.MobileMenuContactLive,
+  })),
+);
 
 interface HeaderProps {
   onOpenBooking: () => void;
@@ -154,29 +169,9 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking }) => {
 
             {/* Contact Numbers, Socials & Book Appointment CTA on Right - single line */}
             <div className="hidden lg:flex items-center gap-4 shrink-0">
-              <div className="flex items-center gap-2 text-[12px] font-medium text-white/90 whitespace-nowrap">
-                <Phone className="w-3.5 h-3.5 text-white/90 shrink-0" />
-                <a
-                  href="tel:08048531999"
-                  title="Call VV Studio – 080-48531999"
-                  className="hover:text-white transition-colors duration-200 tracking-wider"
-                >
-                  080-48531999
-                </a>
-
-                <span className="text-white/30 mx-1">|</span>
-
-                {/* WhatsApp Icon */}
-                <WhatsAppIcon className="w-3.5 h-3.5 text-white/90 shrink-0" />
-                <a
-                  href="https://wa.me/918310782820"
-                  title="Chat with VV Studio on WhatsApp"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="hover:text-white transition-colors duration-200 tracking-wider"
-                >
-                  8310782820
-                </a>
+              <Suspense fallback={<HeaderPhonesStatic />}>
+                <HeaderPhonesLive />
+              </Suspense>
 
                 <span className="text-white/30 mx-1">|</span>
 
@@ -233,7 +228,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking }) => {
                     </svg>
                   </a>
                 </span>
-              </div>
 
               <Button
                 variant="primary"
@@ -329,26 +323,9 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking }) => {
             </nav>
 
             <div className="shrink-0 p-4 sm:p-5 border-t border-white/10 bg-white/[0.02] flex flex-col gap-3">
-              <div className="grid grid-cols-2 gap-2">
-                <a
-                  href="tel:08048531999"
-                  title="Call VV Studio – 080-48531999"
-                  className="flex items-center justify-center gap-1.5 rounded-xl border border-white/15 text-white/90 text-xs font-semibold px-2 py-3 min-h-[48px] whitespace-nowrap hover:bg-white/5 active:bg-white/10 transition-colors"
-                >
-                  <Phone className="w-4 h-4 text-[#F06AB9] shrink-0" />
-                  080-48531999
-                </a>
-                <a
-                  href="https://wa.me/918310782820"
-                  title="Chat with VV Studio on WhatsApp"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center justify-center gap-1.5 rounded-xl border border-white/15 text-white/90 text-xs font-semibold px-2 py-3 min-h-[48px] whitespace-nowrap hover:bg-white/5 active:bg-white/10 transition-colors"
-                >
-                  <WhatsAppIcon className="w-4 h-4 text-[#F06AB9] shrink-0" />
-                  WhatsApp
-                </a>
-              </div>
+              <Suspense fallback={<MobileMenuContactStatic />}>
+                <MobileMenuContactLive />
+              </Suspense>
 
               <Button
                 variant="primary"

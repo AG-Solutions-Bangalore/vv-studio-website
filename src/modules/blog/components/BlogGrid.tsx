@@ -1,29 +1,47 @@
 import React, { useMemo, useState } from 'react';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { queryClient } from '@/lib/queryClient';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { Container } from '@/components/ui/Container';
 import { BlogCard } from '@/modules/home/components/BlogCard';
-import { BLOG_DATA } from '@/data/salonData';
+import { toBlogItems, blogDetailPath } from '../api/blogApi';
+import { useBlogs } from '../hooks/useBlogs';
 
 const ALL = 'All';
 
 /**
  * Full journal collection — replicates the home BlogSection card design
  * (same heading, same cards) as a filterable grid.
+ * Live list (GET /getBlogs) — hidden while loading or when unseeded.
  */
-export const BlogGrid: React.FC = () => {
+export const BlogGrid: React.FC = () => (
+  // Own provider over the shared singleton client (see main.tsx): the query
+  // runtime loads with the blog route chunk, never with the critical path.
+  <QueryClientProvider client={queryClient}>
+    <BlogGridInner />
+  </QueryClientProvider>
+);
+
+const BlogGridInner: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>(ALL);
 
+  const { data, isPending } = useBlogs();
+  // Memoized so the category memos below keep stable dependencies.
+  const posts = useMemo(() => (data ? toBlogItems(data) : []), [data]);
+  // NOTE: hooks stay above the early return (Rules of Hooks).
   const categories = useMemo(
-    () => [ALL, ...Array.from(new Set(BLOG_DATA.map((b) => b.category)))],
-    [],
+    () => [ALL, ...Array.from(new Set(posts.map((b) => b.category)))],
+    [posts],
   );
   const visiblePosts = useMemo(
     () =>
       activeCategory === ALL
-        ? BLOG_DATA
-        : BLOG_DATA.filter((b) => b.category === activeCategory),
-    [activeCategory],
+        ? posts
+        : posts.filter((b) => b.category === activeCategory),
+    [activeCategory, posts],
   );
+  // Live data or nothing — hide while loading or when unseeded.
+  if (isPending || posts.length === 0) return null;
 
   return (
     <section id="articles" className="py-10 sm:py-14 bg-[#FCFCFC] relative">
@@ -66,7 +84,7 @@ export const BlogGrid: React.FC = () => {
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-7 animate-in fade-in duration-300"
         >
           {visiblePosts.map((blog) => (
-            <BlogCard key={blog.id} blog={blog} />
+            <BlogCard key={blog.id} blog={blog} detailPath={blogDetailPath(blog)} />
           ))}
         </div>
       </Container>

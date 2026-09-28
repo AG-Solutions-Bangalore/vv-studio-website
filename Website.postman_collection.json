@@ -1,0 +1,316 @@
+{
+  "info": {
+    "_postman_id": "b6ad0bf0-4221-4900-a252-090e193f5bf3",
+    "name": "Website",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "37493424",
+    "_collection_link": "https://go.postman.co/collection/37493424-b6ad0bf0-4221-4900-a252-090e193f5bf3?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "getCompany ✅",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://agsdemo.in/vvsapi/public/api/getCompany",
+          "protocol": "http",
+          "host": [
+            "agsdemo",
+            "in"
+          ],
+          "path": [
+            "vvsapi",
+            "public",
+            "api",
+            "getCompany"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "getFrontBlogs ✅",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://agsdemo.in/vvsapi/public/api/getFrontBlogs",
+          "protocol": "http",
+          "host": [
+            "agsdemo",
+            "in"
+          ],
+          "path": [
+            "vvsapi",
+            "public",
+            "api",
+            "getFrontBlogs"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "getFeaturedBlogs",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://agsdemo.in/vvsapi/public/api/getFeaturedBlogs",
+          "protocol": "http",
+          "host": [
+            "agsdemo",
+            "in"
+          ],
+          "path": [
+            "vvsapi",
+            "public",
+            "api",
+            "getFeaturedBlogs"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "getBlogs ✅",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://agsdemo.in/vvsapi/public/api/getBlogs",
+          "protocol": "http",
+          "host": [
+            "agsdemo",
+            "in"
+          ],
+          "path": [
+            "vvsapi",
+            "public",
+            "api",
+            "getBlogs"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "getBlogsBySlug ✅",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://agsdemo.in/vvsapi/public/api/getBlogsBySlug/{slug}",
+          "protocol": "http",
+          "host": [
+            "agsdemo",
+            "in"
+          ],
+          "path": [
+            "vvsapi",
+            "public",
+            "api",
+            "getBlogsBySlug",
+            "{slug}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "getFAQBySlug ✅",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://agsdemo.in/vvsapi/public/api/getFAQBySlug/{slug}",
+          "protocol": "http",
+          "host": [
+            "agsdemo",
+            "in"
+          ],
+          "path": [
+            "vvsapi",
+            "public",
+            "api",
+            "getFAQBySlug",
+            "{slug}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "getTestimonial ✅",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://agsdemo.in/vvsapi/public/api/getTestimonial/{slug}",
+          "protocol": "http",
+          "host": [
+            "agsdemo",
+            "in"
+          ],
+          "path": [
+            "vvsapi",
+            "public",
+            "api",
+            "getTestimonial",
+            "{slug}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "getClient",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://agsdemo.in/vvsapi/public/api/getClient",
+          "protocol": "http",
+          "host": [
+            "agsdemo",
+            "in"
+          ],
+          "path": [
+            "vvsapi",
+            "public",
+            "api",
+            "getClient"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "getSitemap ✅",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://agsdemo.in/vvsapi/public/api/getSitemap",
+          "protocol": "http",
+          "host": [
+            "agsdemo",
+            "in"
+          ],
+          "path": [
+            "vvsapi",
+            "public",
+            "api",
+            "getSitemap"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "createNewsletter ✅",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "newsletter_email",
+              "value": "",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://agsdemo.in/vvsapi/public/api/createNewsletter",
+          "protocol": "http",
+          "host": [
+            "agsdemo",
+            "in"
+          ],
+          "path": [
+            "vvsapi",
+            "public",
+            "api",
+            "createNewsletter"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "createEnquiry ✅",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "enquiryFullName",
+              "value": "",
+              "type": "text"
+            },
+            {
+              "key": "enquiryMobile",
+              "value": "",
+              "type": "text"
+            },
+            {
+              "key": "enquiryEmail",
+              "value": "",
+              "type": "text"
+            },
+            {
+              "key": "enquiryService",
+              "value": "",
+              "type": "text"
+            },
+            {
+              "key": "enquiryMessage",
+              "value": "",
+              "type": "text"
+            },
+            {
+              "key": "enquiryFrom",
+              "value": "",
+              "type": "text"
+            },
+            {
+              "key": "utm_medium",
+              "value": "",
+              "type": "text"
+            },
+            {
+              "key": "utm_source",
+              "value": "",
+              "type": "text"
+            },
+            {
+              "key": "utm_campaign",
+              "value": "",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://agsdemo.in/vvsapi/public/api/createEnquiry",
+          "protocol": "http",
+          "host": [
+            "agsdemo",
+            "in"
+          ],
+          "path": [
+            "vvsapi",
+            "public",
+            "api",
+            "createEnquiry"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

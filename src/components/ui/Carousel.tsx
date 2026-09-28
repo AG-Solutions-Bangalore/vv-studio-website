@@ -30,6 +30,8 @@ interface CarouselProps {
   ariaLabel?: string;
   autoplay?: boolean;
   autoplayDelay?: number;
+  /** Wrap around at the ends instead of stopping (infinite feel). */
+  loop?: boolean;
   showDots?: boolean;
   onStateChange?: (state: CarouselState) => void;
   className?: string;
@@ -92,6 +94,7 @@ export const Carousel = forwardRef<CarouselHandle, CarouselProps>(function Carou
     ariaLabel = 'Carousel',
     autoplay = false,
     autoplayDelay = 4000,
+    loop = false,
     showDots = true,
     onStateChange,
     className,
@@ -117,14 +120,16 @@ export const Carousel = forwardRef<CarouselHandle, CarouselProps>(function Carou
     if (!el || el.clientWidth === 0) return;
     const { positions } = getLayout(el);
     const page = activePage(el, positions);
+    const multi = positions.length > 1;
     const next: CarouselState = {
-      canPrev: page > 0,
-      canNext: page < positions.length - 1,
+      // In loop mode the ends wrap, so arrows stay enabled.
+      canPrev: loop ? multi : page > 0,
+      canNext: loop ? multi : page < positions.length - 1,
       page,
       pages: positions.length,
     };
     setState((prev) => (statesEqual(prev, next) ? prev : next));
-  }, []);
+  }, [loop]);
 
   useEffect(() => {
     onStateChange?.(state);
@@ -167,9 +172,21 @@ export const Carousel = forwardRef<CarouselHandle, CarouselProps>(function Carou
       if (!el) return;
       const { positions } = getLayout(el);
       const page = activePage(el, positions);
-      goTo(page + dir);
+      const nextPage = page + dir;
+      // In loop mode wrap around the ends (infinite feel).
+      if (loop) {
+        if (nextPage < 0) {
+          goTo(positions.length - 1);
+          return;
+        }
+        if (nextPage > positions.length - 1) {
+          goTo(0);
+          return;
+        }
+      }
+      goTo(nextPage);
     },
-    [goTo]
+    [goTo, loop]
   );
 
   const scrollPrev = useCallback(() => {

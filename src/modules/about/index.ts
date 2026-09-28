@@ -4,3 +4,7 @@ export * from './components/AboutStory';
 export * from './components/AboutHighlights';
 export * from './components/AboutStatsBand';
 export * from './components/AboutCTA';
+export * from './components/CompanyStatic';
+export * from './api';
+export * from './hook';
+export * from './types';

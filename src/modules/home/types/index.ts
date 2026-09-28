@@ -43,3 +43,17 @@ export interface BlogItem {
   image: string;
   date: string;
 }
+
+// API entity types owned by the home module (see `./api/*` + docs/API.md).
+export type {
+  Testimonial,
+  TestimonialResponse,
+  Client,
+  ClientResponse,
+  SitemapEntry,
+  SitemapResponse,
+  FaqItem,
+  FaqResponse,
+  NewsletterPayload,
+  NewsletterResponse,
+} from '@/lib/api/types';

@@ -1,28 +1,35 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Link } from 'react-router-dom';
-import {
-  MapPin,
-  Phone,
-  Mail,
-} from 'lucide-react';
 import { Logo } from './Logo';
 import { Container } from '@/components/ui/Container';
 import {
-  CONTACT_INFO,
   STUDIO_DIRECTIONS_URL,
   STUDIO_FOOTER_MAP_EMBED_SRC,
 } from '@/data/salonData';
+import { FooterContactStatic } from '@/modules/about/components/CompanyStatic';
+
+// Live company contact (own query chunk — never in the critical bundle).
+const FooterContactLive = lazy(() =>
+  import('@/modules/about/components/CompanyLive').then((m) => ({
+    default: m.FooterContactLive,
+  })),
+);
+
+// Newsletter signup (own query chunk — never in the critical bundle).
+const NewsletterForm = lazy(() =>
+  import('./NewsletterForm').then((m) => ({
+    default: m.NewsletterForm,
+  })),
+);
+
+// Quick Links from GET /getSitemap (own query chunk — never critical).
+const FooterQuickLinks = lazy(() =>
+  import('./FooterQuickLinks').then((m) => ({
+    default: m.FooterQuickLinks,
+  })),
+);
 
 export const Footer: React.FC = () => {
-  const quickLinks = [
-    { name: 'Home', to: '/', title: 'VV Studio Luxury Salon & Spa' },
-    { name: 'About', to: '/about', title: 'About VV Studio Luxury Salon & Spa' },
-    { name: 'Services', to: '/services', title: 'VV Studio Beauty & Spa Services' },
-    { name: 'Gallery', to: '/gallery', title: 'VV Studio Salon & Beauty Gallery' },
-    { name: 'Blog', to: '/blog', title: 'VV Studio Beauty & Wellness Blog' },
-    { name: 'Contact', to: '/contact', title: 'VV Studio Contact Information' },
-  ];
-
   return (
     <footer id="contact" className="bg-[#f4f4f4] border-t text-[#40363F] relative overflow-hidden">
       <Container className="relative z-10">
@@ -77,67 +84,33 @@ export const Footer: React.FC = () => {
                 </svg>
               </a>
             </div>
+
+            {/* Newsletter signup (POST /createNewsletter) */}
+            <Suspense fallback={null}>
+              <NewsletterForm />
+            </Suspense>
           </div>
 
           {/* Column 2: Quick Links (2 cols) */}
           <div className="lg:col-span-2">
-            <h3 className="text-[15px] font-bold text-[#2D0A2E] mb-4">
+            <h2 className="text-[15px] font-bold text-[#2D0A2E] mb-4">
               Quick Links
-            </h3>
-            <ul className="space-y-2.5 text-sm text-[#5E525C]">
-              {quickLinks.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    to={link.to}
-                    title={link.title}
-                    onClick={() => {
-                      if (link.to.includes('#')) {
-                        const id = link.to.split('#')[1];
-                        const el = document.getElementById(id);
-                        el?.scrollIntoView({ behavior: 'smooth' });
-                      } else {
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                      }
-                    }}
-                    className="hover:text-[#D91A8A] transition-colors inline-block"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            </h2>
+            <Suspense fallback={null}>
+              <FooterQuickLinks />
+            </Suspense>
           </div>
 
           {/* Column 3: Contact Us (3 cols) */}
           <div className="lg:col-span-3">
-            <h3 className="text-[15px] font-bold text-[#2D0A2E] mb-4">
+            <h2 className="text-[15px] font-bold text-[#2D0A2E] mb-4">
               Contact Us
-            </h3>
-            <ul className="space-y-3 text-[13px] sm:text-sm text-[#5E525C]">
-              <li className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-[#3D003D] shrink-0 mt-0.5" />
-                <span className="leading-relaxed">{CONTACT_INFO.address}</span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-[#3D003D] shrink-0" />
-                <a href={`tel:${CONTACT_INFO.phones[1]}`} title="Call VV Studio – 8310782820" className="hover:text-[#D91A8A] transition-colors">
-                  {CONTACT_INFO.phones[1]}
-                </a>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-[#3D003D] shrink-0" />
-                <a href={`tel:${CONTACT_INFO.phones[0]}`} title="Call VV Studio – 080-48531999" className="hover:text-[#D91A8A] transition-colors">
-                  {CONTACT_INFO.phones[0]}
-                </a>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-[#3D003D] shrink-0" />
-                <a href={`mailto:${CONTACT_INFO.email}`} title="Email VV Studio" className="hover:text-[#D91A8A] transition-colors break-all">
-                  {CONTACT_INFO.email}
-                </a>
-              </li>
-           
-            </ul>
+            </h2>
+            <div className="text-[13px] sm:text-sm text-[#5E525C]">
+              <Suspense fallback={<FooterContactStatic />}>
+                <FooterContactLive />
+              </Suspense>
+            </div>
           </div>
 
           {/* Column 4: Map & Directions card (3 cols) */}

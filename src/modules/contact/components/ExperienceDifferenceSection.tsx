@@ -1,17 +1,31 @@
 import React, { useState } from 'react';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { Play, X, Flower2, Gem, Users, Heart } from 'lucide-react';
+import { queryClient } from '@/lib/queryClient';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
-import { STUDIO_ADDRESS_SHORT } from '@/data/salonData';
+import { useCompanyInfo } from '@/modules/about/hook/useCompanyInfo';
 
 interface ExperienceDifferenceSectionProps {
   onOpenBooking: () => void;
 }
 
-export const ExperienceDifferenceSection: React.FC<ExperienceDifferenceSectionProps> = ({
+export const ExperienceDifferenceSection: React.FC<ExperienceDifferenceSectionProps> = (
+  props,
+) => (
+  // Own provider over the shared singleton client (see main.tsx): the query
+  // runtime loads with the contact route chunk, never with the critical path.
+  <QueryClientProvider client={queryClient}>
+    <ExperienceDifferenceSectionInner {...props} />
+  </QueryClientProvider>
+);
+
+const ExperienceDifferenceSectionInner: React.FC<ExperienceDifferenceSectionProps> = ({
   onOpenBooking,
 }) => {
   const [isTourOpen, setIsTourOpen] = useState(false);
+  // Live studio address (GET /getCompany) with static fallback.
+  const company = useCompanyInfo();
 
   const features = [
     {
@@ -163,7 +177,7 @@ export const ExperienceDifferenceSection: React.FC<ExperienceDifferenceSectionPr
                   Welcome to V V Studio
                 </h4>
                 <p className="text-white/80 text-xs sm:text-sm max-w-md mb-4">
-                  {STUDIO_ADDRESS_SHORT}
+                  {company.addressShort}
                 </p>
                 <Button
                   variant="primary"

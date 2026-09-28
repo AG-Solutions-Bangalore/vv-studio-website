@@ -4,7 +4,7 @@ import { Sparkles, ArrowRight, ArrowLeft, BookOpen, Heart, Sparkle } from 'lucid
 import { Header } from '@/components/shared/Header';
 import { Footer } from '@/components/shared/Footer';
 import { Container } from '@/components/ui/Container';
-import { useSEO, type SEO_CONFIG } from '@/lib/seo';
+import { useSEO, type SEO_CONFIG } from '@/seo/seo';
 
 // Heavy booking form: code-split and never mounted until first open.
 const BookingModal = lazy(() =>

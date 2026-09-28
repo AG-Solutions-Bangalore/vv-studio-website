@@ -3,7 +3,7 @@ import React, { Suspense, useEffect } from 'react';
 import { DeferredSmoothScroll } from '@/components/shared/DeferredSmoothScroll';
 import { ErrorBoundary } from '@/components/shared/ErrorBoundary';
 import { LoadingFallback } from '@/components/shared/LoadingFallback';
-import { injectLocalBusinessSchema } from '@/lib/seo';
+import { injectLocalBusinessSchema } from '@/seo/seo';
 import { connectionAllowsPreload, onIdle } from '@/lib/idle';
 
 const HomePage = React.lazy(() =>
@@ -32,6 +32,11 @@ const GalleryPage = React.lazy(() =>
 const BlogPage = React.lazy(() =>
   import('@/modules/blog/pages/BlogPage').then((m) => ({
     default: m.BlogPage,
+  })),
+);
+const BlogDetailPage = React.lazy(() =>
+  import('@/modules/blog/pages/BlogDetailPage').then((m) => ({
+    default: m.BlogDetailPage,
   })),
 );
 
@@ -73,6 +78,7 @@ function App() {
             {/* Standalone crawlable URLs: /gallery and /blog render full collection pages. */}
             <Route path="/gallery" element={<GalleryPage />} />
             <Route path="/blog" element={<BlogPage />} />
+            <Route path="/blog/:slug" element={<BlogDetailPage />} />
             <Route path="/contact" element={<ContactPage />} />
             {/* Fallback route */}
             <Route path="*" element={<HomePage seoKey="home" />} />

@@ -1,8 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-// NOTE: lenis CSS ships with the deferred SmoothScroll chunk, and the unused
-// Geist variable font was dropped — neither belongs in the critical bundle.
+/* NOTE: lenis CSS ships with the deferred SmoothScroll chunk, and the unused
+   Geist variable font was dropped — neither belongs in the critical bundle. */
 
 @custom-variant dark (&:is(.dark *));
 
@@ -74,6 +74,31 @@
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+
+  /* Infinite review marquee: track holds two identical strips and loops
+   * seamlessly. Duration is set per-instance via `--marquee-duration`
+   * (≈ track width / 140px per second, measured in ReviewMarquee). */
+  @keyframes vv-marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  .marquee-track {
+    animation: vv-marquee var(--marquee-duration, 40s) linear infinite;
+    will-change: transform;
+  }
+  .marquee-paused:hover .marquee-track,
+  .marquee-paused:focus-within .marquee-track {
+    animation-play-state: paused;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none;
+    }
   }
 }
 

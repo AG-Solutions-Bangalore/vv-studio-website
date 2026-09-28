@@ -3,7 +3,7 @@ import { Header } from '@/components/shared/Header';
 import { Footer } from '@/components/shared/Footer';
 import { Hero } from '../components/Hero';
 import type { ServiceItem } from '@/data/salonData';
-import { useSEO, type SEO_CONFIG } from '@/lib/seo';
+import { useSEO, type SEO_CONFIG } from '@/seo/seo';
 
 // Below-fold sections: lazy, revealed together in one Suspense so the
 // critical path ships Hero only.
@@ -36,9 +36,22 @@ const TestimonialsSection = lazy(() =>
 const BlogSection = lazy(() =>
   import('../components/BlogSection').then((m) => ({ default: m.BlogSection })),
 );
+// Featured blogs rail (GET /getFeaturedBlogs) — same BlogCard + carousel
+// look as the front-blogs rail, hidden until the API has data.
+const FeaturedBlogsRail = lazy(() =>
+  import('@/modules/blog/components/FeaturedBlogsRail').then((m) => ({
+    default: m.FeaturedBlogsRail,
+  })),
+);
 const SpecialOffersSection = lazy(() =>
   import('../components/SpecialOffersSection').then((m) => ({
     default: m.SpecialOffersSection,
+  })),
+);
+// Page FAQs (GET /getFAQBySlug/home) — hidden until the API has data.
+const FaqSection = lazy(() =>
+  import('@/components/shared/FaqSection').then((m) => ({
+    default: m.FaqSection,
   })),
 );
 // Heavy booking form: code-split and never mounted until first open.
@@ -143,14 +156,24 @@ export const HomePage: React.FC<HomePageProps> = ({
               {/* Gallery Section */}
               <GallerySection />
 
-              {/* Testimonials Section */}
-              <TestimonialsSection onOpenBooking={() => handleOpenBooking()} />
+              {/* Featured blogs (GET /getFeaturedBlogs) — same card as front rail, hidden when empty */}
+              <FeaturedBlogsRail />
 
-              {/* Blog Section */}
+              {/* Front blogs rail (GET /getFrontBlogs) — hidden when empty */}
               <BlogSection />
+
+              {/* FAQs — renders only when the API returns items */}
+              <FaqSection slug="home" />
+
+              {/* Testimonials (GET /getTestimonial/home) — renders only when API returns items */}
+              <TestimonialsSection
+                slug="home"
+                onOpenBooking={() => handleOpenBooking()}
+              />
 
               {/* Special Offers Banner */}
               <SpecialOffersSection onOpenBooking={() => handleOpenBooking()} />
+
             </>
           )}
         </Suspense>

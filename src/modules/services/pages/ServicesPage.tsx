@@ -6,7 +6,20 @@ import { ServicesHero } from '../components/ServicesHero';
 import { ServicesFeatureStrip } from '../components/ServicesFeatureStrip';
 import { ServicesGrid } from '../components/ServicesGrid';
 import { ServicesCTABanner } from '../components/ServicesCTABanner';
-import { useSEO } from '@/lib/seo';
+import { useSEO } from '@/seo/seo';
+
+// Page FAQs (GET /getFAQBySlug/services) — lazy + own provider, hidden when empty.
+const FaqSection = lazy(() =>
+  import('@/components/shared/FaqSection').then((m) => ({
+    default: m.FaqSection,
+  })),
+);
+// Client reviews (GET /getTestimonial/services) — lazy + own provider, hidden when empty.
+const TestimonialSection = lazy(() =>
+  import('@/modules/home/components/TestimonialSection').then((m) => ({
+    default: m.TestimonialSection,
+  })),
+);
 
 // Heavy booking form: code-split and never mounted until first open.
 const BookingModal = lazy(() =>
@@ -49,6 +62,16 @@ export const ServicesPage: React.FC = () => {
 
         {/* 12 Services Card Grid */}
         <ServicesGrid onOpenBooking={handleOpenBooking} />
+
+        {/* FAQs — renders only when the API returns items */}
+        <Suspense fallback={null}>
+          <FaqSection slug="services" />
+        </Suspense>
+
+        {/* Client reviews — renders only when the API returns items */}
+        <Suspense fallback={null}>
+          <TestimonialSection slug="services" />
+        </Suspense>
 
         {/* Bottom CTA Banner before Footer */}
         <ServicesCTABanner onOpenBooking={() => handleOpenBooking()} />

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
-import { LOCAL_IMAGE_BASE } from '@/lib/seo';
+import { LOCAL_IMAGE_BASE } from '@/seo/seo';
 
 interface HeroProps {
   onOpenBooking: () => void;

@@ -24,6 +24,8 @@ export interface TestimonialItem {
   rating: number;
   quote: string;
   treatment: string;
+  /** Trust line under the name, e.g. `Verified Client · 25 SEP 2026`. */
+  footer?: string;
 }
 
 export interface GalleryItem {
