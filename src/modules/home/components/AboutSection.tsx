@@ -94,7 +94,7 @@ export const AboutSection: React.FC = () => {
             {/* Large salon interior */}
             <div className="col-span-3 relative rounded-[14px] overflow-hidden group min-h-[280px] sm:min-h-[360px] lg:min-h-[420px]">
               <img
-                src="/images/home/about_salon_reception.webp"
+                src="https://agsdemo.in/vvsapi/public/assets/images/web_images/home/about_salon_reception.webp"
                 alt="Luxury salon lounge at VV Studio"
                 title="VV Studio Luxury Salon Lounge"
                 width={1536}
@@ -110,7 +110,7 @@ export const AboutSection: React.FC = () => {
             <div className="col-span-2 flex flex-col gap-2.5 sm:gap-3">
               <div className="relative rounded-[14px] overflow-hidden group flex-1 min-h-[136px] sm:min-h-[174px] lg:min-h-[204px]">
                 <img
-                  src="/images/home/about_facial_treatment.webp"
+                  src="https://agsdemo.in/vvsapi/public/assets/images/web_images/home/about_facial_treatment.webp"
                   alt="Facial treatment at VV Studio salon"
                   title="Facial Treatment at VV Studio"
                   width={1536}
@@ -123,7 +123,7 @@ export const AboutSection: React.FC = () => {
               </div>
               <div className="relative rounded-[14px] overflow-hidden group flex-1 min-h-[136px] sm:min-h-[174px] lg:min-h-[204px]">
                 <img
-                  src="/images/home/about_hair_styling.webp"
+                  src="https://agsdemo.in/vvsapi/public/assets/images/web_images/home/about_hair_styling.webp"
                   alt="Professional hair styling at VV Studio"
                   title="Professional Hair Styling at VV Studio"
                   width={1330}

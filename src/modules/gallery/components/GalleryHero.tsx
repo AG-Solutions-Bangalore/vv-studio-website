@@ -37,7 +37,7 @@ export const GalleryHero: React.FC = () => {
         aria-hidden="true"
       >
         <img
-          src="/images/common/girl_common.webp"
+          src="https://agsdemo.in/vvsapi/public/assets/images/web_images/common/girl_common.webp"
           alt="VV Studio Beauty Model with Pink Lilies"
           title="VV Studio Beauty Model with Pink Lilies"
           width={2170}
@@ -94,7 +94,7 @@ export const GalleryHero: React.FC = () => {
       {/* Mobile model banner */}
       <div className="lg:hidden relative w-full h-[250px] sm:h-[340px] mt-2 overflow-hidden pointer-events-none select-none bg-[#3D003D]">
         <img
-          src="/images/common/girl_common.webp"
+          src="https://agsdemo.in/vvsapi/public/assets/images/web_images/common/girl_common.webp"
           alt="VV Studio Beauty Model with Pink Lilies"
           title="VV Studio Beauty Model with Pink Lilies"
           width={2170}

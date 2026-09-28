@@ -124,7 +124,7 @@ export function organizationSchema(
     name: SITE_NAME,
     url: `${SITE_ORIGIN}/`,
     logo: SITE_LOGO,
-    image: `${SITE_ORIGIN}/images/home/home_top_banner.webp`,
+    image: 'https://agsdemo.in/vvsapi/public/assets/images/web_images/home/home_top_banner.webp',
     description:
       "VV Studio is Bangalore's premier luxury beauty salon offering personalized skin treatments, expert hair care, bridal makeup, and rejuvenating spa therapies.",
     telephone: ['+91-80-48531999', '+91-8310782820'],
