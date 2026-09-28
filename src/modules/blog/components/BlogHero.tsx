@@ -33,7 +33,7 @@ export const BlogHero: React.FC = () => {
 
       {/* Desktop model with pink lilies */}
       <div
-        className="hidden lg:block absolute bottom-0 right-0 h-full w-[60%] xl:w-[56%] pointer-events-none select-none bg-[#3D003D]"
+        className="hidden lg:block absolute bottom-0 right-0 h-full w-[60%] xl:w-[56%] pointer-events-none select-none"
         aria-hidden="true"
       >
         <img
@@ -92,7 +92,7 @@ export const BlogHero: React.FC = () => {
       </Container>
 
       {/* Mobile model banner */}
-      <div className="lg:hidden relative w-full h-[250px] sm:h-[340px] mt-2 overflow-hidden pointer-events-none select-none bg-[#3D003D]">
+      <div className="lg:hidden relative w-full h-[250px] sm:h-[340px] mt-2 overflow-hidden pointer-events-none select-none">
         <img
           src="https://agsdemo.in/vvsapi/public/assets/images/web_images/common/girl_common.webp"
           alt="VV Studio Beauty Model with Pink Lilies"
