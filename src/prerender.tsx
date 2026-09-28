@@ -438,20 +438,10 @@ export async function prerender(data: { url: string }) {
     }
 
     if (isBlog) {
-      const [allRes, featRes, frontRes] = await Promise.all([
-        cached(blogKeys.list(), getBlogs),
-        cached(blogKeys.featured(), getFeaturedBlogs),
-        cached(blogKeys.front(), getFrontBlogs),
-      ]);
+      const allRes = await cached(blogKeys.list(), getBlogs);
       seed(client, blogKeys.list(), allRes);
-      seed(client, blogKeys.featured(), featRes);
-      seed(client, blogKeys.front(), frontRes);
 
-      const allRows = [
-        ...(allRes && Array.isArray(allRes.data) ? allRes.data : []),
-        ...(featRes && Array.isArray(featRes.data) ? featRes.data : []),
-        ...(frontRes && Array.isArray(frontRes.data) ? frontRes.data : []),
-      ];
+      const allRows = allRes && Array.isArray(allRes.data) ? allRes.data : [];
       const seen = new Set<string>();
       const items: Array<{ name: string; path: string }> = [];
       for (const p of allRows) {
