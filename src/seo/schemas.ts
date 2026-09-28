@@ -92,10 +92,13 @@ export function toIsoDate(value: unknown): string | null {
  *      rich snippets in local search queries for salons in Bangalore.
  * @when Injected into every route as the foundational `@id: #organization` node.
  */
-export function organizationSchema(aggregate?: {
-  ratingValue: number;
-  reviewCount: number;
-}): BeautySalon {
+export function organizationSchema(
+  aggregate?: {
+    ratingValue: number;
+    reviewCount: number;
+  },
+  reviews?: Review[],
+): BeautySalon {
   const address: PostalAddress = {
     '@type': 'PostalAddress',
     streetAddress: '#5, 1st Floor, 24th Main, 5th Phase, JP Nagar',
@@ -140,6 +143,7 @@ export function organizationSchema(aggregate?: {
           } satisfies AggregateRating,
         }
       : {}),
+    ...(reviews && reviews.length > 0 ? { review: reviews } : {}),
   };
 }
 
@@ -217,7 +221,7 @@ export interface FaqRowInput {
 /**
  * Generates a `FAQPage` schema from dynamic question-and-answer pairs.
  *
- * Automatically filters out empty rows or placeholder entries (< 10 chars).
+ * Automatically filters out empty rows.
  *
  * @summary FAQ accordion schema builder.
  * @param rows - Array of question-and-answer records from the API.
@@ -232,7 +236,7 @@ export function faqPageSchema(rows: FaqRowInput[]): FAQPage | null {
       question: stripHtml(row.faq_que ?? row.faq_question),
       answer: stripHtml(row.faq_ans ?? row.faq_answer),
     }))
-    .filter((row) => row.question.length >= 10 && row.answer.length >= 10);
+    .filter((row) => row.question.length > 0 && row.answer.length > 0);
   if (usable.length === 0) return null;
   return {
     '@type': 'FAQPage',

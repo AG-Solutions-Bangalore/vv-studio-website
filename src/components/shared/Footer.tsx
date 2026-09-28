@@ -93,9 +93,9 @@ export const Footer: React.FC = () => {
 
           {/* Column 2: Quick Links (2 cols) */}
           <div className="lg:col-span-2">
-            <h3 className="text-[15px] font-bold text-[#2D0A2E] mb-4">
+            <h2 className="text-[15px] font-bold text-[#2D0A2E] mb-4">
               Quick Links
-            </h3>
+            </h2>
             <Suspense fallback={null}>
               <FooterQuickLinks />
             </Suspense>
@@ -103,14 +103,14 @@ export const Footer: React.FC = () => {
 
           {/* Column 3: Contact Us (3 cols) */}
           <div className="lg:col-span-3">
-            <h3 className="text-[15px] font-bold text-[#2D0A2E] mb-4">
+            <h2 className="text-[15px] font-bold text-[#2D0A2E] mb-4">
               Contact Us
-            </h3>
-            <ul className="space-y-3 text-[13px] sm:text-sm text-[#5E525C]">
+            </h2>
+            <div className="text-[13px] sm:text-sm text-[#5E525C]">
               <Suspense fallback={<FooterContactStatic />}>
                 <FooterContactLive />
               </Suspense>
-            </ul>
+            </div>
           </div>
 
           {/* Column 4: Map & Directions card (3 cols) */}

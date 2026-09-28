@@ -142,8 +142,7 @@ function blogSlugOf(post: BlogPost): string {
  * @param rows - Raw testimonial items from API.
  * @returns Clean reviews list and optional aggregate rating object.
  *
- * @why Rejects low-quality or empty reviews (<10 chars) to prevent Google Schema errors,
- *      and calculates aggregate ratings for Google Search star snippets.
+ * @why Filters out empty reviews and calculates aggregate ratings for Google Search star snippets.
  * @when Called for static pages that display customer reviews (e.g. Home, About).
  */
 function parseReviews(rows: Testimonial[]) {
@@ -154,7 +153,7 @@ function parseReviews(rows: Testimonial[]) {
       rating: Math.min(5, Math.max(1, Math.round(Number(t.testimonial_rating ?? t.rating ?? 5)))),
       date: t.testimonial_created_date ?? null,
     }))
-    .filter((r) => r.name.length > 0 && r.body.length >= 10);
+    .filter((r) => r.name.length > 0 && r.body.length > 0);
 
   const avg = list.length
     ? Math.round((list.reduce((sum, r) => sum + r.rating, 0) / list.length) * 10) / 10
@@ -382,9 +381,12 @@ export async function prerender(data: { url: string }) {
     const isHome = staticRoute.path === '/';
     const isBlog = staticRoute.path === '/blog';
     const { list: reviews, aggregate } = parseReviews(testimonials);
+    const reviewNodes = reviews.map((r) =>
+      reviewSchema({ name: r.name, body: r.body, rating: r.rating, datePublished: r.date }),
+    );
 
     schemas.push(
-      organizationSchema(isHome ? aggregate : undefined),
+      organizationSchema(aggregate, reviewNodes),
       webPageSchema(canonicalPath, title, description),
       breadcrumbSchema(
         isHome
@@ -402,9 +404,24 @@ export async function prerender(data: { url: string }) {
       seed(client, blogKeys.front(), frontRes);
       seed(client, blogKeys.featured(), featRes);
 
-      const frontRows = frontRes && Array.isArray(frontRes.data) ? frontRes.data.slice(0, 3) : [];
-      const images: ImageUrlEntry[] = frontRes && Array.isArray(frontRes.image_url) ? frontRes.image_url : [];
-      for (const p of frontRows) {
+      const frontRows = frontRes && Array.isArray(frontRes.data) ? frontRes.data : [];
+      const featRows = featRes && Array.isArray(featRes.data) ? featRes.data : [];
+      const images: ImageUrlEntry[] = [
+        ...(frontRes && Array.isArray(frontRes.image_url) ? frontRes.image_url : []),
+        ...(featRes && Array.isArray(featRes.image_url) ? featRes.image_url : []),
+      ];
+
+      const seenSlugs = new Set<string>();
+      const homeArticles: BlogPost[] = [];
+      for (const p of [...featRows, ...frontRows]) {
+        const s = blogSlugOf(p);
+        if (s && !seenSlugs.has(s)) {
+          seenSlugs.add(s);
+          homeArticles.push(p);
+        }
+      }
+
+      for (const p of homeArticles.slice(0, 6)) {
         const s = blogSlugOf(p);
         if (!s) continue;
         const pTitle = String(p.blog_title ?? p.title ?? 'Article');
@@ -433,10 +450,6 @@ export async function prerender(data: { url: string }) {
         .map((p) => ({ name: String(p.blog_title ?? p.title ?? 'Article'), path: `/blog/${blogSlugOf(p)}` }))
         .filter((item) => item.path !== '/blog/');
       if (items.length > 0) schemas.push(itemListSchema(items));
-    }
-
-    for (const r of reviews) {
-      schemas.push(reviewSchema({ name: r.name, body: r.body, rating: r.rating, datePublished: r.date }));
     }
 
     const faq = faqPageSchema(faqs);

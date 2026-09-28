@@ -31,8 +31,9 @@ export const ServicesFeatureStrip: React.FC = () => {
   ];
 
   return (
-    <section className="relative z-20 bg-white border-y border-[#F3E5EE] shadow-[0_4px_20px_rgba(80,0,70,0.03)] py-6 sm:py-7">
+    <section aria-label="Why choose VV Studio" className="relative z-20 bg-white border-y border-[#F3E5EE] shadow-[0_4px_20px_rgba(80,0,70,0.03)] py-6 sm:py-7">
       <Container>
+        <h2 className="sr-only">Why choose VV Studio</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[#F3E5EE] items-center">
           {features.map((feature) => (
             <div
