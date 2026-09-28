@@ -438,17 +438,29 @@ export async function prerender(data: { url: string }) {
     }
 
     if (isBlog) {
-      const [allRes, featRes] = await Promise.all([
+      const [allRes, featRes, frontRes] = await Promise.all([
         cached(blogKeys.list(), getBlogs),
         cached(blogKeys.featured(), getFeaturedBlogs),
+        cached(blogKeys.front(), getFrontBlogs),
       ]);
       seed(client, blogKeys.list(), allRes);
       seed(client, blogKeys.featured(), featRes);
+      seed(client, blogKeys.front(), frontRes);
 
-      const allRows = allRes && Array.isArray(allRes.data) ? allRes.data : [];
-      const items = allRows
-        .map((p) => ({ name: String(p.blog_title ?? p.title ?? 'Article'), path: `/blog/${blogSlugOf(p)}` }))
-        .filter((item) => item.path !== '/blog/');
+      const allRows = [
+        ...(allRes && Array.isArray(allRes.data) ? allRes.data : []),
+        ...(featRes && Array.isArray(featRes.data) ? featRes.data : []),
+        ...(frontRes && Array.isArray(frontRes.data) ? frontRes.data : []),
+      ];
+      const seen = new Set<string>();
+      const items: Array<{ name: string; path: string }> = [];
+      for (const p of allRows) {
+        const s = blogSlugOf(p);
+        if (s && !seen.has(s)) {
+          seen.add(s);
+          items.push({ name: String(p.blog_title ?? p.title ?? 'Article'), path: `/blog/${s}` });
+        }
+      }
       if (items.length > 0) schemas.push(itemListSchema(items));
     }
 
@@ -464,10 +476,18 @@ export async function prerender(data: { url: string }) {
   const queryState = dehydrated.includes('"queries":[]') ? null : dehydrated;
   client.clear();
 
-  // Harvest live blog slugs to ensure dynamic articles are crawled and emitted
-  const blogsRes = await cached(blogKeys.list(), getBlogs);
-  const blogRows = blogsRes && Array.isArray(blogsRes.data) ? blogsRes.data : [];
-  const articleSlugs = blogRows.map((p) => blogSlugOf(p)).filter(Boolean);
+  // Harvest live blog slugs from all 3 APIs to ensure all dynamic articles are crawled and emitted
+  const [blogsRes, featRes, frontRes] = await Promise.all([
+    cached(blogKeys.list(), getBlogs),
+    cached(blogKeys.featured(), getFeaturedBlogs),
+    cached(blogKeys.front(), getFrontBlogs),
+  ]);
+  const blogRows = [
+    ...(blogsRes && Array.isArray(blogsRes.data) ? blogsRes.data : []),
+    ...(featRes && Array.isArray(featRes.data) ? featRes.data : []),
+    ...(frontRes && Array.isArray(frontRes.data) ? frontRes.data : []),
+  ];
+  const articleSlugs = Array.from(new Set(blogRows.map((p) => blogSlugOf(p)).filter(Boolean)));
 
   const links = new Set<string>([
     ...STATIC_ROUTES.map((r) => r.path),

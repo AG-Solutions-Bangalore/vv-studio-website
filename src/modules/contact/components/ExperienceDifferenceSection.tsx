@@ -58,7 +58,7 @@ const ExperienceDifferenceSectionInner: React.FC<ExperienceDifferenceSectionProp
           <div className="min-w-0">
             <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden shadow-[0_12px_32px_rgba(80,0,70,0.14)] group">
               <img
-                src="/images/contact/salon_virtual_tour.webp"
+                src="https://agsdemo.in/vvsapi/public/assets/images/web_images/contact/salon_virtual_tour.webp"
                 alt="VV Studio luxury salon interior and reception"
                 title="VV Studio Luxury Salon Interior and Reception"
                 className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
@@ -164,7 +164,7 @@ const ExperienceDifferenceSectionInner: React.FC<ExperienceDifferenceSectionProp
             {/* Modal Content */}
             <div className="relative aspect-video w-full bg-black flex items-center justify-center">
               <img
-                src="/images/contact/salon_virtual_tour.webp"
+                src="https://agsdemo.in/vvsapi/public/assets/images/web_images/contact/salon_virtual_tour.webp"
                 alt="VV Studio salon interior virtual tour view"
                 title="VV Studio Luxury Salon Interior and Reception"
                 className="w-full h-full object-cover"
