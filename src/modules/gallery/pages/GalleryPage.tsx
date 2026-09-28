@@ -8,7 +8,7 @@ import { useSEO } from '@/seo/seo';
 
 // Page FAQs (GET /getFAQBySlug/gallery) — lazy + own provider, hidden when empty.
 const FaqSection = lazy(() =>
-  import('@/components/shared/FaqSection').then((m) => ({
+  import('@/modules/faq').then((m) => ({
     default: m.FaqSection,
   })),
 );
