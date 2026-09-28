@@ -14,7 +14,7 @@ import { useBlogBySlug } from '../hooks/useBlogs';
 
 // Page FAQs — lazy + own QueryClientProvider inside (renders nothing when empty).
 const FaqSection = lazy(() =>
-  import('@/components/shared/FaqSection').then((m) => ({
+  import('@/modules/faq').then((m) => ({
     default: m.FaqSection,
   })),
 );

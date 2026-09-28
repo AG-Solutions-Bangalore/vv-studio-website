@@ -25,21 +25,21 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, onExploreServices }) 
                      linear-gradient(118deg, #240024 0%, #350035 24%, #490043 52%, #620055 76%, #330030 100%)`,
       }}
     >
-      {/* Background Diamond Geometry — parked behind the model, clear of the headline */}
+      {/* Background Diamond Geometry */}
       <div
-        className="absolute left-[62%] lg:left-[84%] top-1/2 -translate-x-1/2 -translate-y-1/2 w-[360px] sm:w-[480px] lg:w-[560px] aspect-square rotate-45 border border-white/[0.07] bg-gradient-to-br from-white/[0.05] via-[#D91A8A]/[0.07] to-transparent pointer-events-none rounded-3xl"
+        className="absolute left-[62%] top-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[480px] lg:w-[560px] aspect-square rotate-45 border border-white/[0.07] bg-gradient-to-br from-white/[0.05] via-[#D91A8A]/[0.07] to-transparent pointer-events-none rounded-3xl"
         aria-hidden="true"
       />
       <div
-        className="absolute left-[62%] lg:left-[74%] top-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] sm:w-[350px] lg:w-[420px] aspect-square rotate-45 border border-[#F06AB9]/10 bg-white/[0.02] pointer-events-none rounded-2xl"
+        className="absolute left-[62%] top-1/2 -translate-x-1/2 -translate-y-1/2 w-[220px] sm:w-[350px] lg:w-[420px] aspect-square rotate-45 border border-[#F06AB9]/10 bg-white/[0.02] pointer-events-none rounded-2xl"
         aria-hidden="true"
       />
-      {/* Soft full-bleed readability shade for the left copy — no hard stops, no seam */}
+      {/* Full-bleed soft shade for left copy */}
       <div
         className="absolute inset-0 pointer-events-none"
         aria-hidden="true"
         style={{
-          background: `linear-gradient(90deg, rgba(20,0,20,0.38) 0%, rgba(20,0,20,0.12) 30%, transparent 48%)`,
+          background: `linear-gradient(90deg, rgba(20,0,20,0.42) 0%, rgba(20,0,20,0.15) 35%, transparent 52%)`,
         }}
       />
 
@@ -48,7 +48,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, onExploreServices }) 
           seamlessly over the plum backdrop — no overlay gradient (that caused
           the visible vertical seam). */}
       <div
-        className="hidden lg:block absolute bottom-0 right-0 h-full w-[60%] xl:w-[56%] pointer-events-none select-none bg-[#3D003D]"
+        className="hidden lg:block absolute bottom-0 right-0 h-full w-[60%] xl:w-[56%] pointer-events-none select-none"
         aria-hidden="true"
       >
         <img
@@ -154,7 +154,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, onExploreServices }) 
       </Container>
 
       {/* Mobile model — right-anchored so the face stays visible on narrow screens */}
-      <div className="lg:hidden relative w-full h-[300px] sm:h-[360px] mt-8 overflow-hidden pointer-events-none select-none bg-[#3D003D]">
+      <div className="lg:hidden relative w-full h-[300px] sm:h-[360px] mt-8 overflow-hidden pointer-events-none select-none">
         <img
           src={HERO_SRC}
           srcSet={HERO_SRCSET}

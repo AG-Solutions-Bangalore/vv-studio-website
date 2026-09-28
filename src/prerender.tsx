@@ -36,8 +36,8 @@ import {
   getFrontBlogs,
 } from './modules/blog/api/blogApi';
 import { blogKeys } from './modules/blog/hooks/useBlogs';
-import { getFaqBySlug } from './modules/home/api/faqApi';
-import { faqKeys } from './modules/home/hooks/useFaq';
+import { getFaqBySlug } from './modules/faq/api/faq.api';
+import { faqKeys } from './modules/faq/hooks/useFaqQuery';
 import { getTestimonials } from './modules/home/api/testimonialApi';
 import { testimonialKeys } from './modules/home/hooks/useTestimonials';
 

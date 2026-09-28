@@ -50,7 +50,7 @@ const SpecialOffersSection = lazy(() =>
 );
 // Page FAQs (GET /getFAQBySlug/home) — hidden until the API has data.
 const FaqSection = lazy(() =>
-  import('@/components/shared/FaqSection').then((m) => ({
+  import('@/modules/faq').then((m) => ({
     default: m.FaqSection,
   })),
 );

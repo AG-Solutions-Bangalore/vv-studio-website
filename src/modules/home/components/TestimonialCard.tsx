@@ -22,7 +22,7 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial })
     ? `${testimonial.name}, ${testimonial.location}`
     : testimonial.name;
   return (
-    <div className="flex flex-col h-full bg-white rounded-[14px] border border-[#F1E4EE] shadow-[0_2px_14px_rgba(90,20,80,0.08)] hover:shadow-[0_10px_28px_rgba(90,20,80,0.14)] hover:-translate-y-1 transition-all duration-300 p-5 sm:p-6">
+    <div className="flex flex-col h-full bg-white rounded-[14px] border border-[#F1E4EE] shadow-[0_2px_14px_rgba(90,20,80,0.08)] hover:shadow-[0_10px_28px_rgba(90,20,80,0.14)] hover:-translate-y-1 transition-all duration-300 p-4 sm:p-6 min-h-[160px] sm:min-h-[180px]">
       {/* Stars + quote mark */}
       <div className="flex items-center justify-between mb-3">
         <div

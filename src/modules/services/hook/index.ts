@@ -1,3 +1,9 @@
-// Canonical FAQ hook lives in `@/modules/home/hooks/useFaq` — re-exported
-// here for backward compatibility (single query key `['faq', slug]`).
-export * from '@/modules/home/hooks/useFaq';
+// Canonical FAQ hook lives in `@/modules/faq` — re-exported
+// here for backward compatibility.
+export {
+  useFaqBySlugQuery,
+  useFaq,
+  faqQueryKeys,
+  faqKeys,
+} from '@/modules/faq';
+

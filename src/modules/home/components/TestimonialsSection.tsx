@@ -132,17 +132,17 @@ function TestimonialsCarousel({
       <div className="marquee-paused relative overflow-hidden">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-28 z-10 bg-gradient-to-r from-[#FCFCFC] to-transparent"
+          className="pointer-events-none absolute inset-y-0 left-0 w-6 sm:w-28 z-10 bg-gradient-to-r from-[#FCFCFC] to-transparent"
         />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-28 z-10 bg-gradient-to-l from-[#FCFCFC] to-transparent"
+          className="pointer-events-none absolute inset-y-0 right-0 w-6 sm:w-28 z-10 bg-gradient-to-l from-[#FCFCFC] to-transparent"
         />
-        <div ref={trackRef} className="marquee-track py-4 flex w-max gap-6 md:gap-10 px-4">
+        <div ref={trackRef} className="marquee-track py-4 flex w-max gap-4 sm:gap-6 md:gap-10 px-2 sm:px-4">
           {[0, 1].map((copy) => (
-            <div key={copy} aria-hidden={copy === 1} className="flex gap-6 md:gap-10 shrink-0">
+            <div key={copy} aria-hidden={copy === 1} className="flex gap-4 sm:gap-6 md:gap-10 shrink-0">
               {slides.map((item) => (
-                <div key={`${item.id}-c${copy}`} className="w-[85%] sm:w-[340px] shrink-0">
+                <div key={`${item.id}-c${copy}`} className="w-[280px] xs:w-[300px] sm:w-[340px] shrink-0">
                   <TestimonialCard testimonial={item} />
                 </div>
               ))}
