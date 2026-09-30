@@ -82,7 +82,7 @@ export const GalleryHero: React.FC = () => {
 
           {/* Breadcrumbs */}
           <div className="flex items-center gap-2 text-[13px] sm:text-[14px] mt-5 sm:mt-7 font-medium">
-            <Link to="/" title="VV Studio Luxury Salon & Spa" className="text-white/80 hover:text-white transition-colors">
+            <Link to="/" title="V V Studio | Luxury Salon | Female Salon | J P Nagar, Bengaluru" className="text-white/80 hover:text-white transition-colors">
               Home
             </Link>
             <span className="text-[#E8329D] font-bold">›</span>

@@ -46,32 +46,32 @@ export interface SeoRouteConfig {
  */
 export const SEO_CONFIG = {
   home: {
-    title: "VV Studio | Luxury Salon & Spa in JP Nagar, Bangalore",
+    title: "V V Studio | Luxury Salon | Female Salon | J P Nagar, Bengaluru",
     description:
-      "VV Studio is Bangalore's premier luxury beauty salon offering personalized skin treatments, expert hair care, bridal makeup, and rejuvenating spa therapies.",
+      "V V Studio is J P Nagar, Bengaluru's premier luxury female salon offering personalized skin treatments, expert hair care, bridal makeup and beauty services for women.",
     keywords:
-      "luxury salon in JP Nagar, salon in JP Nagar Bangalore, spa in JP Nagar, beauty salon Bangalore, bridal makeup Bangalore, hair salon JP Nagar",
+      "luxury female salon in J P Nagar, female salon in J P Nagar Bengaluru, ladies salon Bengaluru, beauty salon Bengaluru, bridal makeup Bengaluru, hair salon J P Nagar",
     path: "/",
   },
   about: {
-    title: "About VV Studio Luxury Salon & Spa",
+    title: "About V V Studio | Luxury Female Salon in J P Nagar, Bengaluru",
     description:
-      "Discover the story behind VV Studio — JP Nagar’s luxury salon & spa for skin, hair, bridal and wellness, crafted around you.",
+      "Discover the story behind V V Studio — J P Nagar's exclusive luxury female salon for skin, hair, bridal and beauty, crafted around women.",
     keywords: "about VV Studio, luxury salon JP Nagar, beauty studio Bangalore",
     path: "/about",
   },
   services: {
-    title: "VV Studio Beauty & Spa Services",
+    title: "V V Studio | Female Salon Services in J P Nagar, Bengaluru",
     description:
-      "Explore skin & facials, hair care, waxing & threading, bridal makeup, hand & feet care and spa rituals at VV Studio, JP Nagar Bangalore.",
+      "Explore skin & facials, hair care, waxing & threading, bridal makeup, hand & feet care and beauty services for women at V V Studio, J P Nagar Bengaluru.",
     keywords:
-      "salon services JP Nagar, facials Bangalore, hair spa, bridal makeup, manicure pedicure",
+      "female salon services J P Nagar, facials Bengaluru, ladies hair treatments Bengaluru, bridal makeup, manicure pedicure Bengaluru",
     path: "/services",
   },
   gallery: {
     title: "VV Studio Salon & Beauty Gallery",
     description:
-      "Browse real bridal, hair, skin and nail transformations at VV Studio luxury salon & spa, JP Nagar Bangalore.",
+      "Browse real bridal, hair, skin and nail transformations at VV Studio luxury female salon, JP Nagar Bangalore.",
     keywords:
       "salon gallery, bridal looks, hair transformations, VV Studio work",
     path: "/gallery",
@@ -87,9 +87,9 @@ export const SEO_CONFIG = {
   contact: {
     title: "Contact VV Studio | Get in Touch With Our Creative Team",
     description:
-      "VV Studio is Bangalore's premier luxury beauty salon offering personalized skin treatments, expert hair care, bridal makeup, and rejuvenating spa therapies.",
+      "V V Studio is J P Nagar, Bengaluru's premier luxury female salon offering personalized skin treatments, expert hair care, bridal makeup and beauty services for women.",
     keywords:
-      "VV Studio contact, salon JP Nagar address, book appointment, spa booking Bangalore",
+      "V V Studio contact, female salon J P Nagar address, book appointment, ladies salon booking Bengaluru",
     path: "/contact",
   },
 } satisfies Record<string, SeoRouteConfig>;

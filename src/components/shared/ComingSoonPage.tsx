@@ -97,8 +97,8 @@ const PRESETS: Record<
           'Before & after hair makeovers, custom dimensional balayage highlights, and volume blowouts.',
       },
       {
-        category: 'Salon & Spa Ambience',
-        title: 'Luxury Suites & Treatment Spaces',
+        category: 'Female Salon Ambience',
+        title: 'Luxury Suites & Styling Spaces',
         description:
           'A glimpse into our tranquil treatment rooms, dedicated manicure lounge, and private styling stations.',
       },
@@ -191,7 +191,7 @@ export const ComingSoonPage: React.FC<ComingSoonPageProps> = ({
 
               <Link
                 to="/services"
-                title="VV Studio Beauty & Spa Services"
+                title="V V Studio | Female Salon Services in J P Nagar, Bengaluru"
                 className="inline-flex items-center justify-center gap-2 py-3 sm:py-3.5 px-6 rounded-full bg-white/10 hover:bg-white/20 border border-white/25 text-white text-sm font-semibold tracking-wide backdrop-blur-sm transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
               >
                 <BookOpen className="w-4 h-4 text-[#F8C1DE]" />
@@ -200,7 +200,7 @@ export const ComingSoonPage: React.FC<ComingSoonPageProps> = ({
 
               <Link
                 to="/"
-                title="VV Studio Luxury Salon & Spa"
+                title="V V Studio | Luxury Salon | Female Salon | J P Nagar, Bengaluru"
                 className="inline-flex items-center justify-center gap-2 py-3 sm:py-3.5 px-5 rounded-full text-white/80 hover:text-white text-sm font-medium transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" />

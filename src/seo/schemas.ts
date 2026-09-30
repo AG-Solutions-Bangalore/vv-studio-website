@@ -126,7 +126,7 @@ export function organizationSchema(
     logo: SITE_LOGO,
     image: 'https://vvstudio.in/crmapi/public/assets/images/web_images/home/home_top_banner.webp',
     description:
-      "VV Studio is Bangalore's premier luxury beauty salon offering personalized skin treatments, expert hair care, bridal makeup, and rejuvenating spa therapies.",
+      "V V Studio is J P Nagar, Bengaluru's premier luxury female salon offering personalized skin treatments, expert hair care, bridal makeup and beauty services for women.",
     telephone: ['+91-80-48531999', '+91-8310782820'],
     email: 'info@varvadhustudio.com',
     address,

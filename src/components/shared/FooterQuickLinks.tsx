@@ -27,9 +27,9 @@ const ROUTES: Record<string, string> = {
 const ORDER = ["/", "/about", "/services", "/gallery", "/blog", "/contact"];
 
 const TITLES: Record<string, string> = {
-  "/": "VV Studio Luxury Salon & Spa",
-  "/about": "About VV Studio Luxury Salon & Spa",
-  "/services": "VV Studio Beauty & Spa Services",
+  "/": "V V Studio | Luxury Salon | Female Salon | J P Nagar, Bengaluru",
+  "/about": "About V V Studio | Luxury Female Salon in J P Nagar, Bengaluru",
+  "/services": "V V Studio | Female Salon Services in J P Nagar, Bengaluru",
   "/gallery": "VV Studio Salon & Beauty Gallery",
   "/blog": "VV Studio Beauty & Wellness Blog",
   "/contact": "Contact VV Studio | Get in Touch With Our Creative Team",
@@ -37,12 +37,12 @@ const TITLES: Record<string, string> = {
 
 /** Static fallback — footer nav never renders empty. */
 const FALLBACK_LINKS: QuickLink[] = [
-  { name: "Home", to: "/", title: "VV Studio Luxury Salon & Spa" },
-  { name: "About", to: "/about", title: "About VV Studio Luxury Salon & Spa" },
+  { name: "Home", to: "/", title: "V V Studio | Luxury Salon | Female Salon | J P Nagar, Bengaluru" },
+  { name: "About", to: "/about", title: "About V V Studio | Luxury Female Salon in J P Nagar, Bengaluru" },
   {
     name: "Services",
     to: "/services",
-    title: "VV Studio Beauty & Spa Services",
+    title: "V V Studio | Female Salon Services in J P Nagar, Bengaluru",
   },
   {
     name: "Gallery",

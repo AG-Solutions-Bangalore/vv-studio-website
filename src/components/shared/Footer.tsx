@@ -46,7 +46,7 @@ export const Footer: React.FC = () => {
             {/* Social Links — plain plum glyphs like reference */}
             <div className="flex items-center gap-6 pb-1">
               <a
-                href="https://facebook.com"
+                href="https://www.facebook.com/vvstudioblr"
                 target="_blank"
                 rel="noreferrer"
                 title="VV Studio on Facebook"
@@ -72,7 +72,7 @@ export const Footer: React.FC = () => {
                 </svg>
               </a>
               <a
-                href="https://youtube.com"
+                href="https://www.youtube.com/@vvstudio512"
                 target="_blank"
                 rel="noreferrer"
                 title="VV Studio on YouTube"

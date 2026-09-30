@@ -79,16 +79,16 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking }) => {
   }, [mobileMenuOpen]);
 
   const navLinks = [
-    { name: "Home", to: "/", title: "VV Studio Luxury Salon & Spa" },
+    { name: "Home", to: "/", title: "V V Studio | Luxury Salon | Female Salon | J P Nagar, Bengaluru" },
     {
       name: "About",
       to: "/about",
-      title: "About VV Studio Luxury Salon & Spa",
+      title: "About V V Studio | Luxury Female Salon in J P Nagar, Bengaluru",
     },
     {
       name: "Services",
       to: "/services",
-      title: "VV Studio Beauty & Spa Services",
+      title: "V V Studio | Female Salon Services in J P Nagar, Bengaluru",
     },
     {
       name: "Gallery",
@@ -219,7 +219,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking }) => {
                   </svg>
                 </a>
                 <a
-                  href="https://facebook.com"
+                  href="https://www.facebook.com/vvstudioblr"
                   target="_blank"
                   rel="noreferrer"
                   title="VV Studio on Facebook"
@@ -243,7 +243,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking }) => {
                   </svg>
                 </a>
                 <a
-                  href="https://youtube.com"
+                  href="https://www.youtube.com/@vvstudio512"
                   target="_blank"
                   rel="noreferrer"
                   title="VV Studio on YouTube"

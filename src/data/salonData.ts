@@ -57,7 +57,7 @@ export const CATEGORIES_DATA: CategoryItem[] = [
     id: 'hair-care',
     name: 'Hair Care',
     iconName: 'scissors',
-    description: 'Precision cuts, coloring, balayage and spa rituals',
+    description: 'Precision cuts, coloring, balayage and hair treatments',
   },
   {
     id: 'waxing-threading',
@@ -100,7 +100,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     id: 'hair-care',
     title: 'Hair Care',
     tagline: 'Style Your Story.',
-    description: 'Expert styling, Korean glass-shine blowouts, custom balayage coloring and deep nourishing hair spa baths.',
+    description: 'Expert styling, Korean glass-shine blowouts, custom balayage coloring and deep nourishing hair treatments.',
     image: 'https://vvstudio.in/crmapi/public/assets/images/web_images/services/service_hair_care.webp',
     category: 'Hair Styling',
     duration: '45 - 120 min',
@@ -130,7 +130,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     id: 'hand-feet-care',
     title: 'Hand & Feet Care',
     tagline: 'Pamper Every Detail.',
-    description: 'Rose petal soak manicures, callus smoothing spa pedicures, chrome nail art and long-lasting gel lacquers.',
+    description: 'Rose petal soak manicures, callus smoothing pedicures, chrome nail art and long-lasting gel lacquers.',
     image: 'https://vvstudio.in/crmapi/public/assets/images/web_images/services/service_hand_feet_care.webp',
     category: 'Nail Lounge',
     duration: '40 - 75 min',
@@ -145,16 +145,6 @@ export const SERVICES_DATA: ServiceItem[] = [
     category: 'Hair Therapy',
     duration: '90 - 150 min',
     startingPrice: '₹2,499',
-  },
-  {
-    id: 'luxury-spa-rituals',
-    title: 'Luxury Spa Rituals',
-    tagline: 'Soothe. Unwind. Glow.',
-    description: 'Aromatherapy full-body rituals, deep-tissue release therapy, rose-quartz glow facials and detoxifying steam sessions.',
-    image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=800&q=80',
-    category: 'Spa Retreat',
-    duration: '60 - 120 min',
-    startingPrice: '₹1,999',
   },
   {
     id: 'party-makeup',
@@ -265,7 +255,7 @@ export const TESTIMONIALS_DATA: TestimonialItem[] = [
     location: 'Jayanagar, Bangalore',
     avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80',
     rating: 5,
-    treatment: 'Balayage & Hair Spa',
+    treatment: 'Balayage & Hair Treatment',
     quote: 'Beautiful ambience and amazing staff. I always leave feeling refreshed and confident. The hairstylists really listen to what you want and give expert advice.',
   },
   {
@@ -283,8 +273,8 @@ export const TESTIMONIALS_DATA: TestimonialItem[] = [
     location: 'Whitefield, Bangalore',
     avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80',
     rating: 5,
-    treatment: 'Luxury Spa Ritual',
-    quote: 'The most relaxing spa hour I have had in years. Calm ambience, skilled therapists and the aromatherapy massage melted all my stress away.',
+    treatment: 'Hair Smoothening',
+    quote: 'Smooth, frizz-free hair in one sitting. Hygienic, private and so comfortable — the best female salon experience in J P Nagar.',
   },
   {
     id: 'test-5',
@@ -354,7 +344,7 @@ export const BLOG_DATA: BlogItem[] = [
   },
   {
     id: 'blog-6',
-    title: 'At-Home Spa Night Ritual',
+    title: 'At-Home Glow Night Ritual',
     category: 'Wellness',
     readTime: '6 min read',
     date: 'March 02, 2024',
@@ -370,7 +360,7 @@ export const BLOG_SEO: Record<string, { alt: string; title: string }> = {
   'blog-3': { alt: 'Bridal beauty checklist for wedding preparation', title: 'Bridal Beauty Checklist' },
   'blog-4': { alt: 'Monsoon hair care and hair rescue guide', title: 'Monsoon Hair Rescue Guide' },
   'blog-5': { alt: 'Everyday makeup essentials and beauty tips', title: 'Everyday Makeup Essentials' },
-  'blog-6': { alt: 'At-home spa night relaxation ritual', title: 'At-Home Spa Night Ritual' },
+  'blog-6': { alt: 'At-home glow night relaxation ritual', title: 'At-Home Glow Night Ritual' },
 };
 
 // Intrinsic dims for local assets (1200x750); remote Unsplash URLs omit dims.

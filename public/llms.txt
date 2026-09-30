@@ -1,19 +1,19 @@
-# VV Studio — Luxury Salon & Spa in JP Nagar, Bangalore
+# V V Studio — Luxury Female Salon in J P Nagar, Bengaluru
 
-> VV Studio is Bangalore's premier luxury beauty salon offering personalized skin treatments, expert hair care, bridal makeup, and rejuvenating spa therapies. Address: #5, 1st Floor, 24th Main, 5th Phase, JP Nagar, Bangalore 560078. Phones: 080-48531999, 8310782820. Hours: Tue–Sun, 10 AM–8 PM (Monday closed).
+> V V Studio is J P Nagar, Bengaluru's premier luxury female salon offering personalized skin treatments, expert hair care, bridal makeup and beauty services for women. Exclusive female salon. Address: #5, 1st Floor, 24th Main, 5th Phase, J P Nagar, Bengaluru 560078. Phones: 080-48531999, 8310782820. Hours: Tue–Sun, 10 AM–8 PM (Monday closed).
 
 ## Main pages
 
-- [Home](https://vvs.agsdemo.in/): Luxury salon & spa overview, hero services, testimonials, and bookings.
+- [Home](https://vvs.agsdemo.in/): Exclusive luxury female salon overview, hero services, testimonials, and bookings.
 - [About](https://vvs.agsdemo.in/about): Story behind VV Studio — team, philosophy, and premium beauty experience.
-- [Services](https://vvs.agsdemo.in/services): Skin & facials, hair care, waxing & threading, bridal makeup, hand & feet care, and spa rituals.
+- [Services](https://vvs.agsdemo.in/services): Skin & facials, hair care, waxing & threading, bridal makeup, hand & feet care, and beauty services for women.
 - [Gallery](https://vvs.agsdemo.in/gallery): Real bridal, hair, skin, and nail transformations at VV Studio.
 - [Blog](https://vvs.agsdemo.in/blog): Beauty tips, skincare and haircare guides, bridal trends, and wellness stories.
 - [Contact](https://vvs.agsdemo.in/contact): Address, phone numbers, opening hours, map, and appointment booking.
 
 ## Services
 
-- [Salon services](https://vvs.agsdemo.in/services): Facials, clean-ups, haircuts, hair spa, hair color, waxing, threading, manicure, pedicure, bridal packages, and spa therapies in JP Nagar, Bangalore.
+- [Female salon services](https://vvs.agsdemo.in/services): Facials, clean-ups, haircuts, hair treatments, hair color, waxing, threading, manicure, pedicure, and bridal packages for women in J P Nagar, Bengaluru.
 
 ## Business information
 
