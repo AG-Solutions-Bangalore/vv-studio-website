@@ -59,7 +59,7 @@ export const AboutStory: React.FC<AboutStoryProps> = ({ onOpenBooking }) => {
             {/* Large salon interior */}
             <div className="col-span-3 relative rounded-[14px] overflow-hidden group min-h-[280px] sm:min-h-[360px] lg:min-h-[440px]">
               <img
-                src="https://agsdemo.in/vvsapi/public/assets/images/web_images/home/about_salon_reception.webp"
+                src="https://vvstudio.in/crmapi/public/assets/images/web_images/home/about_salon_reception.webp"
                 alt="VV Studio salon reception and lounge"
                 title="VV Studio Salon Reception and Lounge"
                 loading="lazy"
@@ -71,7 +71,7 @@ export const AboutStory: React.FC<AboutStoryProps> = ({ onOpenBooking }) => {
             <div className="col-span-2 flex flex-col gap-2.5 sm:gap-3">
               <div className="relative rounded-[14px] overflow-hidden group flex-1 min-h-[136px] sm:min-h-[174px] lg:min-h-[214px]">
                 <img
-                  src="https://agsdemo.in/vvsapi/public/assets/images/web_images/home/about_facial_treatment.webp"
+                  src="https://vvstudio.in/crmapi/public/assets/images/web_images/home/about_facial_treatment.webp"
                   alt="Facial treatment at VV Studio"
                   title="Facial Treatment at VV Studio"
                   loading="lazy"
@@ -80,7 +80,7 @@ export const AboutStory: React.FC<AboutStoryProps> = ({ onOpenBooking }) => {
               </div>
               <div className="relative rounded-[14px] overflow-hidden group flex-1 min-h-[136px] sm:min-h-[174px] lg:min-h-[214px]">
                 <img
-                  src="https://agsdemo.in/vvsapi/public/assets/images/web_images/home/about_hair_styling.webp"
+                  src="https://vvstudio.in/crmapi/public/assets/images/web_images/home/about_hair_styling.webp"
                   alt="Hair styling at VV Studio"
                   title="Hair Styling at VV Studio"
                   loading="lazy"

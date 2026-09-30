@@ -1,7 +1,7 @@
 /**
  * Central endpoint map for the VV Studio website backend.
  *
- * Base URL: `http://agsdemo.in/vvsapi/public/api`
+ * Base URL: `https://vvstudio.in/crmapi/public/api`
  * (see `API_BASE_URL` in `@/lib/apiClient` and
  * `Website.postman_collection.json`).
  *

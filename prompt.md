@@ -9,7 +9,7 @@
 
 ## 1. API CONTRACT (base URL only changes — endpoints identical to the reference collection)
 
-Base URL: `http://agsdemo.in/vvsapi/public/api` (override via `VITE_API_BASE_URL`, see `.env.example`).
+Base URL: `https://vvstudio.in/crmapi/public/api` (override via `VITE_API_BASE_URL`, see `.env.example`).
 Shared axios instance: `apiClient` from `@/lib/apiClient`. Endpoint constants: `@/lib/api/endpoints`.
 Response types: `@/lib/api/types` (`FaqItem`, `FaqResponse`, `Testimonial`, `TestimonialResponse`,
 `BlogListResponse`, `BlogDetailResponse`, `ImageUrlEntry`).

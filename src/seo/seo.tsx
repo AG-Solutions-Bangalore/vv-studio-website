@@ -23,7 +23,7 @@ export { SITE_NAME, SITE_ORIGIN, getCanonicalUrl };
 
 /** Server base URL for web images. */
 export const IMAGE_BASE_URL =
-  "https://agsdemo.in/vvsapi/public/assets/images/web_images";
+  "https://vvstudio.in/crmapi/public/assets/images/web_images";
 
 /** Public images prefix / server base URL (mirrors the preloads in `index.html`). */
 export const LOCAL_IMAGE_BASE = "/images";

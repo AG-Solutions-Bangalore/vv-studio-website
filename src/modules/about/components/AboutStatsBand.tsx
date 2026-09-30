@@ -20,7 +20,7 @@ export const AboutStatsBand: React.FC = () => {
         {/* Left image — reused facial asset, flush to band edge */}
         <div className="lg:col-span-3 relative h-44 sm:h-56 lg:h-auto lg:min-h-[190px] overflow-hidden">
           <img
-            src="https://agsdemo.in/vvsapi/public/assets/images/web_images/gallery/gallery_dewy_skin_facial.webp"
+            src="https://vvstudio.in/crmapi/public/assets/images/web_images/gallery/gallery_dewy_skin_facial.webp"
             alt="Relaxing facial treatment at VV Studio"
             title="Relaxing Facial Treatment at VV Studio"
             loading="lazy"

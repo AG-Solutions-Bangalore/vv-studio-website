@@ -1,6 +1,6 @@
 # VV Studio Website — API Status
 
-Base URL: `http://agsdemo.in/vvsapi/public/api` · verified **2026-09-25**
+Base URL: `https://vvstudio.in/crmapi/public/api` · verified **2026-09-30**
 
 ## ✅ Completed — wired into the app
 
@@ -26,7 +26,7 @@ Base URL: `http://agsdemo.in/vvsapi/public/api` · verified **2026-09-25**
 
 ## How to verify
 
-1. `npm run dev` → DevTools Network → filter `vvsapi`.
+1. `npm run dev` → DevTools Network → filter `crmapi`.
 2. `/` fires `getCompany` + `getFrontBlogs`; `/blog` adds `getBlogs` + `getFeaturedBlogs`; every page fires its `getFAQBySlug/{slug}` (all 200 today).
 3. Footer email `support@vvstudio.in` = proof the UI reads the live API.
 4. Hidden FAQ/featured sections = correct fallback state (backend `[]`), not a bug.

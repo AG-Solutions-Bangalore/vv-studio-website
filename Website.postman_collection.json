@@ -13,14 +13,14 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://agsdemo.in/vvsapi/public/api/getCompany",
-          "protocol": "http",
+          "raw": "https://vvstudio.in/crmapi/public/api/getCompany",
+          "protocol": "https",
           "host": [
-            "agsdemo",
+            "vvstudio",
             "in"
           ],
           "path": [
-            "vvsapi",
+            "crmapi",
             "public",
             "api",
             "getCompany"
@@ -35,14 +35,14 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://agsdemo.in/vvsapi/public/api/getFrontBlogs",
-          "protocol": "http",
+          "raw": "https://vvstudio.in/crmapi/public/api/getFrontBlogs",
+          "protocol": "https",
           "host": [
-            "agsdemo",
+            "vvstudio",
             "in"
           ],
           "path": [
-            "vvsapi",
+            "crmapi",
             "public",
             "api",
             "getFrontBlogs"
@@ -57,14 +57,14 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://agsdemo.in/vvsapi/public/api/getFeaturedBlogs",
-          "protocol": "http",
+          "raw": "https://vvstudio.in/crmapi/public/api/getFeaturedBlogs",
+          "protocol": "https",
           "host": [
-            "agsdemo",
+            "vvstudio",
             "in"
           ],
           "path": [
-            "vvsapi",
+            "crmapi",
             "public",
             "api",
             "getFeaturedBlogs"
@@ -79,14 +79,14 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://agsdemo.in/vvsapi/public/api/getBlogs",
-          "protocol": "http",
+          "raw": "https://vvstudio.in/crmapi/public/api/getBlogs",
+          "protocol": "https",
           "host": [
-            "agsdemo",
+            "vvstudio",
             "in"
           ],
           "path": [
-            "vvsapi",
+            "crmapi",
             "public",
             "api",
             "getBlogs"
@@ -101,14 +101,14 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://agsdemo.in/vvsapi/public/api/getBlogsBySlug/{slug}",
-          "protocol": "http",
+          "raw": "https://vvstudio.in/crmapi/public/api/getBlogsBySlug/{slug}",
+          "protocol": "https",
           "host": [
-            "agsdemo",
+            "vvstudio",
             "in"
           ],
           "path": [
-            "vvsapi",
+            "crmapi",
             "public",
             "api",
             "getBlogsBySlug",
@@ -124,14 +124,14 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://agsdemo.in/vvsapi/public/api/getFAQBySlug/{slug}",
-          "protocol": "http",
+          "raw": "https://vvstudio.in/crmapi/public/api/getFAQBySlug/{slug}",
+          "protocol": "https",
           "host": [
-            "agsdemo",
+            "vvstudio",
             "in"
           ],
           "path": [
-            "vvsapi",
+            "crmapi",
             "public",
             "api",
             "getFAQBySlug",
@@ -147,14 +147,14 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://agsdemo.in/vvsapi/public/api/getTestimonial/{slug}",
-          "protocol": "http",
+          "raw": "https://vvstudio.in/crmapi/public/api/getTestimonial/{slug}",
+          "protocol": "https",
           "host": [
-            "agsdemo",
+            "vvstudio",
             "in"
           ],
           "path": [
-            "vvsapi",
+            "crmapi",
             "public",
             "api",
             "getTestimonial",
@@ -170,14 +170,14 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://agsdemo.in/vvsapi/public/api/getClient",
-          "protocol": "http",
+          "raw": "https://vvstudio.in/crmapi/public/api/getClient",
+          "protocol": "https",
           "host": [
-            "agsdemo",
+            "vvstudio",
             "in"
           ],
           "path": [
-            "vvsapi",
+            "crmapi",
             "public",
             "api",
             "getClient"
@@ -192,14 +192,14 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://agsdemo.in/vvsapi/public/api/getSitemap",
-          "protocol": "http",
+          "raw": "https://vvstudio.in/crmapi/public/api/getSitemap",
+          "protocol": "https",
           "host": [
-            "agsdemo",
+            "vvstudio",
             "in"
           ],
           "path": [
-            "vvsapi",
+            "crmapi",
             "public",
             "api",
             "getSitemap"
@@ -224,14 +224,14 @@
           ]
         },
         "url": {
-          "raw": "http://agsdemo.in/vvsapi/public/api/createNewsletter",
-          "protocol": "http",
+          "raw": "https://vvstudio.in/crmapi/public/api/createNewsletter",
+          "protocol": "https",
           "host": [
-            "agsdemo",
+            "vvstudio",
             "in"
           ],
           "path": [
-            "vvsapi",
+            "crmapi",
             "public",
             "api",
             "createNewsletter"
@@ -296,14 +296,14 @@
           ]
         },
         "url": {
-          "raw": "http://agsdemo.in/vvsapi/public/api/createEnquiry",
-          "protocol": "http",
+          "raw": "https://vvstudio.in/crmapi/public/api/createEnquiry",
+          "protocol": "https",
           "host": [
-            "agsdemo",
+            "vvstudio",
             "in"
           ],
           "path": [
-            "vvsapi",
+            "crmapi",
             "public",
             "api",
             "createEnquiry"

@@ -12,7 +12,7 @@ import axios, {
  * collection (`Website.postman_collection.json`).
  */
 export const API_BASE_URL: string =
-  import.meta.env.VITE_API_BASE_URL ?? 'https://agsdemo.in/vvsapi/public/api';
+  import.meta.env.VITE_API_BASE_URL ?? 'https://vvstudio.in/crmapi/public/api';
 
 /** Normalised error thrown by {@link apiClient} for failed requests. */
 export class ApiError extends Error {
