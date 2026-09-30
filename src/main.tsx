@@ -1,11 +1,11 @@
-import { StrictMode } from 'react'
-import { createRoot, hydrateRoot } from 'react-dom/client'
-import { HelmetProvider } from 'react-helmet-async'
-import { hydrate as hydrateQueryClient } from '@tanstack/react-query'
-import './index.css'
-import App from './App.tsx'
-import { SeoHost } from './seo/seo'
-import { queryClient } from './lib/queryClient'
+import { StrictMode } from "react";
+import { createRoot, hydrateRoot } from "react-dom/client";
+import { HelmetProvider } from "react-helmet-async";
+import { hydrate as hydrateQueryClient } from "@tanstack/react-query";
+import "./index.css";
+import App from "./App.tsx";
+import { SeoHost } from "./seo/seo";
+import { queryClient } from "./lib/queryClient";
 
 // NOTE: QueryClientProvider is intentionally NOT mounted here. Every
 // react-query consumer lives in a lazy chunk and mounts its own provider
@@ -16,15 +16,15 @@ import { queryClient } from './lib/queryClient'
 // `#vv-query-state` cache BEFORE first render so the client tree matches
 // the SSR HTML exactly (no hydration flash / mismatch).
 try {
-  const stateEl = document.getElementById('vv-query-state')
+  const stateEl = document.getElementById("vv-query-state");
   if (stateEl?.textContent) {
-    hydrateQueryClient(queryClient, JSON.parse(stateEl.textContent))
+    hydrateQueryClient(queryClient, JSON.parse(stateEl.textContent));
   }
 } catch {
   // Corrupt state — fall through to fresh client-side fetching.
 }
 
-const rootEl = document.getElementById('root')!
+const rootEl = document.getElementById("root")!;
 const app = (
   <StrictMode>
     <HelmetProvider>
@@ -32,10 +32,15 @@ const app = (
       <SeoHost />
     </HelmetProvider>
   </StrictMode>
-)
+);
 
 if (rootEl.hasChildNodes()) {
-  hydrateRoot(rootEl, app)
+  const mount = () => hydrateRoot(rootEl, app);
+  if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+    window.requestIdleCallback(mount);
+  } else {
+    setTimeout(mount, 0);
+  }
 } else {
-  createRoot(rootEl).render(app)
+  createRoot(rootEl).render(app);
 }

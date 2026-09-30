@@ -221,6 +221,7 @@ function buildHeadElements(
     { type: 'meta', props: { name: 'keywords', content: kw, 'data-rh': rh } },
     { type: 'meta', props: { name: 'robots', content: 'index, follow', 'data-rh': rh } },
     { type: 'meta', props: { name: 'author', content: SITE_NAME, 'data-rh': rh } },
+    { type: 'meta', props: { name: 'publisher', content: SITE_NAME, 'data-rh': rh } },
     { type: 'link', props: { rel: 'canonical', href: canonical, 'data-rh': rh } },
     { type: 'meta', props: { property: 'og:type', content: 'website', 'data-rh': rh } },
     { type: 'meta', props: { property: 'og:site_name', content: SITE_NAME, 'data-rh': rh } },

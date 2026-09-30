@@ -1,62 +1,62 @@
-import React, { Suspense, lazy, useState, useEffect } from 'react';
-import { Header } from '@/components/shared/Header';
-import { Footer } from '@/components/shared/Footer';
-import { Hero } from '../components/Hero';
-import type { ServiceItem } from '@/data/salonData';
-import { useSEO, type SEO_CONFIG } from '@/seo/seo';
+import React, { Suspense, lazy, useState, useEffect } from "react";
+import { Header } from "@/components/shared/Header";
+import { Footer } from "@/components/shared/Footer";
+import { Hero } from "../components/Hero";
+import type { ServiceItem } from "@/data/salonData";
+import { useSEO, type SEO_CONFIG } from "@/seo/seo";
 
 // Below-fold sections: lazy, revealed together in one Suspense so the
 // critical path ships Hero only.
 const CategoryNav = lazy(() =>
-  import('../components/CategoryNav').then((m) => ({ default: m.CategoryNav })),
+  import("../components/CategoryNav").then((m) => ({ default: m.CategoryNav })),
 );
 const AboutSection = lazy(() =>
-  import('../components/AboutSection').then((m) => ({
+  import("../components/AboutSection").then((m) => ({
     default: m.AboutSection,
   })),
 );
 const ServicesSection = lazy(() =>
-  import('../components/ServicesSection').then((m) => ({
+  import("../components/ServicesSection").then((m) => ({
     default: m.ServicesSection,
   })),
 );
 const CTABanner = lazy(() =>
-  import('../components/CTABanner').then((m) => ({ default: m.CTABanner })),
+  import("../components/CTABanner").then((m) => ({ default: m.CTABanner })),
 );
 const GallerySection = lazy(() =>
-  import('../components/GallerySection').then((m) => ({
+  import("../components/GallerySection").then((m) => ({
     default: m.GallerySection,
   })),
 );
 const TestimonialsSection = lazy(() =>
-  import('../components/TestimonialsSection').then((m) => ({
+  import("../components/TestimonialsSection").then((m) => ({
     default: m.TestimonialsSection,
   })),
 );
 const BlogSection = lazy(() =>
-  import('../components/BlogSection').then((m) => ({ default: m.BlogSection })),
+  import("../components/BlogSection").then((m) => ({ default: m.BlogSection })),
 );
 // Featured blogs rail (GET /getFeaturedBlogs) — same BlogCard + carousel
 // look as the front-blogs rail, hidden until the API has data.
 const FeaturedBlogsRail = lazy(() =>
-  import('@/modules/blog/components/FeaturedBlogsRail').then((m) => ({
+  import("@/modules/blog/components/FeaturedBlogsRail").then((m) => ({
     default: m.FeaturedBlogsRail,
   })),
 );
 const SpecialOffersSection = lazy(() =>
-  import('../components/SpecialOffersSection').then((m) => ({
+  import("../components/SpecialOffersSection").then((m) => ({
     default: m.SpecialOffersSection,
   })),
 );
 // Page FAQs (GET /getFAQBySlug/home) — hidden until the API has data.
 const FaqSection = lazy(() =>
-  import('@/modules/faq').then((m) => ({
+  import("@/modules/faq").then((m) => ({
     default: m.FaqSection,
   })),
 );
 // Heavy booking form: code-split and never mounted until first open.
 const BookingModal = lazy(() =>
-  import('@/components/shared/BookingModal').then((m) => ({
+  import("@/components/shared/BookingModal").then((m) => ({
     default: m.BookingModal,
   })),
 );
@@ -67,27 +67,37 @@ interface HomePageProps {
 }
 
 export const HomePage: React.FC<HomePageProps> = ({
-  seoKey = 'home',
+  seoKey = "home",
   scrollToId,
 }) => {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
-  const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
-  const [activeCategory, setActiveCategory] = useState<string>('skin-facials');
+  const [selectedService, setSelectedService] = useState<ServiceItem | null>(
+    null,
+  );
+  const [activeCategory, setActiveCategory] = useState<string>("skin-facials");
   // Below-fold tree mounts only after window load (LCP resource settled):
   // keeps font/image/JS contention off the LCP path. Safety-capped at 4s.
-  const [belowFoldReady, setBelowFoldReady] = useState<boolean>(
-    () => typeof document !== 'undefined' && document.readyState === 'complete',
-  );
+  // NOTE: initial state is ALWAYS false so client hydration matches the SSR
+  // HTML exactly (SSR has no document). Reading document.readyState in the
+  // initializer races with the load event and causes React hydration
+  // mismatch (#418) + a full client re-render when it fires early.
+  const [belowFoldReady, setBelowFoldReady] = useState<boolean>(false);
 
   useSEO(seoKey);
 
   useEffect(() => {
     if (belowFoldReady) return;
+    // Post-hydration check: if load already fired before hydration
+    // finished, mount on the next tick (plain re-render, never a mismatch).
+    if (document.readyState === "complete") {
+      const t = window.setTimeout(() => setBelowFoldReady(true), 0);
+      return () => window.clearTimeout(t);
+    }
     const onLoad = () => setBelowFoldReady(true);
-    window.addEventListener('load', onLoad, { once: true });
+    window.addEventListener("load", onLoad, { once: true });
     const t = window.setTimeout(() => setBelowFoldReady(true), 4000);
     return () => {
-      window.removeEventListener('load', onLoad);
+      window.removeEventListener("load", onLoad);
       window.clearTimeout(t);
     };
   }, [belowFoldReady]);
@@ -96,7 +106,9 @@ export const HomePage: React.FC<HomePageProps> = ({
     if (scrollToId) {
       // Let the page paint first so the anchor section exists.
       const t = window.setTimeout(() => {
-        document.getElementById(scrollToId)?.scrollIntoView({ behavior: 'smooth' });
+        document
+          .getElementById(scrollToId)
+          ?.scrollIntoView({ behavior: "smooth" });
       }, 100);
       return () => window.clearTimeout(t);
     }
@@ -110,8 +122,8 @@ export const HomePage: React.FC<HomePageProps> = ({
   };
 
   const handleExploreServices = () => {
-    const el = document.getElementById('services');
-    el?.scrollIntoView({ behavior: 'smooth' });
+    const el = document.getElementById("services");
+    el?.scrollIntoView({ behavior: "smooth" });
   };
 
   const handleSelectCategory = (categoryId: string) => {
@@ -173,7 +185,6 @@ export const HomePage: React.FC<HomePageProps> = ({
 
               {/* Special Offers Banner */}
               <SpecialOffersSection onOpenBooking={() => handleOpenBooking()} />
-
             </>
           )}
         </Suspense>

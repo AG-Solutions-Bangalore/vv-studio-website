@@ -178,7 +178,7 @@ export default defineConfig({
           if (/\/lenis\//.test(p)) return 'lenis';
           if (/lucide-react|@radix-ui|radix-ui|@base-ui/.test(p)) return 'ui-vendor';
           if (/react-router/.test(p)) return 'router';
-          if (/\/react\/|\/react-dom\/|\/scheduler\//.test(p)) return 'react';
+          if (/\/node_modules\/(react|react-dom|scheduler)\//.test(p)) return 'react';
           // NOTE: no manual chunk for @tanstack/react-query/axios — forcing
           // them into their own chunk duplicates the React CJS runtime into
           // it (mixed CJS/ESM interop), which the entry then statically

@@ -26,6 +26,7 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial })
       {/* Stars + quote mark */}
       <div className="flex items-center justify-between mb-3">
         <div
+          role="img"
           className="flex items-center gap-0.5"
           aria-label={`${testimonial.rating} out of 5 stars`}
         >
