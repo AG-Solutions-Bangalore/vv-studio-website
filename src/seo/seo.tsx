@@ -87,7 +87,7 @@ export const SEO_CONFIG = {
   contact: {
     title: "Contact VV Studio | Get in Touch With Our Creative Team",
     description:
-      "Visit VV Studio at JP Nagar, Bangalore or call 080-48531999. Open Tue–Sun, 10 AM–8 PM for salon, spa & bridal bookings.",
+      "VV Studio is Bangalore's premier luxury beauty salon offering personalized skin treatments, expert hair care, bridal makeup, and rejuvenating spa therapies.",
     keywords:
       "VV Studio contact, salon JP Nagar address, book appointment, spa booking Bangalore",
     path: "/contact",
