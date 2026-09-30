@@ -6,9 +6,7 @@ import { LoadingFallback } from '@/components/shared/LoadingFallback';
 import { injectLocalBusinessSchema } from '@/seo/seo';
 import { connectionAllowsPreload, onIdle } from '@/lib/idle';
 
-const HomePage = React.lazy(() =>
-  import('@/modules/home/pages/HomePage').then((m) => ({ default: m.HomePage })),
-);
+import { HomePage } from '@/modules/home/pages/HomePage';
 const AboutPage = React.lazy(() =>
   import('@/modules/about/pages/AboutPage').then((m) => ({
     default: m.AboutPage,

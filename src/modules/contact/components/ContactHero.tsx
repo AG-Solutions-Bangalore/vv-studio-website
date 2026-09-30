@@ -38,7 +38,7 @@ export const ContactHero: React.FC = () => {
         aria-hidden="true"
       >
         <img
-          src="https://agsdemo.in/vvsapi/public/assets/images/web_images/common/girl_common.webp"
+          src="https://vvstudio.in/crmapi/public/assets/images/web_images/common/girl_common.webp"
           alt="VV Studio Beauty Model with Pink Lilies"
           title="VV Studio Beauty Model with Pink Lilies"
           draggable={false}
@@ -81,7 +81,7 @@ export const ContactHero: React.FC = () => {
       {/* Mobile / tablet model — right-anchored so the face stays visible on narrow screens */}
       <div className="lg:hidden relative w-full h-[260px] sm:h-[360px] mt-4 sm:mt-8 overflow-hidden pointer-events-none select-none">
         <img
-          src="https://agsdemo.in/vvsapi/public/assets/images/web_images/common/girl_common.webp"
+          src="https://vvstudio.in/crmapi/public/assets/images/web_images/common/girl_common.webp"
           alt="VV Studio Beauty Model with Pink Lilies"
           title="VV Studio Beauty Model with Pink Lilies"
           loading="eager"

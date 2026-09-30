@@ -1,7 +1,7 @@
 /**
  * Shared API entity types for the VV Studio website backend.
  *
- * Base URL: `http://agsdemo.in/vvsapi/public/api`
+ * Base URL: `https://vvstudio.in/crmapi/public/api`
  * (see `Website.postman_collection.json`).
  *
  * Shapes below mirror the live responses probed on 2026-09-25.

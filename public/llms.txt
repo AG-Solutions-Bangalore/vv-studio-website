@@ -1,0 +1,27 @@
+# V V Studio — Luxury Female Salon in J P Nagar, Bengaluru
+
+> V V Studio is J P Nagar, Bengaluru's premier luxury female salon offering personalized skin treatments, expert hair care, bridal makeup and beauty services for women. Exclusive female salon. Address: #5, 1st Floor, 24th Main, 5th Phase, J P Nagar, Bengaluru 560078. Phones: 080-48531999, 8310782820. Hours: Tue–Sun, 10 AM–8 PM (Monday closed).
+
+## Main pages
+
+- [Home](https://vvs.agsdemo.in/): Exclusive luxury female salon overview, hero services, testimonials, and bookings.
+- [About](https://vvs.agsdemo.in/about): Story behind VV Studio — team, philosophy, and premium beauty experience.
+- [Services](https://vvs.agsdemo.in/services): Skin & facials, hair care, waxing & threading, bridal makeup, hand & feet care, and beauty services for women.
+- [Gallery](https://vvs.agsdemo.in/gallery): Real bridal, hair, skin, and nail transformations at VV Studio.
+- [Blog](https://vvs.agsdemo.in/blog): Beauty tips, skincare and haircare guides, bridal trends, and wellness stories.
+- [Contact](https://vvs.agsdemo.in/contact): Address, phone numbers, opening hours, map, and appointment booking.
+
+## Services
+
+- [Female salon services](https://vvs.agsdemo.in/services): Facials, clean-ups, haircuts, hair treatments, hair color, waxing, threading, manicure, pedicure, and bridal packages for women in J P Nagar, Bengaluru.
+
+## Business information
+
+- [Contact & bookings](https://vvs.agsdemo.in/contact): Call 080-48531999 or 8310782820. Email info@varvadhustudio.com. Open Tue–Sun 10:00 AM–8:00 PM.
+- [Sitemap](https://vvs.agsdemo.in/sitemap.xml): Full list of crawlable URLs including blog articles.
+
+## Usage notes for AI agents
+
+- This is a public-facing salon website; all listed pages are safe to crawl and summarize.
+- For appointments, direct users to the Contact page or phone numbers above; do not invent pricing or availability.
+- Prefer canonical URLs under https://vvs.agsdemo.in/ when citing or linking.

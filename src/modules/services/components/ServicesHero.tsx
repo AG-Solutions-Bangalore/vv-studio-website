@@ -37,7 +37,7 @@ export const ServicesHero: React.FC = () => {
         aria-hidden="true"
       >
         <img
-          src="https://agsdemo.in/vvsapi/public/assets/images/web_images/common/girl_common.webp"
+          src="https://vvstudio.in/crmapi/public/assets/images/web_images/common/girl_common.webp"
           alt="VV Studio Beauty Model with Pink Lilies"
           title="VV Studio Beauty Model with Pink Lilies"
           draggable={false}
@@ -77,7 +77,7 @@ export const ServicesHero: React.FC = () => {
 
           {/* Breadcrumbs */}
           <div className="flex items-center gap-2 text-[13px] sm:text-[14px] mt-5 sm:mt-7 font-medium">
-            <Link to="/" title="VV Studio Luxury Salon & Spa" className="text-white/80 hover:text-white transition-colors">
+            <Link to="/" title="V V Studio | Luxury Salon | Female Salon | J P Nagar, Bengaluru" className="text-white/80 hover:text-white transition-colors">
               Home
             </Link>
             <span className="text-[#E8329D] font-bold">›</span>
@@ -89,7 +89,7 @@ export const ServicesHero: React.FC = () => {
       {/* Mobile model banner */}
       <div className="lg:hidden relative w-full h-[250px] sm:h-[340px] mt-2 overflow-hidden pointer-events-none select-none">
         <img
-          src="https://agsdemo.in/vvsapi/public/assets/images/web_images/common/girl_common.webp"
+          src="https://vvstudio.in/crmapi/public/assets/images/web_images/common/girl_common.webp"
           alt="VV Studio Beauty Model with Pink Lilies"
           title="VV Studio Beauty Model with Pink Lilies"
           loading="eager"

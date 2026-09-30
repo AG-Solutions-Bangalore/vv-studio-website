@@ -40,7 +40,7 @@ function ReviewCard({ row, tone }: { row: ReviewRow; tone: 'dark' | 'light' }) {
           : 'bg-white/[0.06] border-white/15 shadow-[0_8px_30px_rgba(0,0,0,0.25)]',
       )}
     >
-      <div className="flex items-center gap-0.5" aria-label={`${row.rating} out of 5 stars`}>
+      <div role="img" className="flex items-center gap-0.5" aria-label={`${row.rating} out of 5 stars`}>
         {[0, 1, 2, 3, 4].map((i) => (
           <Star
             key={i}

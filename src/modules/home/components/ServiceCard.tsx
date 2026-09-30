@@ -33,10 +33,6 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ service, onSelect }) =
       alt: 'Hair treatments at VV Studio salon',
       title: 'VV Studio Hair Treatment Services',
     },
-    'luxury-spa-rituals': {
-      alt: 'Luxury spa treatment at VV Studio',
-      title: 'VV Studio Luxury Spa Treatment',
-    },
     'party-makeup': {
       alt: 'Professional party makeup at VV Studio',
       title: 'VV Studio Party Makeup',

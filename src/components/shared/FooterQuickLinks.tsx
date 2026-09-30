@@ -1,9 +1,9 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { QueryClientProvider } from '@tanstack/react-query';
-import { queryClient } from '@/lib/queryClient';
-import { useSitemap } from '@/modules/home/hooks/useSitemap';
-import type { SitemapEntry } from '@/lib/api/types';
+import React from "react";
+import { Link } from "react-router-dom";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "@/lib/queryClient";
+import { useSitemap } from "@/modules/home/hooks/useSitemap";
+import type { SitemapEntry } from "@/lib/api/types";
 
 interface QuickLink {
   name: string;
@@ -13,53 +13,64 @@ interface QuickLink {
 
 /** Backend `page_two_url` slug → internal route. Unknown slugs are skipped. */
 const ROUTES: Record<string, string> = {
-  home: '/',
-  '/': '/',
-  'about-us': '/about',
-  services: '/services',
-  gallery: '/gallery',
-  blog: '/blog',
-  blogs: '/blog',
-  contact: '/contact',
+  home: "/",
+  "/": "/",
+  "about-us": "/about",
+  services: "/services",
+  gallery: "/gallery",
+  blog: "/blog",
+  blogs: "/blog",
+  contact: "/contact",
 };
 
 /** Preferred footer order (API order differs). */
-const ORDER = ['/', '/about', '/services', '/gallery', '/blog', '/contact'];
+const ORDER = ["/", "/about", "/services", "/gallery", "/blog", "/contact"];
 
 const TITLES: Record<string, string> = {
-  '/': 'VV Studio Luxury Salon & Spa',
-  '/about': 'About VV Studio Luxury Salon & Spa',
-  '/services': 'VV Studio Beauty & Spa Services',
-  '/gallery': 'VV Studio Salon & Beauty Gallery',
-  '/blog': 'VV Studio Beauty & Wellness Blog',
-  '/contact': 'VV Studio Contact Information',
+  "/": "V V Studio | Luxury Salon | Female Salon | J P Nagar, Bengaluru",
+  "/about": "About V V Studio | Luxury Female Salon in J P Nagar, Bengaluru",
+  "/services": "V V Studio | Female Salon Services in J P Nagar, Bengaluru",
+  "/gallery": "VV Studio Salon & Beauty Gallery",
+  "/blog": "VV Studio Beauty & Wellness Blog",
+  "/contact": "Contact VV Studio | Get in Touch With Our Creative Team",
 };
 
 /** Static fallback — footer nav never renders empty. */
 const FALLBACK_LINKS: QuickLink[] = [
-  { name: 'Home', to: '/', title: 'VV Studio Luxury Salon & Spa' },
-  { name: 'About', to: '/about', title: 'About VV Studio Luxury Salon & Spa' },
-  { name: 'Services', to: '/services', title: 'VV Studio Beauty & Spa Services' },
-  { name: 'Gallery', to: '/gallery', title: 'VV Studio Salon & Beauty Gallery' },
-  { name: 'Blog', to: '/blog', title: 'VV Studio Beauty & Wellness Blog' },
-  { name: 'Contact', to: '/contact', title: 'VV Studio Contact Information' },
+  { name: "Home", to: "/", title: "V V Studio | Luxury Salon | Female Salon | J P Nagar, Bengaluru" },
+  { name: "About", to: "/about", title: "About V V Studio | Luxury Female Salon in J P Nagar, Bengaluru" },
+  {
+    name: "Services",
+    to: "/services",
+    title: "V V Studio | Female Salon Services in J P Nagar, Bengaluru",
+  },
+  {
+    name: "Gallery",
+    to: "/gallery",
+    title: "VV Studio Salon & Beauty Gallery",
+  },
+  { name: "Blog", to: "/blog", title: "VV Studio Beauty & Wellness Blog" },
+  {
+    name: "Contact",
+    to: "/contact",
+    title: "Contact VV Studio | Get in Touch With Our Creative Team",
+  },
 ];
 
 function toLinks(entries: SitemapEntry[]): QuickLink[] {
-  const seen = new Set<string>(['/']);
-  const links: QuickLink[] = [
-    { name: 'Home', to: '/', title: TITLES['/'] },
-  ];
+  const seen = new Set<string>(["/"]);
+  const links: QuickLink[] = [{ name: "Home", to: "/", title: TITLES["/"] }];
   for (const entry of entries) {
-    if (String(entry.page_two_status ?? '').toLowerCase() !== 'active') continue;
-    const slug = String(entry.page_two_url ?? '')
+    if (String(entry.page_two_status ?? "").toLowerCase() !== "active")
+      continue;
+    const slug = String(entry.page_two_url ?? "")
       .trim()
-      .replace(/^\/+|\/+$/g, '')
+      .replace(/^\/+|\/+$/g, "")
       .toLowerCase();
     const to = ROUTES[slug];
     if (!to || seen.has(to)) continue;
     seen.add(to);
-    const name = String(entry.page_two_name ?? '').trim() || to;
+    const name = String(entry.page_two_name ?? "").trim() || to;
     links.push({ name, to, title: TITLES[to] ?? `${name} | VV Studio` });
   }
   return links.sort((a, b) => {
@@ -83,7 +94,8 @@ export const FooterQuickLinks: React.FC = () => (
 
 const FooterQuickLinksInner: React.FC = () => {
   const { data } = useSitemap();
-  const links = data && data.data.length > 0 ? toLinks(data.data) : FALLBACK_LINKS;
+  const links =
+    data && data.data.length > 0 ? toLinks(data.data) : FALLBACK_LINKS;
 
   return (
     <ul className="space-y-2.5 text-sm text-[#5E525C]">
@@ -92,7 +104,7 @@ const FooterQuickLinksInner: React.FC = () => {
           <Link
             to={link.to}
             title={link.title}
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className="hover:text-[#D91A8A] transition-colors inline-block"
           >
             {link.name}

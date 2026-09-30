@@ -10,7 +10,7 @@
       route at SSG time (src/prerender.tsx) and managed client-side by
       SeoHost (react-helmet-async) — never hardcoded here, so prerendered
       pages never ship duplicate or stale tags. -->
-    <title>VV Studio | Luxury Salon & Spa in JP Nagar, Bangalore</title>
+    <title>V V Studio | Luxury Salon | Female Salon | J P Nagar, Bengaluru</title>
     
     <!-- Google Fonts: Playfair Display (Serif), Plus Jakarta Sans (Modern Sans), Alex Brush (Script Accent) -->
     <!-- Non-blocking: preconnect for handshake, preload as style, print-media swap to avoid render-blocking. -->
@@ -19,13 +19,13 @@
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
     <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
     <link rel="dns-prefetch" href="https://images.unsplash.com" />
-    <link rel="preconnect" href="https://agsdemo.in" crossorigin />
-    <link rel="dns-prefetch" href="https://agsdemo.in" />
+    <link rel="preconnect" href="https://vvstudio.in" crossorigin />
+    <link rel="dns-prefetch" href="https://vvstudio.in" />
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Alex+Brush&amp;family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" />
     <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&amp;family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
     <noscript><link href="https://fonts.googleapis.com/css2?family=Alex+Brush&amp;family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet"></noscript>
     <!-- LCP hero image: same srcset/sizes as the Hero <img> so the preloaded candidate matches exactly. -->
-    <link rel="preload" as="image" type="image/webp" href="https://agsdemo.in/vvsapi/public/assets/images/web_images/home/home_top_banner-1280.webp" imagesrcset="https://agsdemo.in/vvsapi/public/assets/images/web_images/home/home_top_banner-768.webp 768w, https://agsdemo.in/vvsapi/public/assets/images/web_images/home/home_top_banner-1280.webp 1280w, https://agsdemo.in/vvsapi/public/assets/images/web_images/home/home_top_banner-1440.webp 1440w, https://agsdemo.in/vvsapi/public/assets/images/web_images/home/home_top_banner.webp 1920w" imagesizes="100vw" fetchpriority="high" />
+    <link rel="preload" as="image" type="image/webp" href="/images/home/home_top_banner-1280.webp" imagesrcset="/images/home/home_top_banner-768.webp 768w, /images/home/home_top_banner-1280.webp 1280w, /images/home/home_top_banner-1440.webp 1440w, /images/home/home_top_banner.webp 1920w" imagesizes="100vw" fetchpriority="high" />
     <!-- Hero text faces (latin): preload so first paint uses final metrics — otherwise the
          font swap reflows the hero, resizes the section and shifts % -positioned decor (CLS).
          URLs are version-pinned to the css2 response; a miss degrades silently to CSS discovery. -->

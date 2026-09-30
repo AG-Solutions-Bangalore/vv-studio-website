@@ -9,23 +9,24 @@
  * - `injectLocalBusinessSchema()` — Idempotent client-side JSON-LD fallback for direct SPA visits.
  */
 
-import React, { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
+import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import {
   SITE_NAME,
   SITE_ORIGIN,
   getCanonicalUrl,
   organizationSchema,
   createCompositeGraph,
-} from './schemas';
+} from "./schemas";
 
 export { SITE_NAME, SITE_ORIGIN, getCanonicalUrl };
 
 /** Server base URL for web images. */
-export const IMAGE_BASE_URL = 'https://agsdemo.in/vvsapi/public/assets/images/web_images';
+export const IMAGE_BASE_URL =
+  "https://vvstudio.in/crmapi/public/assets/images/web_images";
 
 /** Public images prefix / server base URL (mirrors the preloads in `index.html`). */
-export const LOCAL_IMAGE_BASE = IMAGE_BASE_URL;
+export const LOCAL_IMAGE_BASE = "/images";
 
 /**
  * Route metadata configuration specification.
@@ -45,47 +46,51 @@ export interface SeoRouteConfig {
  */
 export const SEO_CONFIG = {
   home: {
-    title: 'VV Studio | Luxury Salon & Spa in JP Nagar, Bangalore',
+    title: "V V Studio | Luxury Salon | Female Salon | J P Nagar, Bengaluru",
     description:
-      "VV Studio is Bangalore's premier luxury beauty salon offering personalized skin treatments, expert hair care, bridal makeup, and rejuvenating spa therapies.",
+      "V V Studio is J P Nagar, Bengaluru's premier luxury female salon offering personalized skin treatments, expert hair care, bridal makeup and beauty services for women.",
     keywords:
-      'luxury salon in JP Nagar, salon in JP Nagar Bangalore, spa in JP Nagar, beauty salon Bangalore, bridal makeup Bangalore, hair salon JP Nagar',
-    path: '/',
+      "luxury female salon in J P Nagar, female salon in J P Nagar Bengaluru, ladies salon Bengaluru, beauty salon Bengaluru, bridal makeup Bengaluru, hair salon J P Nagar",
+    path: "/",
   },
   about: {
-    title: 'About VV Studio Luxury Salon & Spa',
+    title: "About V V Studio | Luxury Female Salon in J P Nagar, Bengaluru",
     description:
-      'Discover the story behind VV Studio — JP Nagar’s luxury salon & spa for skin, hair, bridal and wellness, crafted around you.',
-    keywords: 'about VV Studio, luxury salon JP Nagar, beauty studio Bangalore',
-    path: '/about',
+      "Discover the story behind V V Studio — J P Nagar's exclusive luxury female salon for skin, hair, bridal and beauty, crafted around women.",
+    keywords: "about VV Studio, luxury salon JP Nagar, beauty studio Bangalore",
+    path: "/about",
   },
   services: {
-    title: 'VV Studio Beauty & Spa Services',
+    title: "V V Studio | Female Salon Services in J P Nagar, Bengaluru",
     description:
-      'Explore skin & facials, hair care, waxing & threading, bridal makeup, hand & feet care and spa rituals at VV Studio, JP Nagar Bangalore.',
-    keywords: 'salon services JP Nagar, facials Bangalore, hair spa, bridal makeup, manicure pedicure',
-    path: '/services',
+      "Explore skin & facials, hair care, waxing & threading, bridal makeup, hand & feet care and beauty services for women at V V Studio, J P Nagar Bengaluru.",
+    keywords:
+      "female salon services J P Nagar, facials Bengaluru, ladies hair treatments Bengaluru, bridal makeup, manicure pedicure Bengaluru",
+    path: "/services",
   },
   gallery: {
-    title: 'VV Studio Salon & Beauty Gallery',
+    title: "VV Studio Salon & Beauty Gallery",
     description:
-      'Browse real bridal, hair, skin and nail transformations at VV Studio luxury salon & spa, JP Nagar Bangalore.',
-    keywords: 'salon gallery, bridal looks, hair transformations, VV Studio work',
-    path: '/gallery',
+      "Browse real bridal, hair, skin and nail transformations at VV Studio luxury female salon, JP Nagar Bangalore.",
+    keywords:
+      "salon gallery, bridal looks, hair transformations, VV Studio work",
+    path: "/gallery",
   },
   blog: {
-    title: 'VV Studio Beauty & Wellness Blog',
+    title: "VV Studio Beauty & Wellness Blog",
     description:
-      'Beauty tips, trends & wellness stories from VV Studio experts — skincare, haircare, bridal beauty and self-care rituals.',
-    keywords: 'beauty blog, skincare tips, haircare guides, bridal beauty, VV Studio journal',
-    path: '/blog',
+      "Beauty tips, trends & wellness stories from VV Studio experts — skincare, haircare, bridal beauty and self-care rituals.",
+    keywords:
+      "beauty blog, skincare tips, haircare guides, bridal beauty, VV Studio journal",
+    path: "/blog",
   },
   contact: {
-    title: 'VV Studio Contact Information',
+    title: "Contact VV Studio | Get in Touch With Our Creative Team",
     description:
-      'Visit VV Studio at JP Nagar, Bangalore or call 080-48531999. Open Tue–Sun, 10 AM–8 PM for salon, spa & bridal bookings.',
-    keywords: 'VV Studio contact, salon JP Nagar address, book appointment, spa booking Bangalore',
-    path: '/contact',
+      "V V Studio is J P Nagar, Bengaluru's premier luxury female salon offering personalized skin treatments, expert hair care, bridal makeup and beauty services for women.",
+    keywords:
+      "V V Studio contact, female salon J P Nagar address, book appointment, ladies salon booking Bengaluru",
+    path: "/contact",
   },
 } satisfies Record<string, SeoRouteConfig>;
 
@@ -118,7 +123,7 @@ function headOf(key: SeoKey): HeadState {
   };
 }
 
-let currentHead: HeadState = headOf('home');
+let currentHead: HeadState = headOf("home");
 const headListeners = new Set<(head: HeadState) => void>();
 
 /**
@@ -167,6 +172,8 @@ export const SeoHost: React.FC = () => {
       <meta name="keywords" content={head.keywords} />
       <link rel="canonical" href={head.canonical} />
       <meta name="robots" content="index, follow" />
+      <meta name="author" content={SITE_NAME} />
+      <meta name="publisher" content={SITE_NAME} />
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content={SITE_NAME} />
       <meta property="og:title" content={head.title} />
@@ -192,11 +199,11 @@ export const SeoHost: React.FC = () => {
  * @when Executed in `main.tsx` during initial client-side bootstrap.
  */
 export function injectLocalBusinessSchema(): void {
-  if (typeof document === 'undefined') return;
-  if (document.getElementById('vv-rich-results')) return;
-  const script = document.createElement('script');
-  script.type = 'application/ld+json';
-  script.id = 'vv-rich-results';
+  if (typeof document === "undefined") return;
+  if (document.getElementById("vv-rich-results")) return;
+  const script = document.createElement("script");
+  script.type = "application/ld+json";
+  script.id = "vv-rich-results";
   script.text = JSON.stringify(createCompositeGraph([organizationSchema()]));
   document.head.appendChild(script);
 }

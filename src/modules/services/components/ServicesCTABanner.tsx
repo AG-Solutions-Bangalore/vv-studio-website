@@ -23,7 +23,7 @@ export const ServicesCTABanner: React.FC<ServicesCTABannerProps> = ({
           {/* Subtle floral watermark in corner */}
           <div
             className="absolute -bottom-10 -right-10 w-72 h-72 pointer-events-none opacity-20 bg-contain bg-no-repeat bg-right-bottom"
-            style={{ backgroundImage: `url('https://agsdemo.in/vvsapi/public/assets/images/web_images/common/footer_flower_bg.webp')` }}
+            style={{ backgroundImage: `url('https://vvstudio.in/crmapi/public/assets/images/web_images/common/footer_flower_bg.webp')` }}
             aria-hidden="true"
           />
 

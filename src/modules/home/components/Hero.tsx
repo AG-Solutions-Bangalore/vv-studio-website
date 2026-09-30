@@ -1,17 +1,19 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
-import { IMAGE_BASE_URL } from '@/seo/seo';
+import { LOCAL_IMAGE_BASE } from '@/seo/seo';
 
 interface HeroProps {
   onOpenBooking: () => void;
   onExploreServices: () => void;
 }
 
-// LCP hero: responsive variants (768/1280/1440 + original as 1920w).
+// LCP hero: responsive variants (768/1280/1440 + original as 1920w),
+// vendored locally under public/images so the LCP fetch is same-origin
+// (no extra TLS/DNS to the image host) and cacheable.
 // MUST stay identical to the preload imagesrcset in index.html.
-const HERO_SRC = `${IMAGE_BASE_URL}/home/home_top_banner.webp`;
-const HERO_SRCSET = `${IMAGE_BASE_URL}/home/home_top_banner-768.webp 768w, ${IMAGE_BASE_URL}/home/home_top_banner-1280.webp 1280w, ${IMAGE_BASE_URL}/home/home_top_banner-1440.webp 1440w, ${IMAGE_BASE_URL}/home/home_top_banner.webp 1920w`;
+const HERO_SRC = `${LOCAL_IMAGE_BASE}/home/home_top_banner.webp`;
+const HERO_SRCSET = `${LOCAL_IMAGE_BASE}/home/home_top_banner-768.webp 768w, ${LOCAL_IMAGE_BASE}/home/home_top_banner-1280.webp 1280w, ${LOCAL_IMAGE_BASE}/home/home_top_banner-1440.webp 1440w, ${LOCAL_IMAGE_BASE}/home/home_top_banner.webp 1920w`;
 const HERO_SIZES = '100vw';
 
 export const Hero: React.FC<HeroProps> = ({ onOpenBooking, onExploreServices }) => {
@@ -58,7 +60,6 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, onExploreServices }) 
           width={1762}
           height={893}
           loading="eager"
-          decoding="async"
           fetchPriority="high"
           alt="VV Studio luxury beauty salon in JP Nagar Bangalore"
           title="VV Studio Luxury Salon in JP Nagar"
@@ -162,7 +163,6 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, onExploreServices }) 
           width={1762}
           height={893}
           loading="eager"
-          decoding="async"
           fetchPriority="high"
           alt="VV Studio beauty model with pink lilies"
           title="VV Studio Beauty Model with Pink Lilies"

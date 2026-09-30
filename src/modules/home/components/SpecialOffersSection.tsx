@@ -32,7 +32,7 @@ export const SpecialOffersSection: React.FC<SpecialOffersProps> = ({ onOpenBooki
         aria-hidden="true"
       >
         <img
-          src="https://agsdemo.in/vvsapi/public/assets/images/web_images/common/girl_common.webp"
+          src="https://vvstudio.in/crmapi/public/assets/images/web_images/common/girl_common.webp"
           alt="VV Studio special salon offers"
           title="VV Studio Special Offers"
           width={2170}
@@ -100,7 +100,7 @@ export const SpecialOffersSection: React.FC<SpecialOffersProps> = ({ onOpenBooki
         {/* Mobile-only model view — script left, model right, no empty void */}
         <div className="md:hidden relative w-full h-[170px] sm:h-[200px] overflow-hidden pointer-events-none select-none">
           <img
-            src="https://agsdemo.in/vvsapi/public/assets/images/web_images/common/girl_common.webp"
+            src="https://vvstudio.in/crmapi/public/assets/images/web_images/common/girl_common.webp"
             alt="VV Studio special salon offers"
             title="VV Studio Special Offers"
             width={2170}
