@@ -70,7 +70,7 @@ const NewsletterFormInner: React.FC = () => {
         <button
           type="submit"
           disabled={isPending}
-          className="shrink-0 inline-flex items-center gap-1.5 rounded-full bg-[#E8329D] hover:bg-[#D91A8A] disabled:opacity-60 text-white text-sm font-semibold px-5 py-2.5 transition-colors cursor-pointer"
+          className="shrink-0 inline-flex items-center gap-1.5 rounded-full bg-[#D91A8A] hover:bg-[#A80086] disabled:opacity-60 text-white text-sm font-semibold px-5 py-2.5 transition-colors cursor-pointer"
         >
           <Send className="w-3.5 h-3.5" aria-hidden="true" />
           {isPending ? 'Joining…' : 'Join'}

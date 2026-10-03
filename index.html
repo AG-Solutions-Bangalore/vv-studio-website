@@ -31,6 +31,8 @@
          URLs are version-pinned to the css2 response; a miss degrades silently to CSS discovery. -->
     <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/plusjakartasans/v12/LDIoaomQNQcsA88c7O9yZ4KMCoOg4Ko20yygg_vb.woff2" />
     <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/playfairdisplay/v40/nuFkD-vYSZviVYUb_rj3ij__anPXDTnogkk7yRZrPA.woff2" />
+    <!-- ARD 1.0 agent manifest + llms.txt discovery (also injected per-route at SSG time). -->
+    <link rel="ai-catalog" href="/.well-known/ai-catalog.json" type="application/ai-catalog+json" />
   </head>
   <body class="bg-[#FCFCFC] text-[#40363F] antialiased selection:bg-[#D91A8A] selection:text-white font-sans overflow-x-hidden">
     <div id="root"></div>

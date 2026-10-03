@@ -14,7 +14,7 @@ export const AboutStory: React.FC<AboutStoryProps> = ({ onOpenBooking }) => {
           {/* Left Column: Copy */}
           <div className="flex flex-col justify-center min-w-0">
             {/* Eyebrow */}
-            <p className="text-[11px] sm:text-[13px] font-bold tracking-[0.2em] uppercase text-[#E8329D] mb-1.5">
+            <p className="text-[11px] sm:text-[13px] font-bold tracking-[0.2em] uppercase text-[#B3127A] mb-1.5">
               At VV Studio
             </p>
 
@@ -24,7 +24,7 @@ export const AboutStory: React.FC<AboutStoryProps> = ({ onOpenBooking }) => {
             </h2>
 
             {/* Pink underline accent */}
-            <div className="w-10 h-[3px] rounded-full bg-[#E8329D] mb-4 sm:mb-5" aria-hidden="true" />
+            <div className="w-10 h-[3px] rounded-full bg-[#D91A8A] mb-4 sm:mb-5" aria-hidden="true" />
 
             {/* Body copy */}
             <div className="space-y-3.5 text-[13px] sm:text-[15px] text-[#5E525C] leading-relaxed mb-6 sm:mb-7 max-w-xl">
@@ -46,7 +46,7 @@ export const AboutStory: React.FC<AboutStoryProps> = ({ onOpenBooking }) => {
               <button
                 type="button"
                 onClick={onOpenBooking}
-                className="inline-flex items-center justify-center gap-2 bg-[#E8329D] hover:bg-[#D91A8A] text-white font-semibold text-[13px] sm:text-[14px] px-6 sm:px-7 py-3 sm:py-3.5 rounded-full shadow-[0_8px_24px_rgba(232,50,157,0.45)] hover:shadow-[0_12px_28px_rgba(232,50,157,0.6)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 bg-[#D91A8A] hover:bg-[#A80086] text-white font-semibold text-[13px] sm:text-[14px] px-6 sm:px-7 py-3 sm:py-3.5 rounded-full shadow-[0_8px_24px_rgba(232,50,157,0.45)] hover:shadow-[0_12px_28px_rgba(232,50,157,0.6)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 cursor-pointer"
               >
                 <span>Book Appointment</span>
                 <ArrowRight className="w-4 h-4 stroke-[2.2]" />

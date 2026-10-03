@@ -77,9 +77,9 @@ const ExperienceDifferenceSectionInner: React.FC<ExperienceDifferenceSectionProp
                 className="absolute bottom-5 right-[-70%] sm:bottom-6 inset-x-0 mx-auto flex flex-col items-center justify-end gap-1.5 cursor-pointer group/btn w-fit pb-1"
                 aria-label="Take a Virtual Tour of VV Studio"
               >
-                <span className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#E8329D] flex items-center justify-center text-white shadow-[0_4px_18px_rgba(232,50,157,0.65)] ring-2 ring-white/30 group-hover/btn:scale-110 group-hover/btn:bg-[#D91A8A] transition-all">
+                <span className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#D91A8A] flex items-center justify-center text-white shadow-[0_4px_18px_rgba(232,50,157,0.65)] ring-2 ring-white/30 group-hover/btn:scale-110 group-hover/btn:bg-[#D91A8A] transition-all">
                   <Play className="w-4 h-4 sm:w-5 sm:h-5 fill-current ml-0.5" />
-                  <span className="absolute inset-0 rounded-full bg-[#E8329D] animate-ping opacity-30 pointer-events-none" />
+                  <span className="absolute inset-0 rounded-full bg-[#D91A8A] animate-ping opacity-30 pointer-events-none" />
                 </span>
                 <span className="text-white text-[11px] sm:text-xs font-medium tracking-wide drop-shadow-md leading-none">
                   Take a Virtual Tour
@@ -125,7 +125,7 @@ const ExperienceDifferenceSectionInner: React.FC<ExperienceDifferenceSectionProp
               <button
                 type="button"
                 onClick={onOpenBooking}
-                className="inline-flex items-center gap-2 rounded-full bg-[#C2147F] hover:bg-[#D91A8A] text-white  text-sm sm:text-base font-semibold px-6 sm:px-7 py-2.5 sm:py-3 transition-all cursor-pointer"
+                className="inline-flex items-center gap-2 rounded-full bg-[#C2147F] hover:bg-[#A80086] text-white  text-sm sm:text-base font-semibold px-6 sm:px-7 py-2.5 sm:py-3 transition-all cursor-pointer"
               >
                 Book Appointment
                 <span aria-hidden="true">→</span>
@@ -170,7 +170,7 @@ const ExperienceDifferenceSectionInner: React.FC<ExperienceDifferenceSectionProp
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-center p-6">
-                <div className="w-16 h-16 rounded-full bg-[#E8329D]/90 flex items-center justify-center text-white mb-3 shadow-lg">
+                <div className="w-16 h-16 rounded-full bg-[#D91A8A]/90 flex items-center justify-center text-white mb-3 shadow-lg">
                   <Play className="w-7 h-7 fill-current ml-1" />
                 </div>
                 <h4 className="font-display italic text-2xl sm:text-3xl text-white font-semibold mb-2">
@@ -186,7 +186,7 @@ const ExperienceDifferenceSectionInner: React.FC<ExperienceDifferenceSectionProp
                     setIsTourOpen(false);
                     onOpenBooking();
                   }}
-                  className="bg-[#E8329D] hover:bg-[#D91A8A]"
+                  className="bg-[#D91A8A] hover:bg-[#A80086]"
                 >
                   Schedule Your Visit Now
                 </Button>

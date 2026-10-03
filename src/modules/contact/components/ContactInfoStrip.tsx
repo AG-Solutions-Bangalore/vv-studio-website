@@ -18,7 +18,7 @@ export const ContactInfoStrip: React.FC = () => (
 const ContactInfoStripInner: React.FC = () => {
   // Live company data (GET /getCompany) with static fallback.
   const info = useCompanyInfo();
-  const iconCls = 'w-6 h-6 sm:w-7 sm:h-7 text-[#E8329D]';
+  const iconCls = 'w-6 h-6 sm:w-7 sm:h-7 text-[#B3127A]';
   const iconStroke = 1.5;
   const contactCards = [
     {

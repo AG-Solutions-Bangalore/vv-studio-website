@@ -144,9 +144,16 @@ export const HomePage: React.FC<HomePageProps> = ({
         />
 
         {/* Everything below the fold — one Suspense, null fallback (invisible area).
-            Mounts after window load so its fonts/images/JS never contend with LCP. */}
-        <Suspense fallback={null}>
-          {belowFoldReady && (
+            Mounts after window load so its fonts/images/JS never contend with LCP.
+            The reserve min-height keeps the page taller than any viewport from
+            first paint (SSG included): lazy sections stream in below the fold
+            and the footer never sits inside the viewport while content above
+            it expands — otherwise desktop CLS blows out (~0.5). Static
+            sections always exceed the reserve once loaded, so no blank
+            remains in the steady state. */}
+        <div className="min-h-[600px] lg:min-h-[900px]">
+          <Suspense fallback={null}>
+            {belowFoldReady && (
             <>
               {/* Category Ribbon */}
               <CategoryNav
@@ -184,10 +191,11 @@ export const HomePage: React.FC<HomePageProps> = ({
               />
 
               {/* Special Offers Banner */}
-              <SpecialOffersSection onOpenBooking={() => handleOpenBooking()} />
-            </>
-          )}
-        </Suspense>
+                <SpecialOffersSection onOpenBooking={() => handleOpenBooking()} />
+              </>
+            )}
+          </Suspense>
+        </div>
       </main>
 
       {/* Dark Plum Footer — below fold, joins the post-load tree. */}

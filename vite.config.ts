@@ -100,7 +100,7 @@ function eventLoopCleanup(): Plugin {
  * @when Runs during `vite build` inside the `closeBundle` hook, walking through the output `dist` directory.
  */
 function brotliStatic(threshold = 1024): Plugin {
-  const filter = /\.(js|css|html|svg|json)$/i;
+  const filter = /\.(js|mjs|css|html|svg|json)$/i;
   return {
     name: 'brotli-static',
     apply: 'build',
@@ -115,6 +115,12 @@ function brotliStatic(threshold = 1024): Plugin {
           if (!filter.test(full) || full.endsWith('.br')) continue;
           const size = statSync(full).size;
           if (size < threshold) continue;
+          // Skip if vite-plugin-compression already emitted this .br file.
+          try {
+            if (statSync(`${full}.br`).isFile()) continue;
+          } catch {
+            /* missing — compress below */
+          }
           const compressed = brotliCompressSync(readFileSync(full), {
             params: { [constants.BROTLI_PARAM_QUALITY]: 11 },
           });
@@ -142,6 +148,8 @@ export default defineConfig({
       renderTarget: '#root',
     }),
     // Pre-compressed bytes for hosts that serve them (gzip + brotli).
+    // NOTE: keep default ext handling — explicit ext/deleteOriginFile
+    // options suppress emission with vite-plugin-compression@0.5.1.
     // @ts-expect-error vite-plugin-compression ships CJS-style types; default import is callable at runtime
     compression({ algorithm: 'gzip', threshold: 1024 }),
     brotliStatic(),
@@ -158,6 +166,19 @@ export default defineConfig({
     assetsInlineLimit: 4096,
     chunkSizeWarningLimit: 500,
     reportCompressedSize: false,
+    // Never modulepreload non-critical vendors or the prerender entry —
+    // keeps the initial dependency graph lean for LCP.
+    modulePreload: {
+      resolveDependencies(_url, deps) {
+        return deps.filter(
+          (dep) =>
+            !dep.includes('motion') &&
+            !dep.includes('lenis') &&
+            !dep.includes('axios') &&
+            !dep.includes('prerender'),
+        );
+      },
+    },
     rollupOptions: {
       output: {
         /**

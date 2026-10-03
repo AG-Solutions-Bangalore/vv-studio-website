@@ -135,7 +135,7 @@ const ContactLocationAndFormInner: React.FC = () => {
                   target="_blank"
                   rel="noreferrer"
                   title="Get Directions to VV Studio"
-                  className="inline-flex items-center gap-1.5 rounded-full bg-[#E8329D] hover:bg-[#D91A8A] text-white text-xs font-semibold px-5 py-2 sm:py-2 transition-all shadow-[0_4px_14px_rgba(232,50,157,0.4)] hover:shadow-[0_6px_20px_rgba(232,50,157,0.55)] cursor-pointer min-h-[36px]"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-[#D91A8A] hover:bg-[#A80086] text-white text-xs font-semibold px-5 py-2 sm:py-2 transition-all shadow-[0_4px_14px_rgba(232,50,157,0.4)] hover:shadow-[0_6px_20px_rgba(232,50,157,0.55)] cursor-pointer min-h-[36px]"
                 >
                   <Navigation className="w-3 h-3" />
                   <span>Get Directions</span>
@@ -175,7 +175,7 @@ const ContactLocationAndFormInner: React.FC = () => {
                     variant="outline"
                     size="sm"
                     onClick={() => setIsSubmitted(false)}
-                    className="border-[#E8329D] text-[#E8329D] hover:bg-[#FFF0F7]"
+                    className="border-[#E8329D] text-[#B3127A] hover:bg-[#FFF0F7]"
                   >
                     Send Another Message
                   </Button>
@@ -280,7 +280,7 @@ const ContactLocationAndFormInner: React.FC = () => {
                   <button
                     type="submit"
                     disabled={isPending}
-                    className="w-full py-3 sm:py-3.5 px-6 rounded-full bg-[#E8329D] hover:bg-[#D91A8A] text-white font-medium text-sm transition-all duration-300 shadow-[0_8px_25px_rgba(232,50,157,0.45)] hover:shadow-[0_12px_30px_rgba(232,50,157,0.6)] cursor-pointer flex items-center justify-center gap-2 disabled:opacity-75 disabled:cursor-not-allowed min-h-[48px]"
+                    className="w-full py-3 sm:py-3.5 px-6 rounded-full bg-[#D91A8A] hover:bg-[#A80086] text-white font-medium text-sm transition-all duration-300 shadow-[0_8px_25px_rgba(232,50,157,0.45)] hover:shadow-[0_12px_30px_rgba(232,50,157,0.6)] cursor-pointer flex items-center justify-center gap-2 disabled:opacity-75 disabled:cursor-not-allowed min-h-[48px]"
                   >
                     {isPending ? (
                       <>

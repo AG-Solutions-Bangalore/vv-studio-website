@@ -1,46 +1,67 @@
-import { StrictMode } from "react";
 import { createRoot, hydrateRoot } from "react-dom/client";
 import { HelmetProvider } from "react-helmet-async";
-import { hydrate as hydrateQueryClient } from "@tanstack/react-query";
 import "./index.css";
 import App from "./App.tsx";
 import { SeoHost } from "./seo/seo";
-import { queryClient } from "./lib/queryClient";
-
-// NOTE: QueryClientProvider is intentionally NOT mounted here. Every
-// react-query consumer lives in a lazy chunk and mounts its own provider
-// over the shared singleton client — so the query runtime never joins
-// the critical-path bundle.
-//
-// SSG hydration: when prerendered HTML exists, restore the embedded
-// `#vv-query-state` cache BEFORE first render so the client tree matches
-// the SSR HTML exactly (no hydration flash / mismatch).
-try {
-  const stateEl = document.getElementById("vv-query-state");
-  if (stateEl?.textContent) {
-    hydrateQueryClient(queryClient, JSON.parse(stateEl.textContent));
-  }
-} catch {
-  // Corrupt state — fall through to fresh client-side fetching.
-}
 
 const rootEl = document.getElementById("root")!;
+// SSG-safe hydration: prerendered HTML was built with StaticRouter + SYNCHRONOUS
+// page components, while the client code-splits pages with React.lazy. If a
+// lazy page suspends on the first client tick, the client renders the Suspense
+// fallback where SSG emitted full content → React #418 (Best Practices 96).
+// Fix: preload the current route's page chunk BEFORE hydrating, so the first
+// client render resolves synchronously and matches SSG exactly. Home ("/")
+// needs nothing — HomePage ships inside the entry chunk on both sides.
+//
+// Mount waits for window LOAD (4s cap), never bare idle: on fast machines
+// idle fires mid-paint and the hydration render steals the LCP window.
+// Query-state restore + route preload are dynamic imports (see
+// lib/hydrateQueryState) so @tanstack/react-query stays out of the entry.
+const ROUTE_PRELOADERS: Array<{ test: (path: string) => boolean; load: () => Promise<unknown> }> = [
+  { test: (p) => p === "/about", load: () => import("./modules/about/pages/AboutPage") },
+  { test: (p) => p === "/services", load: () => import("./modules/services/pages/ServicesPage") },
+  { test: (p) => p === "/gallery", load: () => import("./modules/gallery/pages/GalleryPage") },
+  { test: (p) => p === "/blog", load: () => import("./modules/blog/pages/BlogPage") },
+  { test: (p) => /^\/blog\/[^/]+$/.test(p), load: () => import("./modules/blog/pages/BlogDetailPage") },
+  { test: (p) => p === "/contact", load: () => import("./modules/contact/pages/ContactPage") },
+];
+
 const app = (
-  <StrictMode>
-    <HelmetProvider>
-      <App />
-      <SeoHost />
-    </HelmetProvider>
-  </StrictMode>
+  <HelmetProvider>
+    <App />
+    <SeoHost />
+  </HelmetProvider>
 );
 
-if (rootEl.hasChildNodes()) {
-  const mount = () => hydrateRoot(rootEl, app);
-  if (typeof window !== "undefined" && "requestIdleCallback" in window) {
-    window.requestIdleCallback(mount);
-  } else {
-    setTimeout(mount, 0);
+const mount = () => {
+  if (!rootEl.hasChildNodes()) {
+    createRoot(rootEl).render(app);
+    return;
   }
+  const rawPath = window.location.pathname;
+  const path = rawPath.length > 1 ? rawPath.replace(/\/+$/, "") : rawPath;
+  const preload = ROUTE_PRELOADERS.find((r) => r.test(path));
+  // Query-state restore, then route-chunk preload, then hydrate — first
+  // client render matches SSG byte-for-byte (no #418, no DOM rebuild).
+  const hydrate = () => hydrateRoot(rootEl, app);
+  void import("./lib/hydrateQueryState")
+    .then((m) => m.restoreQueryState())
+    .catch(() => {})
+    .then(() => (preload ? preload.load().then(hydrate, hydrate) : hydrate()));
+};
+
+if (typeof document !== "undefined" && document.readyState === "complete") {
+  window.setTimeout(runMountOnce, 0);
 } else {
-  createRoot(rootEl).render(app);
+  window.addEventListener("load", runMountOnce, { once: true });
+  // Safety cap: hydrate even if load stalls (slow fonts/embeds).
+  window.setTimeout(runMountOnce, 4000);
+}
+
+let mounted = false;
+function runMountOnce(): void {
+  if (mounted) return;
+  mounted = true;
+  window.removeEventListener("load", runMountOnce);
+  mount();
 }

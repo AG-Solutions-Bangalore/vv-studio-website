@@ -81,7 +81,7 @@ export const AboutHero: React.FC = () => {
               Home
             </Link>
             <span className="text-white/50" aria-hidden="true">›</span>
-            <span className="text-[#E8329D]">About Us</span>
+            <span className="text-[#B3127A]">About Us</span>
           </div>
         </div>
       </Container>

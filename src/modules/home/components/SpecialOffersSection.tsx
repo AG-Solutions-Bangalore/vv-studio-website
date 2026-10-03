@@ -76,7 +76,7 @@ export const SpecialOffersSection: React.FC<SpecialOffersProps> = ({ onOpenBooki
               <button
                 type="button"
                 onClick={onOpenBooking}
-                className="group inline-flex items-center gap-2.5 px-6 sm:px-7 py-2.5 sm:py-3 rounded-full bg-[#E8329D] hover:bg-[#D91A8A] text-white text-xs sm:text-sm font-medium tracking-wide shadow-[0_10px_25px_-5px_rgba(232,50,157,0.5)] hover:shadow-[0_14px_30px_-5px_rgba(232,50,157,0.7)] hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 cursor-pointer"
+                className="group inline-flex items-center gap-2.5 px-6 sm:px-7 py-2.5 sm:py-3 rounded-full bg-[#D91A8A] hover:bg-[#A80086] text-white text-xs sm:text-sm font-medium tracking-wide shadow-[0_10px_25px_-5px_rgba(232,50,157,0.5)] hover:shadow-[0_14px_30px_-5px_rgba(232,50,157,0.7)] hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 cursor-pointer"
               >
                 <span>Discover Offers</span>
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />

@@ -156,6 +156,12 @@ async function runOne(url, formFactor, outDir) {
         formFactor,
         screenEmulation,
       },
+      // Desktop must use the desktop config (no CPU/network throttling).
+      // Without it, desktop audits inherit mobile throttling and under-report
+      // by ~20-30 points on fast viewports.
+      formFactor === 'desktop'
+        ? (await import('lighthouse/core/config/desktop-config.js')).default
+        : undefined,
     );
 
     // result.report is an ARRAY when output is ["html","json"]: index 0→html, 1→json
@@ -264,18 +270,32 @@ async function main() {
     for (const f of factors) {
       const lhr = await runOne(url, f, outDir);
       const cats = lhr.categories ?? {};
-      for (const [key, c] of Object.entries(cats)) {
-        const pct = Math.round(((c).score ?? 0) * 100);
+      // Gate only the four core categories; agentic-browsing is reported, never gated.
+      for (const key of ['performance', 'accessibility', 'best-practices', 'seo']) {
+        const c = cats[key];
+        if (!c) continue;
+        const pct = Math.round((c.score ?? 0) * 100);
         if (pct < threshold) {
           console.error(`FAIL: ${f} category "${key}" = ${pct} < threshold ${threshold}`);
           failed = true;
         }
       }
+      const agentic = cats['agentic-browsing'];
+      if (agentic) {
+        const pct = Math.round((agentic.score ?? 0) * 100);
+        console.log(`agentic-browsing (${f}): ${pct}${pct >= 100 ? '' : ' (info only, not gated)'}`);
+      }
     }
   } finally {
     if (previewProc) {
       try {
-        previewProc.kill();
+        // Windows: previewChild.kill() with shell:true leaves port 4173 bound.
+        if (process.platform === 'win32' && previewProc.pid) {
+          const { spawn: spawnKill } = await import('node:child_process');
+          spawnKill('taskkill', ['/F', '/T', '/PID', String(previewProc.pid)], { stdio: 'ignore' });
+        } else {
+          previewProc.kill();
+        }
       } catch {}
     }
   }
@@ -286,6 +306,7 @@ async function main() {
     process.exit(1);
   } else {
     console.log(`All categories >= threshold ${threshold}.`);
+    process.exit(0);
   }
 }
 

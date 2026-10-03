@@ -44,7 +44,7 @@ export const AboutCTA: React.FC<AboutCTAProps> = ({ onOpenBooking }) => {
           <button
             type="button"
             onClick={onOpenBooking}
-            className="inline-flex items-center justify-center gap-2 bg-[#E8329D] hover:bg-[#D91A8A] text-white font-semibold text-[13px] sm:text-[14px] px-7 sm:px-8 py-3 sm:py-3.5 rounded-full shadow-[0_8px_24px_rgba(232,50,157,0.45)] hover:shadow-[0_12px_28px_rgba(232,50,157,0.6)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 cursor-pointer"
+            className="inline-flex items-center justify-center gap-2 bg-[#D91A8A] hover:bg-[#A80086] text-white font-semibold text-[13px] sm:text-[14px] px-7 sm:px-8 py-3 sm:py-3.5 rounded-full shadow-[0_8px_24px_rgba(232,50,157,0.45)] hover:shadow-[0_12px_28px_rgba(232,50,157,0.6)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 cursor-pointer"
           >
             <span>Book Appointment</span>
             <ArrowRight className="w-4 h-4 stroke-[2.2]" />

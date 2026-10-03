@@ -183,7 +183,7 @@ export const ComingSoonPage: React.FC<ComingSoonPageProps> = ({
               <button
                 type="button"
                 onClick={() => setIsBookingOpen(true)}
-                className="inline-flex items-center justify-center gap-2 py-3 sm:py-3.5 px-7 rounded-full bg-[#E8329D] hover:bg-[#D91A8A] text-white text-sm font-semibold tracking-wide transition-all duration-300 shadow-[0_8px_24px_rgba(232,50,157,0.5)] hover:shadow-[0_12px_28px_rgba(232,50,157,0.65)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 py-3 sm:py-3.5 px-7 rounded-full bg-[#D91A8A] hover:bg-[#A80086] text-white text-sm font-semibold tracking-wide transition-all duration-300 shadow-[0_8px_24px_rgba(232,50,157,0.5)] hover:shadow-[0_12px_28px_rgba(232,50,157,0.65)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
               >
                 <span>Book an Appointment</span>
                 <ArrowRight className="w-4 h-4 stroke-[2.2]" />

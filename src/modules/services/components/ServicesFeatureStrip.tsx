@@ -8,25 +8,25 @@ export const ServicesFeatureStrip: React.FC = () => {
       id: 'professionals',
       title: 'Expert Professionals',
       subtitle: 'Trained and certified experts',
-      icon: <Flower2 className="w-7 h-7 text-[#E8329D] stroke-[1.5]" />,
+      icon: <Flower2 className="w-7 h-7 text-[#B3127A] stroke-[1.5]" />,
     },
     {
       id: 'products',
       title: 'Premium Products',
       subtitle: 'Safe and high-quality brands',
-      icon: <Gem className="w-7 h-7 text-[#E8329D] stroke-[1.5]" />,
+      icon: <Gem className="w-7 h-7 text-[#B3127A] stroke-[1.5]" />,
     },
     {
       id: 'hygienic',
       title: 'Hygienic & Safe',
       subtitle: 'Clean and sanitized environment',
-      icon: <Heart className="w-7 h-7 text-[#E8329D] stroke-[1.5]" />,
+      icon: <Heart className="w-7 h-7 text-[#B3127A] stroke-[1.5]" />,
     },
     {
       id: 'care',
       title: 'Personalized Care',
       subtitle: 'Tailored to your unique needs',
-      icon: <Users className="w-7 h-7 text-[#E8329D] stroke-[1.5]" />,
+      icon: <Users className="w-7 h-7 text-[#B3127A] stroke-[1.5]" />,
     },
   ];
 
