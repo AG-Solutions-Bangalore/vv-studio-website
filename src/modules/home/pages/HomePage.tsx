@@ -95,11 +95,18 @@ export const HomePage: React.FC<HomePageProps> = ({
       const t = window.setTimeout(() => setBelowFoldReady(true), 0);
       return () => window.clearTimeout(t);
     }
-    const onLoad = () => setBelowFoldReady(true);
-    window.addEventListener("load", onLoad, { once: true });
+    const onLoadOrIntent = () => setBelowFoldReady(true);
+    const opts = { once: true, passive: true } as const;
+    window.addEventListener("load", onLoadOrIntent, opts);
+    window.addEventListener("scroll", onLoadOrIntent, opts);
+    window.addEventListener("wheel", onLoadOrIntent, opts);
+    window.addEventListener("touchmove", onLoadOrIntent, opts);
     const t = window.setTimeout(() => setBelowFoldReady(true), 4000);
     return () => {
-      window.removeEventListener("load", onLoad);
+      window.removeEventListener("load", onLoadOrIntent);
+      window.removeEventListener("scroll", onLoadOrIntent);
+      window.removeEventListener("wheel", onLoadOrIntent);
+      window.removeEventListener("touchmove", onLoadOrIntent);
       window.clearTimeout(t);
     };
   }, [belowFoldReady]);

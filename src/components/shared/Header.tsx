@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { useHydrated } from "@/hooks/useHydrated";
 import {
   HeaderPhonesStatic,
   MobileMenuContactStatic,
@@ -33,10 +34,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking }) => {
   // render the static fallback with NO Suspense boundary, so hydration is
   // byte-identical (an SSR <Suspense> emits comment/template markers the
   // client doesn't reproduce → React #419, Best Practices 96).
-  const [liveReady, setLiveReady] = useState(false);
-  useEffect(() => {
-    setLiveReady(true);
-  }, []);
+  const liveReady = useHydrated();
 
   // Render-phase state adjustment to close mobile menu on route change
   const [prevPathname, setPrevPathname] = useState(location.pathname);

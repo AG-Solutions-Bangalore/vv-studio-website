@@ -1,7 +1,8 @@
-import React, { Suspense, lazy, useEffect, useState } from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Link } from 'react-router-dom';
 import { Logo } from './Logo';
 import { Container } from '@/components/ui/Container';
+import { useHydrated } from '@/hooks/useHydrated';
 import {
   STUDIO_DIRECTIONS_URL,
   STUDIO_FOOTER_MAP_EMBED_SRC,
@@ -33,10 +34,7 @@ export const Footer: React.FC = () => {
   // Lazy footer widgets mount only post-hydration: SSR + first client tick
   // render fallbacks with NO Suspense boundary (SSR Suspense markers break
   // hydration → React #419, Best Practices 96).
-  const [liveReady, setLiveReady] = useState(false);
-  useEffect(() => {
-    setLiveReady(true);
-  }, []);
+  const liveReady = useHydrated();
   return (
     <footer id="contact" className="bg-[#f4f4f4] border-t text-[#40363F] relative overflow-hidden">
       <Container className="relative z-10">
