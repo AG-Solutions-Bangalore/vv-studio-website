@@ -30,6 +30,8 @@ export const ENDPOINTS = {
   clients: '/getClient',
   /** GET — sitemap pages. */
   sitemap: '/getSitemap',
+  /** GET — promotional and festival offers. */
+  offers: '/getOffers',
   /** POST (form-data) — newsletter signup. */
   newsletter: '/createNewsletter',
   /** POST (form-data) — enquiry / booking. */

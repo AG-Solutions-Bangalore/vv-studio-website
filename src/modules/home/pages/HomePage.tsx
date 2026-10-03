@@ -1,4 +1,5 @@
 import React, { Suspense, lazy, useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
 import { Hero } from "../components/Hero";
@@ -70,6 +71,7 @@ export const HomePage: React.FC<HomePageProps> = ({
   seoKey = "home",
   scrollToId,
 }) => {
+  const location = useLocation();
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<ServiceItem | null>(
     null,
@@ -103,16 +105,17 @@ export const HomePage: React.FC<HomePageProps> = ({
   }, [belowFoldReady]);
 
   useEffect(() => {
-    if (scrollToId) {
+    const targetId = scrollToId || (location.hash ? location.hash.replace("#", "") : null);
+    if (targetId && belowFoldReady) {
       // Let the page paint first so the anchor section exists.
       const t = window.setTimeout(() => {
         document
-          .getElementById(scrollToId)
+          .getElementById(targetId)
           ?.scrollIntoView({ behavior: "smooth" });
-      }, 100);
+      }, 150);
       return () => window.clearTimeout(t);
     }
-  }, [scrollToId]);
+  }, [scrollToId, location.hash, belowFoldReady]);
 
   const handleOpenBooking = (service?: ServiceItem) => {
     if (service) {
@@ -169,6 +172,11 @@ export const HomePage: React.FC<HomePageProps> = ({
                 onSelectService={(service) => handleOpenBooking(service)}
               />
 
+              {/* Special Offers Section — directly follows Our Services */}
+              <SpecialOffersSection
+                onOpenBooking={(service) => handleOpenBooking(service)}
+              />
+
               {/* Mid-page Promotional CTA Banner */}
               <CTABanner onOpenBooking={() => handleOpenBooking()} />
 
@@ -189,9 +197,6 @@ export const HomePage: React.FC<HomePageProps> = ({
                 slug="home"
                 onOpenBooking={() => handleOpenBooking()}
               />
-
-              {/* Special Offers Banner */}
-                <SpecialOffersSection onOpenBooking={() => handleOpenBooking()} />
               </>
             )}
           </Suspense>

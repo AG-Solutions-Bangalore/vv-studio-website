@@ -16,8 +16,10 @@ import {
   SITE_ORIGIN,
   getCanonicalUrl,
   organizationSchema,
+  offersCatalogSchema,
   createCompositeGraph,
 } from "./schemas";
+import { OFFERS_DATA } from "@/data/offersData";
 
 export { SITE_NAME, SITE_ORIGIN, getCanonicalUrl };
 
@@ -204,6 +206,11 @@ export function injectLocalBusinessSchema(): void {
   const script = document.createElement("script");
   script.type = "application/ld+json";
   script.id = "vv-rich-results";
-  script.text = JSON.stringify(createCompositeGraph([organizationSchema()]));
+  script.text = JSON.stringify(
+    createCompositeGraph([
+      organizationSchema(undefined, undefined, OFFERS_DATA),
+      offersCatalogSchema(OFFERS_DATA),
+    ]),
+  );
   document.head.appendChild(script);
 }

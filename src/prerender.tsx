@@ -44,6 +44,9 @@ import { getFaqBySlug } from './modules/faq/api/faq.api';
 import { faqKeys } from './modules/faq/hooks/useFaqQuery';
 import { getTestimonials } from './modules/home/api/testimonialApi';
 import { testimonialKeys } from './modules/home/hooks/useTestimonials';
+import { getOffers } from './modules/home/api/offersApi';
+import { offerKeys } from './modules/home/hooks/useOffers';
+import { OFFERS_DATA } from './data/offersData';
 
 import { SEO_CONFIG, getCanonicalUrl, SITE_NAME, type SeoKey } from './seo/seo';
 import {
@@ -52,6 +55,7 @@ import {
   createCompositeGraph,
   faqPageSchema,
   itemListSchema,
+  offersCatalogSchema,
   organizationSchema,
   reviewSchema,
   webPageSchema,
@@ -401,8 +405,17 @@ export async function prerender(data: { url: string }) {
       reviewSchema({ name: r.name, body: r.body, rating: r.rating, datePublished: r.date }),
     );
 
+    let homeOffers = OFFERS_DATA;
+    if (isHome) {
+      const liveOffers = await cached(offerKeys.list(), getOffers);
+      if (liveOffers && liveOffers.length > 0) {
+        homeOffers = liveOffers;
+      }
+      seed(client, offerKeys.list(), homeOffers);
+    }
+
     schemas.push(
-      organizationSchema(aggregate, reviewNodes),
+      organizationSchema(aggregate, reviewNodes, isHome ? homeOffers : undefined),
       webPageSchema(canonicalPath, title, description),
       breadcrumbSchema(
         isHome
@@ -412,7 +425,7 @@ export async function prerender(data: { url: string }) {
     );
 
     if (isHome) {
-      schemas.push(websiteSchema());
+      schemas.push(websiteSchema(), offersCatalogSchema(homeOffers));
       const [frontRes, featRes] = await Promise.all([
         cached(blogKeys.front(), getFrontBlogs),
         cached(blogKeys.featured(), getFeaturedBlogs),
