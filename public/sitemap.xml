@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://vvs.agsdemo.in/</loc>
+    <loc>https://vvstudio.in/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://vvs.agsdemo.in/about</loc>
+    <loc>https://vvstudio.in/about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://vvs.agsdemo.in/services</loc>
+    <loc>https://vvstudio.in/services</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://vvs.agsdemo.in/gallery</loc>
+    <loc>https://vvstudio.in/gallery</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://vvs.agsdemo.in/blog</loc>
+    <loc>https://vvstudio.in/blog</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://vvs.agsdemo.in/contact</loc>
+    <loc>https://vvstudio.in/contact</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

@@ -5,7 +5,7 @@ import { queryClient } from '@/lib/queryClient';
 import { Container } from '@/components/ui/Container';
 import { Carousel, CarouselControls, type CarouselHandle, type CarouselState } from '@/components/ui/Carousel';
 import { OFFERS_BASE_URL, OFFERS_DATA, type OfferItem } from '@/data/offersData';
-import { SERVICES_DATA, type ServiceItem } from '@/data/salonData';
+import { CONTACT_INFO, SERVICES_DATA, type ServiceItem } from '@/data/salonData';
 import { useOffers } from '@/modules/home/hooks/useOffers';
 import { getLenisInstance } from '@/lib/lenis';
 
@@ -248,11 +248,11 @@ const SpecialOffersContent: React.FC<SpecialOffersProps> = ({ onOpenBooking }) =
           <div className="flex items-center gap-3">
             <span>Direct Booking Assistance:</span>
             <a
-              href="tel:8310782820"
+              href={`tel:${CONTACT_INFO.phones[1].replace(/\D/g, '')}`}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/15 hover:bg-white/20 text-white font-medium transition-colors"
             >
               <Phone className="w-3.5 h-3.5 text-[#F8C1DE]" />
-              <span>8310782820</span>
+              <span>{CONTACT_INFO.phones[1]}</span>
             </a>
           </div>
         </div>
@@ -405,7 +405,7 @@ const OfferLightboxModal: React.FC<OfferLightboxModalProps> = ({
 
         <div className="flex items-center gap-3">
           <a
-            href="tel:8310782820"
+            href={`tel:${CONTACT_INFO.phones[1].replace(/\D/g, '')}`}
             className="px-3.5 py-2 rounded-xl border border-white/20 bg-white/10 hover:bg-white/20 text-white text-xs font-medium transition-colors inline-flex items-center gap-1.5"
           >
             <Phone className="w-3.5 h-3.5 text-[#F8C1DE]" />

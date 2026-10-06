@@ -23,7 +23,7 @@ const outFile = path.join(root, 'dist', 'sitemap.xml');
 
 const API_BASE_URL =
   process.env.VITE_API_BASE_URL ?? 'https://vvstudio.in/crmapi/public/api';
-const SITE_ORIGIN = 'https://vvs.agsdemo.in';
+const SITE_ORIGIN = 'https://vvstudio.in';
 
 /** Backend page slug → frontend path. Unmapped slugs have no page → skipped. */
 const SLUG_TO_PATH = {

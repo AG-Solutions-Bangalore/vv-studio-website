@@ -26,7 +26,7 @@ import type {
 } from 'schema-dts';
 import { OFFERS_BASE_URL, type OfferItem } from '@/data/offersData';
 
-export const SITE_ORIGIN = 'https://vvs.agsdemo.in';
+export const SITE_ORIGIN = 'https://vvstudio.in';
 export const SITE_NAME = 'VV Studio';
 export const SITE_LOGO = `${SITE_ORIGIN}/logo.webp`;
 
@@ -103,7 +103,7 @@ export function organizationSchema(
 ): BeautySalon {
   const address: PostalAddress = {
     '@type': 'PostalAddress',
-    streetAddress: '#5, 1st Floor, 24th Main, 5th Phase, JP Nagar',
+    streetAddress: '#8, 1st Floor, 24th Main, 5th Phase, JP Nagar',
     addressLocality: 'Bangalore',
     addressRegion: 'Karnataka',
     postalCode: '560078',
@@ -130,7 +130,7 @@ export function organizationSchema(
     description:
       "V V Studio is J P Nagar, Bengaluru's premier luxury female salon offering personalized skin treatments, expert hair care, bridal makeup and beauty services for women.",
     telephone: ['+91-80-48531999', '+91-8310782820'],
-    email: 'info@varvadhustudio.com',
+    email: 'support@vvstudio.in',
     address,
     geo,
     openingHoursSpecification: hours,
