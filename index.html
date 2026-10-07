@@ -12,25 +12,18 @@
       pages never ship duplicate or stale tags. -->
     <title>V V Studio | Luxury Salon | Female Salon | J P Nagar, Bengaluru</title>
     
-    <!-- Google Fonts: Playfair Display (Serif), Plus Jakarta Sans (Modern Sans), Alex Brush (Script Accent) -->
-    <!-- Non-blocking: preconnect for handshake, preload as style, print-media swap to avoid render-blocking. -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <!-- Brand fonts: self-hosted under /fonts (same files Google Fonts serves,
+         immutable-cached) — zero third-party origins on the LCP path. Faces +
+         unicode-ranges are declared in src/index.css; preload the latin files
+         the hero needs so first paint uses final metrics (no CLS from swap). -->
     <link rel="dns-prefetch" href="https://images.unsplash.com" />
     <link rel="preconnect" href="https://vvstudio.in" crossorigin />
     <link rel="dns-prefetch" href="https://vvstudio.in" />
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Alex+Brush&amp;family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" />
-    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&amp;family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Alex+Brush&amp;family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap" rel="stylesheet"></noscript>
     <!-- LCP hero image: same srcset/sizes as the Hero <img> so the preloaded candidate matches exactly. -->
     <link rel="preload" as="image" type="image/webp" href="/images/home/home_top_banner-1280.webp" imagesrcset="/images/home/home_top_banner-768.webp 768w, /images/home/home_top_banner-1280.webp 1280w, /images/home/home_top_banner-1440.webp 1440w, /images/home/home_top_banner.webp 1920w" imagesizes="100vw" fetchpriority="high" />
-    <!-- Hero text faces (latin): preload so first paint uses final metrics — otherwise the
-         font swap reflows the hero, resizes the section and shifts % -positioned decor (CLS).
-         URLs are version-pinned to the css2 response; a miss degrades silently to CSS discovery. -->
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/plusjakartasans/v12/LDIoaomQNQcsA88c7O9yZ4KMCoOg4Ko20yygg_vb.woff2" />
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/playfairdisplay/v40/nuFkD-vYSZviVYUb_rj3ij__anPXDTnogkk7yRZrPA.woff2" />
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/plus-jakarta-sans-latin.woff2" />
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/playfair-display-latin-italic.woff2" />
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/alex-brush-latin.woff2" />
     <!-- ARD 1.0 agent manifest + llms.txt discovery (also injected per-route at SSG time). -->
     <link rel="ai-catalog" href="/.well-known/ai-catalog.json" type="application/ai-catalog+json" />
   </head>
