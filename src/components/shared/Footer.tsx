@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from 'react';
 import { Link } from 'react-router-dom';
 import { Logo } from './Logo';
 import { Container } from '@/components/ui/Container';
+import { useHydrated } from '@/hooks/useHydrated';
 import {
   STUDIO_DIRECTIONS_URL,
   STUDIO_FOOTER_MAP_EMBED_SRC,
@@ -30,6 +31,10 @@ const FooterQuickLinks = lazy(() =>
 );
 
 export const Footer: React.FC = () => {
+  // Lazy footer widgets mount only post-hydration: SSR + first client tick
+  // render fallbacks with NO Suspense boundary (SSR Suspense markers break
+  // hydration → React #419, Best Practices 96).
+  const liveReady = useHydrated();
   return (
     <footer id="contact" className="bg-[#f4f4f4] border-t text-[#40363F] relative overflow-hidden">
       <Container className="relative z-10">
@@ -86,9 +91,11 @@ export const Footer: React.FC = () => {
             </div>
 
             {/* Newsletter signup (POST /createNewsletter) */}
-            <Suspense fallback={null}>
-              <NewsletterForm />
-            </Suspense>
+            {liveReady ? (
+              <Suspense fallback={null}>
+                <NewsletterForm />
+              </Suspense>
+            ) : null}
           </div>
 
           {/* Column 2: Quick Links (2 cols) */}
@@ -96,9 +103,11 @@ export const Footer: React.FC = () => {
             <h2 className="text-[15px] font-bold text-[#2D0A2E] mb-4">
               Quick Links
             </h2>
-            <Suspense fallback={null}>
-              <FooterQuickLinks />
-            </Suspense>
+            {liveReady ? (
+              <Suspense fallback={null}>
+                <FooterQuickLinks />
+              </Suspense>
+            ) : null}
           </div>
 
           {/* Column 3: Contact Us (3 cols) */}
@@ -107,9 +116,13 @@ export const Footer: React.FC = () => {
               Contact Us
             </h2>
             <div className="text-[13px] sm:text-sm text-[#5E525C]">
-              <Suspense fallback={<FooterContactStatic />}>
-                <FooterContactLive />
-              </Suspense>
+              {liveReady ? (
+                <Suspense fallback={<FooterContactStatic />}>
+                  <FooterContactLive />
+                </Suspense>
+              ) : (
+                <FooterContactStatic />
+              )}
             </div>
           </div>
 
@@ -151,7 +164,7 @@ export const Footer: React.FC = () => {
                   target="_blank"
                   rel="noreferrer"
                   title="Get Directions to VV Studio"
-                  className="inline-flex items-center justify-center gap-2 py-2.5 px-7 rounded-full bg-[#E8329D] hover:bg-[#D91A8A] text-white text-sm font-semibold tracking-wide transition-all shadow-[0_6px_20px_rgba(232,50,157,0.5)] cursor-pointer"
+                  className="inline-flex items-center justify-center gap-2 py-2.5 px-7 rounded-full bg-[#D91A8A] hover:bg-[#A80086] text-white text-sm font-semibold tracking-wide transition-all shadow-[0_6px_20px_rgba(232,50,157,0.5)] cursor-pointer"
                 >
                   <span>Get Directions</span>
                   <span aria-hidden="true">→</span>

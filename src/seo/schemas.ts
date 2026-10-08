@@ -24,8 +24,9 @@ import type {
   WebPage,
   WebSite,
 } from 'schema-dts';
+import { OFFERS_BASE_URL, type OfferItem } from '@/data/offersData';
 
-export const SITE_ORIGIN = 'https://vvs.agsdemo.in';
+export const SITE_ORIGIN = 'https://vvstudio.in';
 export const SITE_NAME = 'VV Studio';
 export const SITE_LOGO = `${SITE_ORIGIN}/logo.webp`;
 
@@ -98,10 +99,11 @@ export function organizationSchema(
     reviewCount: number;
   },
   reviews?: Review[],
+  offers?: OfferItem[],
 ): BeautySalon {
   const address: PostalAddress = {
     '@type': 'PostalAddress',
-    streetAddress: '#5, 1st Floor, 24th Main, 5th Phase, JP Nagar',
+    streetAddress: '#8, 1st Floor, 24th Main, 5th Phase, JP Nagar',
     addressLocality: 'Bangalore',
     addressRegion: 'Karnataka',
     postalCode: '560078',
@@ -128,7 +130,7 @@ export function organizationSchema(
     description:
       "V V Studio is J P Nagar, Bengaluru's premier luxury female salon offering personalized skin treatments, expert hair care, bridal makeup and beauty services for women.",
     telephone: ['+91-80-48531999', '+91-8310782820'],
-    email: 'info@varvadhustudio.com',
+    email: 'support@vvstudio.in',
     address,
     geo,
     openingHoursSpecification: hours,
@@ -144,6 +146,58 @@ export function organizationSchema(
         }
       : {}),
     ...(reviews && reviews.length > 0 ? { review: reviews } : {}),
+    ...(offers && offers.length > 0
+      ? {
+          hasOfferCatalog: {
+            '@type': 'OfferCatalog',
+            name: 'Festival & Seasonal Beauty Offers',
+            itemListElement: offers.map((offer) => ({
+              '@type': 'Offer',
+              name: offer.title,
+              price: offer.price.replace(/[^\d]/g, ''),
+              priceCurrency: 'INR',
+              availability: 'https://schema.org/InStock',
+              url: `${SITE_ORIGIN}/#offers`,
+              image: `${OFFERS_BASE_URL}${offer.image}`,
+            })),
+          },
+        }
+      : {}),
+  };
+}
+
+/**
+ * Generates an `ItemList` schema for the promotional & festival offers.
+ *
+ * @summary Festival offers catalog schema builder.
+ * @param offers - Array of OfferItem records.
+ * @returns Typed `ItemList` schema node for Google Rich Results.
+ *
+ * @why Enables Google search engine bots to parse and index seasonal discounts,
+ *      prices, and package details for local search and rich results carousel.
+ * @when Injected into the Home page where the special offers section lives.
+ */
+export function offersCatalogSchema(offers: OfferItem[]): ItemList {
+  return {
+    '@type': 'ItemList',
+    '@id': `${SITE_ORIGIN}/#offers-catalog`,
+    name: 'VV Studio Festival & Seasonal Offers',
+    description: 'Exclusive beauty & salon packages with flat 30% OFF in JP Nagar, Bengaluru.',
+    itemListElement: offers.map((offer, idx) => ({
+      '@type': 'ListItem',
+      position: idx + 1,
+      item: {
+        '@type': 'Offer',
+        name: offer.title,
+        price: offer.price.replace(/[^\d]/g, ''),
+        priceCurrency: 'INR',
+        availability: 'https://schema.org/InStock',
+        url: `${SITE_ORIGIN}/#offers`,
+        image: `${OFFERS_BASE_URL}${offer.image}`,
+        description: `${offer.features.join(', ')}. Flat 30% OFF festival offer at VV Studio Female Salon.`,
+        offeredBy: { '@id': ORG_ID },
+      } as unknown as Thing,
+    })),
   };
 }
 

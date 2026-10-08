@@ -43,9 +43,10 @@ export const BlogCard: React.FC<BlogCardProps> = ({ blog, detailPath = '/blog' }
         <Link
           to={detailPath}
           title={`${blog.title} — VV Studio Beauty & Wellness Blog`}
-          className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-[#D91A8A] group-hover:text-[#A80086] group-hover:translate-x-0.5 transition-all"
+          aria-label={`Read article: ${blog.title}`}
+          className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-[#B3127A] group-hover:text-[#A80086] group-hover:translate-x-0.5 transition-all"
         >
-          <span>Read More</span>
+          <span>{`Read: ${blog.title.length > 28 ? `${blog.title.slice(0, 28)}…` : blog.title}`}</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </Link>
       </div>

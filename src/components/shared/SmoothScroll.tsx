@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { setLenisInstance, getLenisInstance } from '@/lib/lenis';
 import type { LenisLike } from '@/lib/lenis';
@@ -14,6 +14,8 @@ import 'lenis/dist/lenis.css';
  */
 export function SmoothScroll() {
   const { pathname, hash } = useLocation();
+  const isFirstMount = useRef(true);
+  const prevPathname = useRef(pathname);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -61,8 +63,38 @@ export function SmoothScroll() {
 
   // Handle smooth route & hash scrolling with header offset.
   // Falls back to native scrolling until Lenis has initialized.
+  // Crucial: Only scrolls to top when navigating to a NEW page (pathname changed).
+  // Never resets scroll to 0 on initial mount or when deferred-mounted while the user is scrolling!
   useEffect(() => {
-    const lenis = getLenisInstance();
+    if (isFirstMount.current) {
+      isFirstMount.current = false;
+      prevPathname.current = pathname;
+
+      // Direct URL hash navigation on entry (e.g. vvstudio.in/#offers)
+      if (hash) {
+        const targetId = hash.replace('#', '');
+        const element = document.getElementById(targetId);
+        if (element) {
+          const timer = setTimeout(() => {
+            const current = getLenisInstance();
+            if (current) {
+              current.scrollTo(element, {
+                offset: -75,
+                duration: 1.2,
+                immediate: false,
+              });
+            } else {
+              element.scrollIntoView({ behavior: 'smooth' });
+            }
+          }, 120);
+          return () => clearTimeout(timer);
+        }
+      }
+      return;
+    }
+
+    const routeChanged = prevPathname.current !== pathname;
+    prevPathname.current = pathname;
 
     if (hash) {
       const targetId = hash.replace('#', '');
@@ -83,13 +115,17 @@ export function SmoothScroll() {
         }, 60);
         return () => clearTimeout(timer);
       }
-    } else if (lenis) {
-      lenis.scrollTo(0, {
-        duration: 1.0,
-        immediate: false,
-      });
-    } else {
-      window.scrollTo({ top: 0 });
+    } else if (routeChanged) {
+      // ONLY scroll to top when transitioning to a new route
+      const lenis = getLenisInstance();
+      if (lenis) {
+        lenis.scrollTo(0, {
+          duration: 1.0,
+          immediate: false,
+        });
+      } else {
+        window.scrollTo({ top: 0 });
+      }
     }
   }, [pathname, hash]);
 

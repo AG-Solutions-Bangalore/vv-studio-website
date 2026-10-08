@@ -15,14 +15,14 @@ export const ServicesGrid: React.FC<ServicesGridProps> = ({ onOpenBooking }) => 
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 sm:gap-8 pb-8 sm:pb-12 border-b border-[#F2E6EE]/80">
           {/* Left: Eyebrow + Heading + Accent Bar */}
           <div className="max-w-xl">
-            <p className="text-[12px] sm:text-[13px] font-bold tracking-[0.24em] uppercase text-[#E8329D] mb-2">
+            <p className="text-[12px] sm:text-[13px] font-bold tracking-[0.24em] uppercase text-[#B3127A] mb-2">
               OUR SERVICES
             </p>
             <h2 className="font-display italic text-[30px] sm:text-4xl lg:text-[46px] text-[#2C182A] font-normal leading-[1.18] tracking-tight">
               Beauty Services for Every You
             </h2>
             <div
-              className="w-14 h-1 bg-[#E8329D] rounded-full mt-3.5"
+              className="w-14 h-1 bg-[#D91A8A] rounded-full mt-3.5"
               aria-hidden="true"
             />
           </div>

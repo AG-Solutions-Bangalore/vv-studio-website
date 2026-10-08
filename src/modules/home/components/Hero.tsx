@@ -96,7 +96,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking, onExploreServices }) 
           <div className="flex flex-wrap items-center gap-4 sm:gap-5 mb-10">
             <button
               onClick={onOpenBooking}
-              className="inline-flex items-center gap-2 rounded-full bg-[#E8329D] hover:bg-[#D91A8A] text-white font-medium px-7 py-3 text-sm transition-all duration-300 shadow-[0_8px_25px_rgba(232,50,157,0.45)] hover:shadow-[0_12px_32px_rgba(232,50,157,0.6)] hover:-translate-y-0.5 cursor-pointer active:scale-95"
+              className="inline-flex items-center gap-2 rounded-full bg-[#D91A8A] hover:bg-[#A80086] text-white font-medium px-7 py-3 text-sm transition-all duration-300 shadow-[0_8px_25px_rgba(232,50,157,0.45)] hover:shadow-[0_12px_32px_rgba(232,50,157,0.6)] hover:-translate-y-0.5 cursor-pointer active:scale-95"
             >
               <span>Book Appointment</span>
               <ArrowRight className="w-4 h-4" />

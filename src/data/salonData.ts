@@ -377,10 +377,10 @@ export const STATS_DATA = [
 ];
 
 export const CONTACT_INFO = {
-  address: 'V V Studio, #5, 1st Floor, 24th Main, 5th Phase, JP Nagar, Bangalore 560078',
+  address: '#8, 1st Floor, 24th Main, 5th Phase, JP Nagar, Bangalore 560078',
   phones: ['080-48531999', '8310782820'],
-  email: 'info@varvadhustudio.com',
-  website: 'www.varvadhustudio.com',
+  email: 'support@vvstudio.in',
+  website: 'www.vvstudio.in',
   hours: 'Tue - Sun: 10:00 AM - 8:00 PM (Monday Holiday)',
 };
 
@@ -388,10 +388,10 @@ export const CONTACT_INFO = {
 export const STUDIO_ADDRESS = CONTACT_INFO.address;
 
 export const STUDIO_ADDRESS_SHORT =
-  '#5, 1st Floor, 24th Main, 5th Phase, JP Nagar, Bangalore 560078';
+  '#8, 1st Floor, 24th Main, 5th Phase, JP Nagar, Bangalore 560078';
 
 export const STUDIO_ADDRESS_MULTILINE =
-  '#5, 1st Floor, 24th Main\n5th Phase, JP Nagar,\nBangalore 560078';
+  '#8, 1st Floor, 24th Main\n5th Phase, JP Nagar,\nBangalore 560078';
 
 export const STUDIO_MAP_COORDS = { lat: 12.9057, lng: 77.5858 };
 

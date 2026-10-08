@@ -8,25 +8,25 @@ export const AboutHighlights: React.FC = () => {
       id: 'professionals',
       title: 'Expert Professionals',
       subtitle: 'Trained and experienced beauty experts',
-      icon: <Flower2 className="w-8 h-8 sm:w-9 sm:h-9 text-[#E8329D] stroke-[1.3]" />,
+      icon: <Flower2 className="w-8 h-8 sm:w-9 sm:h-9 text-[#B3127A] stroke-[1.3]" />,
     },
     {
       id: 'products',
       title: 'Premium Products',
       subtitle: 'High-quality, safe and effective products',
-      icon: <Gem className="w-8 h-8 sm:w-9 sm:h-9 text-[#E8329D] stroke-[1.3]" />,
+      icon: <Gem className="w-8 h-8 sm:w-9 sm:h-9 text-[#B3127A] stroke-[1.3]" />,
     },
     {
       id: 'hygienic',
       title: 'Hygienic & Safe',
       subtitle: 'Clean, comfortable and sanitized environment',
-      icon: <Heart className="w-8 h-8 sm:w-9 sm:h-9 text-[#E8329D] stroke-[1.3]" />,
+      icon: <Heart className="w-8 h-8 sm:w-9 sm:h-9 text-[#B3127A] stroke-[1.3]" />,
     },
     {
       id: 'care',
       title: 'Personalized Care',
       subtitle: 'Tailored treatments for your unique needs',
-      icon: <Users className="w-8 h-8 sm:w-9 sm:h-9 text-[#E8329D] stroke-[1.3]" />,
+      icon: <Users className="w-8 h-8 sm:w-9 sm:h-9 text-[#B3127A] stroke-[1.3]" />,
     },
   ];
 

@@ -85,8 +85,8 @@ export const BlogHero: React.FC = () => {
             <Link to="/" title="V V Studio | Luxury Salon | Female Salon | J P Nagar, Bengaluru" className="text-white/80 hover:text-white transition-colors">
               Home
             </Link>
-            <span className="text-[#E8329D] font-bold">›</span>
-            <span className="text-[#E8329D]">Blog</span>
+            <span className="text-[#B3127A] font-bold">›</span>
+            <span className="text-[#B3127A]">Blog</span>
           </div>
         </div>
       </Container>

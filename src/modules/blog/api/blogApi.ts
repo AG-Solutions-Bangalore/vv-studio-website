@@ -139,6 +139,29 @@ export function cleanBlogHtml(html: string): string {
   out = out.replace(/<h([1-6])[^>]*>\s*<br\s*\/?>\s*/gi, '<h$1>');
   out = out.replace(/<br\s*\/?>\s*(&nbsp;)?\s*(<\/(p|h[1-6]|li)>)/gi, '$2');
   out = out.replace(/<p[^>]*>\s*(&nbsp;|\s|<br\s*\/?>)*\s*<\/p>/gi, '');
+  // Strip presentational CMS attributes from tables so a pasted
+  // `style="width:500px"` / `align="center"` can't shrink the table and
+  // leave empty space inside the card. Layout is owned by
+  // `.blog-table-scroll` in `src/index.css`.
+  out = out.replace(
+    /<(table|thead|tbody|tfoot|tr|th|td|caption|colgroup|col)(\s[^>]*)?>/gi,
+    (_match, tag: string, attrs: string = '') => {
+      const cleaned = String(attrs ?? '')
+        .replace(
+          /\s+(align|valign|width|height|border|cellpadding|cellspacing|bgcolor)(\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+))?/gi,
+          '',
+        )
+        .replace(/\s+style\s*=\s*(?:"[^"]*"|'[^']*')/gi, '');
+      return `<${String(tag).toLowerCase()}${cleaned}>`;
+    },
+  );
+  // Wrap CMS tables in a scroll container so wide comparison tables
+  // (e.g. "Factor | Option A | Option B") scroll horizontally on mobile
+  // instead of squishing. Styles live in `src/index.css` (.blog-table-scroll).
+  if (!out.includes('blog-table-scroll')) {
+    out = out.replace(/<table(\s[^>]*)?>/gi, '<div class="blog-table-scroll"><table$1>');
+    out = out.replace(/<\/table\s*>/gi, '</table></div>');
+  }
   return out.trim();
 }
 

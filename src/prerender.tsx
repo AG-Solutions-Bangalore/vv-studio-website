@@ -19,6 +19,10 @@ import { renderToString } from 'react-dom/server';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { StaticRouter } from 'react-router';
 import { Routes, Route } from 'react-router-dom';
+import { Suspense } from 'react';
+
+import { ErrorBoundary } from './components/shared/ErrorBoundary';
+import { LoadingFallback } from './components/shared/LoadingFallback';
 
 import { HomePage } from './modules/home/pages/HomePage';
 import { AboutPage } from './modules/about/pages/AboutPage';
@@ -40,6 +44,9 @@ import { getFaqBySlug } from './modules/faq/api/faq.api';
 import { faqKeys } from './modules/faq/hooks/useFaqQuery';
 import { getTestimonials } from './modules/home/api/testimonialApi';
 import { testimonialKeys } from './modules/home/hooks/useTestimonials';
+import { getOffers } from './modules/home/api/offersApi';
+import { offerKeys } from './modules/home/hooks/useOffers';
+import { OFFERS_DATA } from './data/offersData';
 
 import { SEO_CONFIG, getCanonicalUrl, SITE_NAME, type SeoKey } from './seo/seo';
 import {
@@ -48,6 +55,7 @@ import {
   createCompositeGraph,
   faqPageSchema,
   itemListSchema,
+  offersCatalogSchema,
   organizationSchema,
   reviewSchema,
   webPageSchema,
@@ -223,6 +231,7 @@ function buildHeadElements(
     { type: 'meta', props: { name: 'author', content: SITE_NAME, 'data-rh': rh } },
     { type: 'meta', props: { name: 'publisher', content: SITE_NAME, 'data-rh': rh } },
     { type: 'link', props: { rel: 'canonical', href: canonical, 'data-rh': rh } },
+    { type: 'link', props: { rel: 'ai-catalog', href: '/.well-known/ai-catalog.json', type: 'application/ai-catalog+json', 'data-rh': rh } },
     { type: 'meta', props: { property: 'og:type', content: 'website', 'data-rh': rh } },
     { type: 'meta', props: { property: 'og:site_name', content: SITE_NAME, 'data-rh': rh } },
     { type: 'meta', props: { property: 'og:title', content: title, 'data-rh': rh } },
@@ -264,18 +273,28 @@ function buildHeadElements(
  */
 function renderRouteHtml(url: string): string {
   try {
+    // NOTE: wrapper structure MUST mirror <App> exactly (ErrorBoundary +
+    // Suspense with the same fallback). React 19 SSR emits Suspense comment
+    // markers; if the client tree has a Suspense boundary the static HTML
+    // lacks, hydration throws #418 on first tick (Best Practices 96).
+    // Page components stay SYNCHRONOUS imports here (never lazy) so SSG
+    // emits full content, not the LoadingFallback.
     return renderToString(
       <StaticRouter location={url}>
-        <Routes>
-          <Route path="/" element={<HomePage seoKey="home" />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/services" element={<ServicesPage />} />
-          <Route path="/gallery" element={<GalleryPage />} />
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/blog/:slug" element={<BlogDetailPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="*" element={<HomePage seoKey="home" />} />
-        </Routes>
+        <ErrorBoundary>
+          <Suspense fallback={<LoadingFallback />}>
+            <Routes>
+              <Route path="/" element={<HomePage seoKey="home" />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/services" element={<ServicesPage />} />
+              <Route path="/gallery" element={<GalleryPage />} />
+              <Route path="/blog" element={<BlogPage />} />
+              <Route path="/blog/:slug" element={<BlogDetailPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="*" element={<HomePage seoKey="home" />} />
+            </Routes>
+          </Suspense>
+        </ErrorBoundary>
       </StaticRouter>,
     );
   } catch (err) {
@@ -386,8 +405,17 @@ export async function prerender(data: { url: string }) {
       reviewSchema({ name: r.name, body: r.body, rating: r.rating, datePublished: r.date }),
     );
 
+    let homeOffers = OFFERS_DATA;
+    if (isHome) {
+      const liveOffers = await cached(offerKeys.list(), getOffers);
+      if (liveOffers && liveOffers.length > 0) {
+        homeOffers = liveOffers;
+      }
+      seed(client, offerKeys.list(), homeOffers);
+    }
+
     schemas.push(
-      organizationSchema(aggregate, reviewNodes),
+      organizationSchema(aggregate, reviewNodes, isHome ? homeOffers : undefined),
       webPageSchema(canonicalPath, title, description),
       breadcrumbSchema(
         isHome
@@ -397,7 +425,7 @@ export async function prerender(data: { url: string }) {
     );
 
     if (isHome) {
-      schemas.push(websiteSchema());
+      schemas.push(websiteSchema(), offersCatalogSchema(homeOffers));
       const [frontRes, featRes] = await Promise.all([
         cached(blogKeys.front(), getFrontBlogs),
         cached(blogKeys.featured(), getFeaturedBlogs),
@@ -485,6 +513,11 @@ export async function prerender(data: { url: string }) {
     ...articleSlugs.map((slug) => `/blog/${slug}`),
   ]);
 
+  // NOTE: no `data` payload is returned on purpose. vite-prerender-plugin
+  // inlines `data` as <script id="prerender-data"> INSIDE #root, which React
+  // never renders on the client → hydration text mismatch (#419) and
+  // Best Practices 96. Nothing consumes prerender-data (query state travels
+  // via #vv-query-state in <head>), so omitting it is safe.
   return {
     html,
     head: {
@@ -493,6 +526,5 @@ export async function prerender(data: { url: string }) {
       elements: buildHeadElements(title, description, keywords, getCanonicalUrl(canonicalPath), schemas, queryState),
     },
     links,
-    data: { url },
   };
 }

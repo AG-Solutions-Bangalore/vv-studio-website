@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { useHydrated } from "@/hooks/useHydrated";
 import {
   HeaderPhonesStatic,
   MobileMenuContactStatic,
@@ -29,6 +30,11 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  // Live contact blocks mount only post-hydration: SSR + first client tick
+  // render the static fallback with NO Suspense boundary, so hydration is
+  // byte-identical (an SSR <Suspense> emits comment/template markers the
+  // client doesn't reproduce → React #419, Best Practices 96).
+  const liveReady = useHydrated();
 
   // Render-phase state adjustment to close mobile menu on route change
   const [prevPathname, setPrevPathname] = useState(location.pathname);
@@ -177,7 +183,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking }) => {
                     <span>{link.name}</span>
                     {/* Pink underline active indicator matching reference */}
                     <span
-                      className={`absolute bottom-[-2px] left-0 right-0 h-[2px] bg-[#E8329D] rounded-full transition-all duration-300 ${
+                      className={`absolute bottom-[-2px] left-0 right-0 h-[2px] bg-[#D91A8A] rounded-full transition-all duration-300 ${
                         active ? "opacity-100" : "opacity-0 hover:opacity-100"
                       }`}
                     />
@@ -188,9 +194,13 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking }) => {
 
             {/* Contact Numbers, Socials & Book Appointment CTA on Right - single line */}
             <div className="hidden lg:flex items-center gap-4 shrink-0">
-              <Suspense fallback={<HeaderPhonesStatic />}>
-                <HeaderPhonesLive />
-              </Suspense>
+              {liveReady ? (
+                <Suspense fallback={<HeaderPhonesStatic />}>
+                  <HeaderPhonesLive />
+                </Suspense>
+              ) : (
+                <HeaderPhonesStatic />
+              )}
 
               <span className="text-white/30 mx-1">|</span>
 
@@ -261,7 +271,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking }) => {
                 size="sm"
                 withArrow
                 onClick={onOpenBooking}
-                className="!px-5 !py-2 !text-[13px] !leading-none bg-[#E8329D] hover:bg-[#D91A8A] shadow-[0_8px_20px_-5px_rgba(232,50,157,0.55)] cursor-pointer whitespace-nowrap"
+                className="!px-5 !py-2 !text-[13px] !leading-none bg-[#D91A8A] hover:bg-[#A80086] shadow-[0_8px_20px_-5px_rgba(232,50,157,0.55)] cursor-pointer whitespace-nowrap"
               >
                 Book Appointment
               </Button>
@@ -272,7 +282,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking }) => {
               <button
                 type="button"
                 onClick={onOpenBooking}
-                className="inline-flex items-center gap-1 text-[13px] bg-[#E8329D] hover:bg-[#D91A8A] text-white pl-4 pr-3.5 py-2 rounded-full font-semibold active:scale-95 transition-all shadow-[0_4px_14px_rgba(232,50,157,0.5)] min-h-[38px]"
+                className="inline-flex items-center gap-1 text-[13px] bg-[#D91A8A] hover:bg-[#A80086] text-white pl-4 pr-3.5 py-2 rounded-full font-semibold active:scale-95 transition-all shadow-[0_4px_14px_rgba(232,50,157,0.5)] min-h-[38px]"
               >
                 Book
                 <span aria-hidden="true">→</span>
@@ -341,7 +351,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking }) => {
                     style={{ transitionDelay: `${i * 30}ms` }}
                     className={`flex items-center justify-between gap-3 px-4 py-3.5 rounded-xl text-[17px] font-medium transition-all animate-in fade-in slide-in-from-right-4 duration-300 ${
                       active
-                        ? "bg-[#E8329D]/15 text-white"
+                        ? "bg-[#D91A8A]/15 text-white"
                         : "text-white/85 hover:bg-white/5 hover:text-white active:bg-white/10"
                     }`}
                   >
@@ -349,7 +359,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking }) => {
                       {link.name}
                       {active && (
                         <span
-                          className="h-1.5 w-1.5 rounded-full bg-[#E8329D]"
+                          className="h-1.5 w-1.5 rounded-full bg-[#D91A8A]"
                           aria-hidden="true"
                         />
                       )}
@@ -375,7 +385,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking }) => {
                   setMobileMenuOpen(false);
                   onOpenBooking();
                 }}
-                className="w-full justify-center bg-[#E8329D] hover:bg-[#D91A8A] min-h-[52px] text-[15px]"
+                className="w-full justify-center bg-[#D91A8A] hover:bg-[#A80086] min-h-[52px] text-[15px]"
               >
                 Book Appointment Now
               </Button>

@@ -1,4 +1,5 @@
 import React, { Suspense, lazy, useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
 import { Hero } from "../components/Hero";
@@ -70,6 +71,7 @@ export const HomePage: React.FC<HomePageProps> = ({
   seoKey = "home",
   scrollToId,
 }) => {
+  const location = useLocation();
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<ServiceItem | null>(
     null,
@@ -93,26 +95,34 @@ export const HomePage: React.FC<HomePageProps> = ({
       const t = window.setTimeout(() => setBelowFoldReady(true), 0);
       return () => window.clearTimeout(t);
     }
-    const onLoad = () => setBelowFoldReady(true);
-    window.addEventListener("load", onLoad, { once: true });
+    const onLoadOrIntent = () => setBelowFoldReady(true);
+    const opts = { once: true, passive: true } as const;
+    window.addEventListener("load", onLoadOrIntent, opts);
+    window.addEventListener("scroll", onLoadOrIntent, opts);
+    window.addEventListener("wheel", onLoadOrIntent, opts);
+    window.addEventListener("touchmove", onLoadOrIntent, opts);
     const t = window.setTimeout(() => setBelowFoldReady(true), 4000);
     return () => {
-      window.removeEventListener("load", onLoad);
+      window.removeEventListener("load", onLoadOrIntent);
+      window.removeEventListener("scroll", onLoadOrIntent);
+      window.removeEventListener("wheel", onLoadOrIntent);
+      window.removeEventListener("touchmove", onLoadOrIntent);
       window.clearTimeout(t);
     };
   }, [belowFoldReady]);
 
   useEffect(() => {
-    if (scrollToId) {
+    const targetId = scrollToId || (location.hash ? location.hash.replace("#", "") : null);
+    if (targetId && belowFoldReady) {
       // Let the page paint first so the anchor section exists.
       const t = window.setTimeout(() => {
         document
-          .getElementById(scrollToId)
+          .getElementById(targetId)
           ?.scrollIntoView({ behavior: "smooth" });
-      }, 100);
+      }, 150);
       return () => window.clearTimeout(t);
     }
-  }, [scrollToId]);
+  }, [scrollToId, location.hash, belowFoldReady]);
 
   const handleOpenBooking = (service?: ServiceItem) => {
     if (service) {
@@ -144,9 +154,16 @@ export const HomePage: React.FC<HomePageProps> = ({
         />
 
         {/* Everything below the fold — one Suspense, null fallback (invisible area).
-            Mounts after window load so its fonts/images/JS never contend with LCP. */}
-        <Suspense fallback={null}>
-          {belowFoldReady && (
+            Mounts after window load so its fonts/images/JS never contend with LCP.
+            The reserve min-height keeps the page taller than any viewport from
+            first paint (SSG included): lazy sections stream in below the fold
+            and the footer never sits inside the viewport while content above
+            it expands — otherwise desktop CLS blows out (~0.5). Static
+            sections always exceed the reserve once loaded, so no blank
+            remains in the steady state. */}
+        <div className="min-h-[600px] lg:min-h-[900px]">
+          <Suspense fallback={null}>
+            {belowFoldReady && (
             <>
               {/* Category Ribbon */}
               <CategoryNav
@@ -160,6 +177,11 @@ export const HomePage: React.FC<HomePageProps> = ({
               {/* Services Section */}
               <ServicesSection
                 onSelectService={(service) => handleOpenBooking(service)}
+              />
+
+              {/* Special Offers Section — directly follows Our Services */}
+              <SpecialOffersSection
+                onOpenBooking={(service) => handleOpenBooking(service)}
               />
 
               {/* Mid-page Promotional CTA Banner */}
@@ -182,12 +204,10 @@ export const HomePage: React.FC<HomePageProps> = ({
                 slug="home"
                 onOpenBooking={() => handleOpenBooking()}
               />
-
-              {/* Special Offers Banner */}
-              <SpecialOffersSection onOpenBooking={() => handleOpenBooking()} />
-            </>
-          )}
-        </Suspense>
+              </>
+            )}
+          </Suspense>
+        </div>
       </main>
 
       {/* Dark Plum Footer — below fold, joins the post-load tree. */}

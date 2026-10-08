@@ -88,6 +88,50 @@ function eventLoopCleanup(): Plugin {
 }
 
 /**
+ * Demotes Vite's `<link rel="modulepreload">` hints to `<link rel="prefetch">`
+ * in every emitted HTML page.
+ *
+ * @summary Critical-path bandwidth saver for throttled mobile networks.
+ *
+ * @why Client hydration is deferred until window `load` (see `src/main.tsx`),
+ *      so the entry's static vendor/route chunks are never needed for first
+ *      paint — but as `modulepreload` they download at High priority and
+ *      contend with the LCP hero image + fonts on slow connections. As
+ *      `prefetch` they stay warm in the HTTP cache for post-load hydration
+ *      without stealing critical-path bandwidth. The entry
+ *      `<script type="module">` itself is untouched.
+ * @when Runs during `vite build` in `generateBundle`, rewriting `.html` assets.
+ */
+function deferNonCriticalPreloads(): Plugin {
+  const rewriteFile = (full: string): void => {
+    const html = readFileSync(full, 'utf8');
+    if (!html.includes('rel="modulepreload"')) return;
+    writeFileSync(full, html.replaceAll('rel="modulepreload"', 'rel="prefetch"'));
+    console.log(`defer-preloads: ${full}`);
+  };
+  const walk = (dir: string): void => {
+    for (const entry of readdirSync(dir)) {
+      const full = join(dir, entry);
+      if (statSync(full).isDirectory()) {
+        walk(full);
+        continue;
+      }
+      if (full.endsWith('.html')) rewriteFile(full);
+    }
+  };
+  return {
+    name: 'defer-non-critical-preloads',
+    apply: 'build',
+    // NOTE: must be closeBundle, not generateBundle — the SSG plugin emits
+    // route HTML after generateBundle, so only a disk walk at close time
+    // sees the final files.
+    closeBundle() {
+      walk('dist');
+    },
+  };
+}
+
+/**
  * Pre-compresses emitted static text assets with Brotli at maximum compression quality (level 11).
  *
  * @summary Brotli static pre-compression build plugin.
@@ -100,7 +144,7 @@ function eventLoopCleanup(): Plugin {
  * @when Runs during `vite build` inside the `closeBundle` hook, walking through the output `dist` directory.
  */
 function brotliStatic(threshold = 1024): Plugin {
-  const filter = /\.(js|css|html|svg|json)$/i;
+  const filter = /\.(js|mjs|css|html|svg|json)$/i;
   return {
     name: 'brotli-static',
     apply: 'build',
@@ -115,6 +159,12 @@ function brotliStatic(threshold = 1024): Plugin {
           if (!filter.test(full) || full.endsWith('.br')) continue;
           const size = statSync(full).size;
           if (size < threshold) continue;
+          // Skip if vite-plugin-compression already emitted this .br file.
+          try {
+            if (statSync(`${full}.br`).isFile()) continue;
+          } catch {
+            /* missing — compress below */
+          }
           const compressed = brotliCompressSync(readFileSync(full), {
             params: { [constants.BROTLI_PARAM_QUALITY]: 11 },
           });
@@ -142,8 +192,11 @@ export default defineConfig({
       renderTarget: '#root',
     }),
     // Pre-compressed bytes for hosts that serve them (gzip + brotli).
+    // NOTE: keep default ext handling — explicit ext/deleteOriginFile
+    // options suppress emission with vite-plugin-compression@0.5.1.
     // @ts-expect-error vite-plugin-compression ships CJS-style types; default import is callable at runtime
     compression({ algorithm: 'gzip', threshold: 1024 }),
+    deferNonCriticalPreloads(),
     brotliStatic(),
     eventLoopCleanup(),
   ],
@@ -158,6 +211,19 @@ export default defineConfig({
     assetsInlineLimit: 4096,
     chunkSizeWarningLimit: 500,
     reportCompressedSize: false,
+    // Never modulepreload non-critical vendors or the prerender entry —
+    // keeps the initial dependency graph lean for LCP.
+    modulePreload: {
+      resolveDependencies(_url, deps) {
+        return deps.filter(
+          (dep) =>
+            !dep.includes('motion') &&
+            !dep.includes('lenis') &&
+            !dep.includes('axios') &&
+            !dep.includes('prerender'),
+        );
+      },
+    },
     rollupOptions: {
       output: {
         /**

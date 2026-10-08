@@ -134,7 +134,7 @@ const BlogDetailPageInner: React.FC = () => {
                   <Link
                     to="/blog"
                     title="Back to VV Studio Beauty & Wellness Blog"
-                    className="inline-flex items-center gap-1.5 rounded-full bg-[#E8329D] hover:bg-[#D91A8A] text-white text-sm font-semibold px-6 py-2.5 transition-colors"
+                    className="inline-flex items-center gap-1.5 rounded-full bg-[#D91A8A] hover:bg-[#A80086] text-white text-sm font-semibold px-6 py-2.5 transition-colors"
                   >
                     <ArrowLeft className="w-4 h-4" />
                     Back to Blog
@@ -304,7 +304,7 @@ const BlogDetailPageInner: React.FC = () => {
                       <button
                         type="button"
                         onClick={handleOpenBooking}
-                        className="inline-flex w-full items-center justify-center gap-1.5 rounded-full bg-[#E8329D] hover:bg-[#D91A8A] text-white text-sm font-semibold px-5 py-2.5 transition-colors"
+                        className="inline-flex w-full items-center justify-center gap-1.5 rounded-full bg-[#D91A8A] hover:bg-[#A80086] text-white text-sm font-semibold px-5 py-2.5 transition-colors"
                       >
                         Book Appointment
                         <ArrowRight className="w-4 h-4" />
